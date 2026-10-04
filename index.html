@@ -1,66 +1,45 @@
 <!doctype html>
 <html lang="en">
 <head>
-
 <meta charset="utf-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1,viewport-fit=cover"
->
-
-<meta
-  name="theme-color"
-  content="#ffffff"
->
-
-<title>Wallpaper App Bot</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Wallpaper Mini App</title>
 
 <style>
-
 :root{
   --green:#4caf50;
   --green2:#dff8e2;
   --bg:#fff;
   --text:#303038;
   --muted:#777;
-  --line:#ececec;
+  --line:#ececec
 }
 
 *{
-  box-sizing:border-box;
+  box-sizing:border-box
 }
 
-html,
-body{
+html,body{
   margin:0;
   background:#fff;
   color:var(--text);
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    sans-serif;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif
 }
 
 body{
-  padding-bottom:86px;
+  padding-bottom:86px
 }
 
 .app{
   max-width:900px;
   margin:auto;
-  padding:14px;
+  padding:14px
 }
-
-
-/* SEARCH */
 
 .topline{
   display:flex;
-  align-items:center;
+  align-items:center
 }
 
 .search{
@@ -71,7 +50,7 @@ body{
   align-items:center;
   padding:0 18px;
   gap:12px;
-  margin-bottom:14px;
+  margin-bottom:14px
 }
 
 .search input{
@@ -80,22 +59,15 @@ body{
   background:transparent;
   font-size:21px;
   width:100%;
-  color:var(--text);
-}
-
-.search input::placeholder{
-  color:#777;
+  color:var(--text)
 }
 
 .search svg{
   width:28px;
   height:28px;
   fill:#444;
-  flex:none;
+  flex:none
 }
-
-
-/* SETTINGS BUTTON */
 
 .settings-btn{
   border:0;
@@ -107,39 +79,61 @@ body{
   flex:none;
   display:flex;
   align-items:center;
-  justify-content:center;
-  margin-bottom:14px;
+  justify-content:center
 }
 
 .settings-btn svg{
   width:23px;
-  height:23px;
+  height:23px
 }
-
-
-/* OLD TABS HIDDEN */
 
 .tabs{
-  display:none !important;
+  display:flex;
+  gap:26px;
+  overflow:auto;
+  white-space:nowrap;
+  padding:8px 4px 12px;
+  margin-bottom:8px;
+  scrollbar-width:none
 }
 
+.tabs::-webkit-scrollbar{
+  display:none
+}
 
-/* GRID */
+.tabs button{
+  border:0;
+  background:none;
+  font-size:17px;
+  color:#555;
+  padding:8px 0;
+  position:relative
+}
+
+.tabs button.active{
+  color:var(--green)
+}
+
+.tabs button.active:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-4px;
+  height:3px;
+  background:var(--green);
+  border-radius:3px
+}
 
 .grid{
   display:grid;
-  grid-template-columns:
-    repeat(3,minmax(0,1fr));
-  gap:12px;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px
 }
 
 .grid.two{
-  grid-template-columns:
-    repeat(2,minmax(0,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr))
 }
-
-
-/* WALLPAPER CARD */
 
 .card{
   position:relative;
@@ -148,7 +142,7 @@ body{
   overflow:hidden;
   background:#eee;
   cursor:pointer;
-  contain:content;
+  contain:content
 }
 
 .card img{
@@ -156,48 +150,50 @@ body{
   height:100%;
   object-fit:cover;
   display:block;
-  background:#eee;
+  background:#eee
 }
 
-
-/*
-  Wallpaper page / Category wallpapers:
-  IMAGE ONLY.
-  No name / folder text.
-*/
-
-
-.fav{
+.shade{
   position:absolute;
-  right:9px;
-  top:9px;
-  width:38px;
-  height:38px;
-  border:0;
-  border-radius:50%;
-  background:rgba(255,255,255,.88);
-  font-size:21px;
-  z-index:2;
-  cursor:pointer;
+  inset:45% 0 0;
+  background:linear-gradient(
+    transparent,
+    rgba(0,0,0,.7)
+  );
+  pointer-events:none
 }
 
+.meta{
+  position:absolute;
+  left:12px;
+  right:10px;
+  bottom:10px;
+  color:#fff;
+  pointer-events:none
+}
 
-/* EMPTY / LOADING */
+.title{
+  font-size:17px;
+  font-weight:600
+}
+
+.sub{
+  font-size:13px;
+  opacity:.9;
+  margin-top:3px
+}
 
 .empty{
   text-align:center;
   color:var(--muted);
-  padding:50px 15px;
+  padding:50px 15px
 }
 
 .loading{
   text-align:center;
   color:var(--muted);
-  padding:30px;
+  padding:30px
 }
-
-
-/* BOTTOM NAV */
 
 .bottom{
   position:fixed;
@@ -209,15 +205,14 @@ body{
   height:76px;
   display:flex;
   justify-content:center;
-  z-index:20;
+  z-index:20
 }
 
 .bottom-inner{
   width:min(900px,100%);
   display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
-  align-items:center;
+  grid-template-columns:repeat(3,1fr);
+  align-items:center
 }
 
 .nav{
@@ -226,580 +221,341 @@ body{
   color:#45454c;
   font-size:15px;
   text-align:center;
-  height:100%;
+  height:100%
 }
 
 .nav .ico{
   display:block;
   height:30px;
-  line-height:30px;
+  line-height:30px
 }
 
 .nav .ico svg{
   width:27px;
   height:27px;
-  vertical-align:middle;
+  vertical-align:middle
 }
 
 .nav.active{
-  color:var(--green);
+  color:var(--green)
 }
-
-
-/* CATEGORY */
 
 .cat-grid{
   display:grid;
   grid-template-columns:1fr;
-  gap:12px;
+  gap:12px
+}
+
+.cat-grid .category{
+  aspect-ratio:3.2
 }
 
 .category{
-  position:relative;
-  width:100%;
-  min-height:115px;
-  aspect-ratio:3.2;
-  overflow:hidden;
-
   border:0;
+  background:#f5f7f7;
   border-radius:18px;
-
   padding:18px;
-
   text-align:left;
-
-  background:#ddd;
-
-  color:#fff;
-
-  text-shadow:
-    0 1px 4px rgba(0,0,0,.5);
-
-  cursor:pointer;
+  font-size:17px
 }
 
-.category img{
-  position:absolute;
-  inset:0;
-
-  width:100%;
-  height:100%;
-
-  object-fit:cover;
-
-  z-index:0;
-}
-
-.category-overlay{
-  position:absolute;
-  inset:0;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(0,0,0,.55),
-      rgba(0,0,0,.08)
-    );
-
-  z-index:1;
-}
-
-.category-content{
-  position:relative;
-  z-index:2;
-
+.category small{
   display:block;
-
-  padding-top:10px;
+  color:#777;
+  margin-top:5px
 }
-
-.category-name{
-  display:block;
-
-  font-size:22px;
-  font-weight:700;
-  line-height:1.2;
-}
-
-.category-count{
-  display:block;
-
-  color:#fff;
-
-  font-size:17px;
-
-  margin-top:8px;
-
-  font-weight:400;
-}
-
 
 /* SETTINGS */
 
 .sheet{
   position:fixed;
   inset:0;
-
   background:rgba(0,0,0,.5);
-
   display:none;
-
   align-items:flex-end;
-
-  z-index:50;
+  z-index:50
 }
 
 .sheet.show{
-  display:flex;
+  display:flex
 }
 
 .panel{
   background:#fff;
-
   width:100%;
-
   max-height:88%;
-
-  border-radius:
-    24px 24px 0 0;
-
+  border-radius:24px 24px 0 0;
   padding:18px;
-
-  overflow:auto;
+  overflow:auto
 }
 
 .handle{
   width:44px;
   height:5px;
-
   background:#ddd;
-
   border-radius:5px;
-
-  margin:
-    0 auto 12px;
+  margin:0 auto 12px
 }
 
 .close{
   float:right;
-
   border:0;
-
   background:#eee;
-
   border-radius:50%;
-
   width:36px;
   height:36px;
-
-  font-size:18px;
+  font-size:18px
 }
 
 .settings-row{
   display:flex;
-
-  justify-content:
-    space-between;
-
+  justify-content:space-between;
   align-items:center;
-
   padding:16px 0;
-
-  border-bottom:
-    1px solid var(--line);
+  border-bottom:1px solid var(--line)
 }
 
 .choice{
   display:flex;
-  gap:8px;
+  gap:8px
 }
 
 .choice button{
   border:1px solid #ddd;
-
   background:#fff;
-
   border-radius:12px;
-
-  padding:10px 14px;
+  padding:10px 14px
 }
 
 .choice button.active{
   background:var(--green2);
-
   border-color:#9ad7a0;
-
-  color:#277b2e;
+  color:#277b2e
 }
-
 
 /* FULL SCREEN VIEWER */
 
 .viewer{
   position:fixed;
   inset:0;
-
   background:#000;
-
   z-index:100;
-
   display:none;
-
   flex-direction:column;
-
   color:#fff;
-
-  touch-action:none;
+  touch-action:none
 }
 
 .viewer.show{
-  display:flex;
+  display:flex
 }
 
 .viewer-top{
   height:64px;
-
   display:flex;
-
   align-items:center;
-
-  justify-content:
-    space-between;
-
+  justify-content:space-between;
   padding:8px 12px;
-
   flex:none;
-
-  background:
-    linear-gradient(
-      rgba(0,0,0,.65),
-      transparent
-    );
-
+  background:linear-gradient(
+    rgba(0,0,0,.65),
+    transparent
+  );
   position:absolute;
-
   left:0;
   right:0;
   top:0;
-
-  z-index:5;
+  z-index:5
 }
 
 .viewer-title{
   font-size:16px;
-
   font-weight:600;
-
   max-width:70%;
-
   white-space:nowrap;
-
   overflow:hidden;
-
-  text-overflow:ellipsis;
+  text-overflow:ellipsis
 }
 
 .viewer-close{
   width:42px;
   height:42px;
-
   border:0;
-
   border-radius:50%;
-
-  background:
-    rgba(255,255,255,.15);
-
+  background:rgba(255,255,255,.15);
   color:#fff;
-
   font-size:23px;
-
-  cursor:pointer;
+  cursor:pointer
 }
 
 .viewer-stage{
   flex:1;
-
   min-height:0;
-
   position:relative;
-
   overflow:hidden;
-
   display:flex;
-
   align-items:center;
-
-  justify-content:center;
+  justify-content:center
 }
 
 .slides{
   width:100%;
   height:100%;
-
   display:flex;
-
   will-change:transform;
-
-  transform:
-    translate3d(0,0,0);
+  transform:translate3d(0,0,0)
 }
 
 .slide{
   flex:0 0 100%;
-
   width:100%;
   height:100%;
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
-  padding:
-    72px 12px 120px;
+  padding:72px 12px 120px
 }
 
 .slide img{
   max-width:100%;
   max-height:100%;
-
   width:auto;
   height:auto;
-
   object-fit:contain;
-
   border-radius:10px;
-
   display:block;
-
   user-select:none;
-
-  -webkit-user-drag:none;
+  -webkit-user-drag:none
 }
 
 .viewer-arrow{
   position:absolute;
-
   top:50%;
-
-  transform:
-    translateY(-50%);
-
+  transform:translateY(-50%);
   width:44px;
   height:44px;
-
   border:0;
-
   border-radius:50%;
-
-  background:
-    rgba(255,255,255,.16);
-
+  background:rgba(255,255,255,.16);
   color:#fff;
-
   font-size:28px;
-
-  z-index:4;
+  z-index:4
 }
 
 .viewer-prev{
-  left:10px;
+  left:10px
 }
 
 .viewer-next{
-  right:10px;
+  right:10px
 }
 
 .viewer-bottom{
   position:absolute;
-
   left:0;
   right:0;
   bottom:0;
-
   z-index:5;
-
-  padding:
-    10px 12px 18px;
-
-  background:
-    linear-gradient(
-      transparent,
-      rgba(0,0,0,.82)
-    );
+  padding:10px 12px 18px;
+  background:linear-gradient(
+    transparent,
+    rgba(0,0,0,.82)
+  )
 }
 
 .viewer-info{
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
   margin-bottom:10px;
-
-  font-size:13px;
+  font-size:13px
 }
 
 .viewer-actions{
   display:flex;
-
-  gap:10px;
+  gap:10px
 }
 
 .viewer-actions a,
 .viewer-actions button{
   flex:1;
-
   padding:13px;
-
   border:0;
-
   border-radius:14px;
-
   text-align:center;
-
   text-decoration:none;
-
   font-size:15px;
-
   background:#eaf8ec;
-
   color:#247a2a;
-
   cursor:pointer;
-
-  font-family:inherit;
+  font-family:inherit
 }
 
 .viewer-stage,
 .viewer-stage *{
   user-select:none;
-
-  -webkit-user-select:none;
+  -webkit-user-select:none
 }
-
-
-/* MOBILE */
 
 @media(max-width:480px){
 
   .app{
-    padding:12px;
+    padding:12px
   }
 
   .grid{
-    gap:9px;
+    gap:9px
   }
 
   .card{
-    border-radius:15px;
+    border-radius:15px
+  }
+
+  .title{
+    font-size:15px
   }
 
   .tabs{
-    gap:22px;
+    gap:22px
   }
 
   .search input{
-    font-size:18px;
+    font-size:18px
   }
 
   .viewer-arrow{
-    display:none;
+    display:none
   }
 
   .slide{
     padding-left:7px;
-    padding-right:7px;
+    padding-right:7px
   }
 
   .viewer-actions{
-    gap:10px;
+    gap:10px
   }
 
   .viewer-actions a,
   .viewer-actions button{
-    padding:
-      14px 10px;
-
-    font-size:15px;
+    padding:14px 10px;
+    font-size:15px
   }
-
-  .category{
-    border-radius:18px;
-  }
-
-  .category-name{
-    font-size:21px;
-  }
-
-  .category-count{
-    font-size:16px;
-  }
-
 }
-
-
-/* SMALL PHONES */
-
-@media(max-width:360px){
-
-  .category-name{
-    font-size:19px;
-  }
-
-  .category-count{
-    font-size:15px;
-  }
-
-}
-
 </style>
-
 </head>
-
 
 <body>
 
-
 <main class="app">
-
-
-  <!-- SEARCH -->
 
   <div class="topline">
 
-    <div
-      class="search"
-      style="flex:1;margin-right:10px"
-    >
+    <div class="search" style="flex:1;margin-right:10px">
 
-      <svg
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-
-        <path
-          d="
-          M10.8 4
-          a6.8 6.8 0 1 0
-          4.25 12.1
-          l4.43 4.43
-          1.42-1.42
-          -4.43-4.43
-          A6.8 6.8 0 0 0
-          10.8 4Zm0 2
-          a4.8 4.8 0 1 1
-          0 9.6
-          4.8 4.8 0 0 1
-          0-9.6Z
-          "
-        />
-
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M10.8 4a6.8 6.8 0 1 0 4.25 12.1l4.43 4.43 1.42-1.42-4.43-4.43A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z"/>
       </svg>
-
 
       <input
         id="search"
@@ -808,7 +564,6 @@ body{
       >
 
     </div>
-
 
     <button
       class="settings-btn"
@@ -820,43 +575,7 @@ body{
         viewBox="0 0 24 24"
         aria-hidden="true"
       >
-
-        <path
-          d="
-          M19.43 12.98
-          c.04-.32.07-.65.07-.98
-          s-.02-.66-.07-.98
-          l2.03-1.58
-          -1.92-3.32
-          -2.39.96
-          a7.7 7.7 0 0 0-1.69-.98
-          L15.1 3.5
-          h-3.84
-          l-.36 2.6
-          c-.61.25-1.18.58-1.69.98
-          l-2.39-.96
-          L4.9 9.44
-          l2.03 1.58
-          c-.04.32-.08.65-.08.98
-          s.03.66.08.98
-          L4.9 14.56
-          l1.92 3.32
-          2.39-.96
-          c.51.4 1.08.73 1.69.98
-          l.36 2.6
-          h3.84
-          l.36-2.6
-          a7.7 7.7 0 0 0 1.69-.98
-          l2.39.96
-          1.92-3.32
-          -2.03-1.58ZM13.18 15.5
-          A3.5 3.5 0 1 1
-          13.18 8
-          a3.5 3.5 0 0 1
-          0 7.5Z
-          "
-        />
-
+        <path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.03-1.58-1.92-3.32-2.39.96a7.7 7.7 0 0 0-1.69-.98L15.1 3.5h-3.84l-.36 2.6c-.61.25-1.18.58-1.69.98l-2.39-.96L4.9 9.44l2.03 1.58c-.04.32-.08.65-.08.98s.03.66.08.98L4.9 14.56l1.92 3.32 2.39-.96c.51.4 1.08.73 1.69.98l.36 2.6h3.84l.36-2.6a7.7 7.7 0 0 0 1.69-.98l2.39.96 1.92-3.32-2.03-1.58ZM13.18 15.5A3.5 3.5 0 1 1 13.18 8a3.5 3.5 0 0 1 0 7.5Z"/>
       </svg>
 
     </button>
@@ -864,7 +583,26 @@ body{
   </div>
 
 
-  <!-- VIEW -->
+  <div id="tabs" class="tabs">
+
+    <button class="active" data-sort="recent">
+      Recent
+    </button>
+
+    <button data-sort="featured">
+      Featured
+    </button>
+
+    <button data-sort="popular">
+      Popular
+    </button>
+
+    <button data-sort="random">
+      Random
+    </button>
+
+  </div>
+
 
   <section id="view">
 
@@ -874,18 +612,12 @@ body{
 
   </section>
 
-
 </main>
 
-
-<!-- BOTTOM NAV -->
 
 <nav class="bottom">
 
   <div class="bottom-inner">
-
-
-    <!-- WALLPAPER -->
 
     <button
       class="nav active"
@@ -911,13 +643,7 @@ body{
           />
 
           <path
-            d="
-            m5.5 18
-            4.8-5
-            3.2 3
-            2.2-2.3
-            2.8 4.3
-            "
+            d="m5.5 18 4.8-5 3.2 3 2.2-2.3 2.8 4.3"
             fill="none"
             stroke="currentColor"
             stroke-width="1.8"
@@ -933,8 +659,6 @@ body{
 
     </button>
 
-
-    <!-- CATEGORY -->
 
     <button
       class="nav"
@@ -973,8 +697,6 @@ body{
     </button>
 
 
-    <!-- FAVORITE -->
-
     <button
       class="nav"
       data-page="favorite"
@@ -985,13 +707,7 @@ body{
         <svg viewBox="0 0 24 24">
 
           <path
-            d="
-            M20.8 8.9
-            c0 5.3-8.8 10.2-8.8 10.2
-            S3.2 14.2 3.2 8.9
-            A4.4 4.4 0 0 1 11 6.3
-            a4.4 4.4 0 0 1 9.8 2.6Z
-            "
+            d="M20.8 8.9c0 5.3-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.9A4.4 4.4 0 0 1 11 6.3a4.4 4.4 0 0 1 9.8 2.6Z"
             fill="none"
             stroke="currentColor"
             stroke-width="1.8"
@@ -1011,17 +727,11 @@ body{
 </nav>
 
 
-<!-- SETTINGS -->
+<!-- SETTINGS SHEET -->
 
-<div
-  class="sheet"
-  id="sheet"
->
+<div class="sheet" id="sheet">
 
-  <div
-    class="panel"
-    id="panel"
-  ></div>
+  <div class="panel" id="panel"></div>
 
 </div>
 
@@ -1034,14 +744,12 @@ body{
   aria-hidden="true"
 >
 
-
   <div class="viewer-top">
 
     <div
       class="viewer-title"
       id="viewerTitle"
     ></div>
-
 
     <button
       class="viewer-close"
@@ -1087,18 +795,14 @@ body{
 
   <div class="viewer-bottom">
 
-
     <div class="viewer-info">
 
-      <span
-        id="viewerCounter"
-      ></span>
+      <span id="viewerCounter"></span>
 
     </div>
 
 
     <div class="viewer-actions">
-
 
       <a
         id="viewerDownload"
@@ -1126,35 +830,51 @@ body{
 
 <script>
 
-
-/* =========================================================
-   API
-========================================================= */
-
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzhkSGtZekKzqwop0A7iB9TnPsJ2yXYBXlLh1M1qwS6QsWSm_gAecZvzPlxCp1alJDyHA/exec";
 
 
-/* =========================================================
-   DATA
-========================================================= */
+const demo = [
+
+  {
+    id:"demo1",
+    name:"Nature",
+    category:"Nature",
+    url:"https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:"demo2",
+    name:"Mountain",
+    category:"Nature",
+    url:"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:"demo3",
+    name:"Car",
+    category:"Cars",
+    url:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:"demo4",
+    name:"Space",
+    category:"Space",
+    url:"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=900&q=85"
+  }
+
+];
+
 
 let wallpapers = [];
-
 let categories = [];
-
 let page = "wallpaper";
-
+let sort = "recent";
 let columns = 3;
-
 let categoryFilter = null;
-
 let selectedCategory = null;
 
-
-/* =========================================================
-   FAVORITES
-========================================================= */
 
 const favorites =
 new Set(
@@ -1164,96 +884,64 @@ new Set(
 );
 
 
-function saveFav(){
-
-  localStorage.setItem(
-    "favorites",
-    JSON.stringify(
-      [...favorites]
-    )
-  );
-
-}
-
-
-/* =========================================================
-   COLUMNS
-========================================================= */
-
 const savedCols =
 Number(
-  localStorage.getItem(
-    "wallpaperColumns"
-  )
+  localStorage.getItem("wallpaperColumns")
 );
 
 
-if(
-  savedCols === 2 ||
-  savedCols === 3
-){
-
-  columns =
-    savedCols;
-
+if(savedCols === 2 || savedCols === 3){
+  columns = savedCols;
 }
 
-
-/* =========================================================
-   ELEMENT
-========================================================= */
 
 const el = id =>
 document.getElementById(id);
 
 
-/* =========================================================
-   ESCAPE
-========================================================= */
+/* SAVE FAVORITES */
 
-function escapeHtml(s){
+function saveFav(){
 
-  return String(s || "")
-    .replace(
-      /[&<>"']/g,
-      m => ({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#039;"
-      }[m])
-    );
+  localStorage.setItem(
+    "favorites",
+    JSON.stringify([...favorites])
+  );
 
 }
 
 
-/* =========================================================
-   PAGE
-========================================================= */
+/* ESCAPE HTML */
+
+function escapeHtml(s){
+
+  return String(s || "").replace(
+    /[&<>"']/g,
+    m => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[m])
+  );
+
+}
+
+
+/* PAGE */
 
 function setPage(p){
 
   page = p;
 
-
-  if(
-    p !== "wallpaper"
-  ){
-
+  if(p !== "wallpaper"){
     categoryFilter = null;
-
   }
 
-
-  if(
-    p !== "categoryWallpapers"
-  ){
-
+  if(p !== "categoryWallpapers"){
     selectedCategory = null;
-
   }
-
 
   document
     .querySelectorAll(".nav")
@@ -1263,81 +951,82 @@ function setPage(p){
         "active",
 
         (
-          b.dataset.page ===
-          "category"
-
-          &&
-
+          b.dataset.page === "category" &&
           (
             p === "category" ||
-            p ===
-            "categoryWallpapers"
+            p === "categoryWallpapers"
           )
         )
 
         ||
 
         b.dataset.page === p
-
       );
 
     });
-
 
   render();
 
 }
 
 
-/* =========================================================
-   DISPLAY ARRAY
-========================================================= */
+/* DISPLAY ARRAY */
 
 function getDisplayArray(){
 
-  const q =
+  let q =
     el("search")
       .value
       .trim()
       .toLowerCase();
 
 
-  return wallpapers.filter(x => {
+  let arr =
+    wallpapers.filter(x => {
 
-    const text =
-      (
-        x.name +
-        " " +
-        x.category
-      )
-      .toLowerCase();
+      const text =
+        (
+          x.name +
+          " " +
+          x.category
+        ).toLowerCase();
+
+      return (
+        text.includes(q) &&
+        (
+          !categoryFilter ||
+          x.category === categoryFilter
+        )
+      );
+
+    });
 
 
-    return text.includes(q);
+  if(sort === "random"){
 
-  });
+    arr =
+      [...arr].sort(
+        () => Math.random() - .5
+      );
+
+  }
+
+
+  return arr;
 
 }
 
 
-/* =========================================================
-   MAIN RENDER
-========================================================= */
+/* MAIN RENDER */
 
 function render(){
 
-  const v =
-    el("view");
-
+  const v = el("view");
 
   v.innerHTML = "";
 
 
-  /* CATEGORY */
-
-  if(
-    page === "category"
-  ){
+  if(page === "category"){
 
     renderCategories(v);
 
@@ -1346,12 +1035,7 @@ function render(){
   }
 
 
-  /* CATEGORY WALLPAPERS */
-
-  if(
-    page ===
-    "categoryWallpapers"
-  ){
+  if(page === "categoryWallpapers"){
 
     renderCategoryWallpapers(v);
 
@@ -1360,16 +1044,11 @@ function render(){
   }
 
 
-  /* FAVORITE */
-
   let arr =
     page === "favorite"
 
       ? wallpapers.filter(
-          x =>
-            favorites.has(
-              x.id
-            )
+          x => favorites.has(x.id)
         )
 
       : getDisplayArray();
@@ -1381,9 +1060,7 @@ function render(){
   ){
 
     v.innerHTML =
-      '<div class="empty">' +
-      'No favorite wallpapers yet.' +
-      '</div>';
+      '<div class="empty">No favorite wallpapers yet.</div>';
 
     return;
 
@@ -1393,9 +1070,7 @@ function render(){
   if(!arr.length){
 
     v.innerHTML =
-      '<div class="empty">' +
-      'No wallpapers found.' +
-      '</div>';
+      '<div class="empty">No wallpapers found.</div>';
 
     return;
 
@@ -1403,116 +1078,53 @@ function render(){
 
 
   const grid =
-    document.createElement(
-      "div"
-    );
-
+    document.createElement("div");
 
   grid.className =
     "grid" +
-    (
-      columns === 2
-        ? " two"
-        : ""
-    );
+    (columns === 2 ? " two" : "");
 
 
   arr.forEach(x => {
 
     const c =
-      document.createElement(
-        "article"
-      );
+      document.createElement("article");
 
-
-    c.className =
-      "card";
+    c.className = "card";
 
 
     /*
       IMPORTANT:
-      IMAGE ONLY.
-      No wallpaper name/folder.
+      Card Favorite button removed.
+      Favorite is available only inside full-screen viewer.
     */
 
     c.innerHTML =
 
-      '<img' +
-
-      ' loading="lazy"' +
-
-      ' decoding="async"' +
-
-      ' src="' +
+      '<img loading="lazy" decoding="async" src="' +
       escapeHtml(x.url) +
-      '"' +
+      '" alt="' +
+      escapeHtml(x.name) +
+      '">' +
 
-      ' alt="Wallpaper"' +
+      '<div class="shade"></div>' +
 
-      '>' +
+      '<div class="meta">' +
 
-      '<button' +
+      '<div class="title">' +
+      escapeHtml(x.name) +
+      '</div>' +
 
-      ' class="fav"' +
+      '<div class="sub">' +
+      escapeHtml(x.category) +
+      '</div>' +
 
-      ' aria-label="Favorite"' +
-
-      '>' +
-
-      (
-        favorites.has(x.id)
-          ? "♥"
-          : "♡"
-      ) +
-
-      '</button>';
-
-
-    c
-      .querySelector(
-        ".fav"
-      )
-      .addEventListener(
-        "click",
-        e => {
-
-          e.stopPropagation();
-
-
-          if(
-            favorites.has(
-              x.id
-            )
-          ){
-
-            favorites.delete(
-              x.id
-            );
-
-          }else{
-
-            favorites.add(
-              x.id
-            );
-
-          }
-
-
-          saveFav();
-
-          render();
-
-        }
-      );
+      '</div>';
 
 
     c.addEventListener(
       "click",
-      () =>
-        openViewer(
-          x,
-          arr
-        )
+      () => openViewer(x, arr)
     );
 
 
@@ -1526,188 +1138,153 @@ function render(){
 }
 
 
-/* =========================================================
-   CATEGORIES
-========================================================= */
+/* CATEGORIES */
 
 function renderCategories(v){
 
-  if(
-    !categories.length
-  ){
+  if(!categories.length){
 
     v.innerHTML =
-      '<div class="empty">' +
-      'No categories found.' +
-      '</div>';
+      '<div class="empty">No categories found.</div>';
 
     return;
 
   }
 
 
-  /*
-    NO CATEGORY HEADING HERE.
-    NO BACK BUTTON HERE.
+  const header =
+    document.createElement("div");
 
-    Category cards start directly
-    under the search bar.
-  */
+
+  header.style.cssText =
+    "display:flex;align-items:center;gap:10px;margin:4px 0 14px";
+
+
+  header.innerHTML =
+
+    '<button id="catBack" ' +
+    'style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:#333">' +
+    '&#8249;' +
+    '</button>' +
+
+    '<div style="font-size:25px;font-weight:600">' +
+    'Category' +
+    '</div>';
+
+
+  v.appendChild(header);
+
+
+  header
+    .querySelector("#catBack")
+    .onclick = () => {
+
+      setPage("wallpaper");
+
+    };
 
 
   const g =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
+
+  g.className = "cat-grid";
 
 
-  g.className =
-    "cat-grid";
+  categories.forEach(cat => {
+
+    const name =
+      typeof cat === "string"
+        ? cat
+        : (cat.name || "");
 
 
-  categories.forEach(
-    cat => {
-
-      const name =
-        typeof cat === "string"
-
-          ? cat
-
-          : (
-              cat.name ||
-              ""
-            );
-
-
-      const items =
-        wallpapers.filter(
-          x =>
-
-            String(
-              x.category || ""
-            )
+    const items =
+      wallpapers.filter(
+        x =>
+          String(x.category || "")
             .trim()
             .toLowerCase()
-
-            ===
-
-            String(
-              name || ""
-            )
+          ===
+          String(name || "")
             .trim()
             .toLowerCase()
-
-        );
-
-
-      const cover =
-        items[0]?.url || "";
+      );
 
 
-      const b =
-        document.createElement(
-          "button"
-        );
+    const cover =
+      items[0]?.url || "";
 
 
-      b.className =
-        "category";
+    const b =
+      document.createElement("button");
 
 
-      b.innerHTML =
+    b.className = "category";
 
-        (
-          cover
 
-          ?
+    b.style.cssText =
+      "position:relative;min-height:115px;overflow:hidden;color:#fff;padding:18px;border:0;background:#ddd;text-align:left;text-shadow:0 1px 4px rgba(0,0,0,.5);cursor:pointer";
 
-          '<img src="' +
+
+    b.innerHTML =
+
+      (
+        cover
+
+        ? '<img src="' +
           escapeHtml(cover) +
-          '" alt="">'
+          '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0">'
 
-          :
+        : ""
+      ) +
 
-          ""
-        )
+      '<span style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.48),rgba(0,0,0,.08));z-index:1"></span>' +
 
+      '<span style="position:relative;z-index:2;display:block">' +
 
-        +
+      '<b>' +
+      escapeHtml(name) +
+      '</b>' +
 
-        '<span class="category-overlay"></span>'
+      '<small style="color:#fff">' +
+      items.length +
+      ' Wallpapers' +
+      '</small>' +
 
-
-        +
-
-        '<span class="category-content">'
-
-
-        +
-
-        '<span class="category-name">' +
-
-        escapeHtml(
-          name
-        ) +
-
-        '</span>'
+      '</span>';
 
 
-        +
+    b.onclick = () => {
 
-        '<span class="category-count">' +
+      selectedCategory = name;
 
-        items.length +
-
-        ' Wallpapers' +
-
-        '</span>'
+      page = "categoryWallpapers";
 
 
-        +
-
-        '</span>';
-
-
-      b.onclick = () => {
-
-        selectedCategory =
-          name;
-
-
-        page =
-          "categoryWallpapers";
-
-
-        document
-          .querySelectorAll(
-            ".nav"
+      document
+        .querySelectorAll(".nav")
+        .forEach(x =>
+          x.classList.toggle(
+            "active",
+            x.dataset.page === "category"
           )
-          .forEach(x =>
-
-            x.classList.toggle(
-              "active",
-              x.dataset.page ===
-              "category"
-            )
-
-          );
+        );
 
 
-        render();
+      render();
 
 
-        window.scrollTo({
-          top:0,
-          behavior:"smooth"
-        });
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
 
-      };
+    };
 
 
-      g.appendChild(b);
+    g.appendChild(b);
 
-    }
-  );
+  });
 
 
   v.appendChild(g);
@@ -1715,15 +1292,12 @@ function renderCategories(v){
 }
 
 
-/* =========================================================
-   CATEGORY WALLPAPERS
-========================================================= */
+/* CATEGORY WALLPAPERS */
 
 function renderCategoryWallpapers(v){
 
   const name =
-    selectedCategory ||
-    "Category";
+    selectedCategory || "Category";
 
 
   const q =
@@ -1734,66 +1308,99 @@ function renderCategoryWallpapers(v){
 
 
   const arr =
-    wallpapers.filter(
-      x => {
+    wallpapers.filter(x => {
 
-        const same =
-
-          String(
-            x.category || ""
-          )
+      const same =
+        String(x.category || "")
           .trim()
           .toLowerCase()
-
-          ===
-
-          String(
-            name
-          )
+        ===
+        String(name)
           .trim()
           .toLowerCase();
 
 
-        const text =
-          (
-            x.name +
-            " " +
-            x.category
-          )
-          .toLowerCase();
+      const text =
+        (
+          x.name +
+          " " +
+          x.category
+        ).toLowerCase();
 
 
-        return (
-          same &&
-          text.includes(q)
-        );
+      return same && text.includes(q);
 
-      }
-    );
+    });
 
 
-  /*
-    No category title.
-    No folder name.
-    Only wallpapers.
-  */
+  const header =
+    document.createElement("div");
+
+
+  header.style.cssText =
+    "display:flex;align-items:center;gap:10px;margin:2px 0 14px";
+
+
+  header.innerHTML =
+
+    '<button id="catWallBack" ' +
+    'style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:#333">' +
+    '&#8249;' +
+    '</button>' +
+
+    '<div style="font-size:23px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
+
+    escapeHtml(name) +
+
+    '</div>' +
+
+    '<button id="catWallSearch" ' +
+    'style="border:0;background:none;font-size:24px">' +
+    '&#128269;' +
+    '</button>';
+
+
+  v.appendChild(header);
+
+
+  header
+    .querySelector("#catWallBack")
+    .onclick = () => {
+
+      selectedCategory = null;
+
+      page = "category";
+
+      render();
+
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
+
+    };
+
+
+  header
+    .querySelector("#catWallSearch")
+    .onclick = () => {
+
+      el("search").focus();
+
+    };
 
 
   if(!arr.length){
 
     const e =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
-
-    e.className =
-      "empty";
-
+    e.className = "empty";
 
     e.textContent =
-      "No wallpapers found.";
-
+      "No wallpapers found in " +
+      name +
+      ".";
 
     v.appendChild(e);
 
@@ -1803,114 +1410,54 @@ function renderCategoryWallpapers(v){
 
 
   const grid =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
 
   grid.className =
     "grid" +
-    (
-      columns === 2
-        ? " two"
-        : ""
-    );
+    (columns === 2 ? " two" : "");
 
 
   arr.forEach(x => {
 
     const c =
-      document.createElement(
-        "article"
-      );
+      document.createElement("article");
 
-
-    c.className =
-      "card";
+    c.className = "card";
 
 
     /*
-      IMAGE ONLY.
+      IMPORTANT:
+      Category wallpaper card also has NO Favorite button.
+      Favorite is only in the full-screen viewer.
     */
 
     c.innerHTML =
 
-      '<img' +
-
-      ' loading="lazy"' +
-
-      ' decoding="async"' +
-
-      ' src="' +
+      '<img loading="lazy" decoding="async" src="' +
       escapeHtml(x.url) +
-      '"' +
+      '" alt="' +
+      escapeHtml(x.name) +
+      '">' +
 
-      ' alt="Wallpaper"' +
+      '<div class="shade"></div>' +
 
-      '>' +
+      '<div class="meta">' +
 
-      '<button' +
+      '<div class="title">' +
+      escapeHtml(x.name) +
+      '</div>' +
 
-      ' class="fav"' +
+      '<div class="sub">' +
+      escapeHtml(x.category) +
+      '</div>' +
 
-      ' aria-label="Favorite"' +
-
-      '>' +
-
-      (
-        favorites.has(x.id)
-          ? "♥"
-          : "♡"
-      ) +
-
-      '</button>';
-
-
-    c
-      .querySelector(
-        ".fav"
-      )
-      .addEventListener(
-        "click",
-        e => {
-
-          e.stopPropagation();
-
-
-          if(
-            favorites.has(
-              x.id
-            )
-          ){
-
-            favorites.delete(
-              x.id
-            );
-
-          }else{
-
-            favorites.add(
-              x.id
-            );
-
-          }
-
-
-          saveFav();
-
-          render();
-
-        }
-      );
+      '</div>';
 
 
     c.addEventListener(
       "click",
-      () =>
-        openViewer(
-          x,
-          arr
-        )
+      () => openViewer(x, arr)
     );
 
 
@@ -1929,49 +1476,36 @@ function renderCategoryWallpapers(v){
 ========================================================= */
 
 let viewerItems = [];
-
 let viewerIndex = 0;
 
 let touchStartX = 0;
-
 let touchStartY = 0;
-
 let touchStartTime = 0;
 
 let dragging = false;
-
 let dragX = 0;
 
 
-/* OPEN */
+/* OPEN VIEWER */
 
-function openViewer(
-  item,
-  arr
-){
+function openViewer(item, arr){
 
-  viewerItems =
-    arr;
+  viewerItems = arr;
 
 
   viewerIndex =
     Math.max(
       0,
       arr.findIndex(
-        x =>
-          x.id === item.id
+        x => x.id === item.id
       )
     );
 
 
-  const viewer =
-    el("viewer");
+  const viewer = el("viewer");
 
 
-  viewer.classList.add(
-    "show"
-  );
-
+  viewer.classList.add("show");
 
   viewer.setAttribute(
     "aria-hidden",
@@ -1979,8 +1513,7 @@ function openViewer(
   );
 
 
-  document.body.style.overflow =
-    "hidden";
+  document.body.style.overflow = "hidden";
 
 
   buildSlides();
@@ -1990,73 +1523,52 @@ function openViewer(
 }
 
 
-/* BUILD */
+/* BUILD SLIDES */
 
 function buildSlides(){
 
-  const s =
-    el("slides");
+  const s = el("slides");
+
+  s.innerHTML = "";
 
 
-  s.innerHTML =
-    "";
+  viewerItems.forEach((x,i) => {
+
+    const slide =
+      document.createElement("div");
+
+    slide.className = "slide";
 
 
-  viewerItems.forEach(
-    (x,i) => {
-
-      const slide =
-        document.createElement(
-          "div"
-        );
+    const img =
+      document.createElement("img");
 
 
-      slide.className =
-        "slide";
+    img.alt =
+      x.name || "Wallpaper";
 
 
-      const img =
-        document.createElement(
-          "img"
-        );
+    img.draggable = false;
 
 
-      img.alt =
-        "Wallpaper";
+    if(
+      Math.abs(i - viewerIndex) <= 1
+    ){
 
+      img.src = x.url;
 
-      img.draggable =
-        false;
+    }else{
 
-
-      if(
-        Math.abs(
-          i - viewerIndex
-        ) <= 1
-      ){
-
-        img.src =
-          x.url;
-
-      }else{
-
-        img.dataset.src =
-          x.url;
-
-      }
-
-
-      slide.appendChild(
-        img
-      );
-
-
-      s.appendChild(
-        slide
-      );
+      img.dataset.src = x.url;
 
     }
-  );
+
+
+    slide.appendChild(img);
+
+    s.appendChild(slide);
+
+  });
 
 }
 
@@ -2065,62 +1577,49 @@ function buildSlides(){
 
 function loadNearby(){
 
-  [-1,0,1].forEach(
-    offset => {
+  [-1,0,1].forEach(offset => {
 
-      const i =
-        viewerIndex +
-        offset;
+    const i =
+      viewerIndex + offset;
 
 
-      if(
-        i < 0 ||
-        i >=
-        viewerItems.length
-      ){
-
-        return;
-
-      }
+    if(
+      i < 0 ||
+      i >= viewerItems.length
+    ){
+      return;
+    }
 
 
-      const img =
-        el("slides")
-          .children[i]
-          ?.querySelector(
-            "img"
-          );
+    const img =
+      el("slides")
+        .children[i]
+        ?.querySelector("img");
 
 
-      if(
-        img &&
-        !img.src &&
-        img.dataset.src
-      ){
+    if(
+      img &&
+      !img.src &&
+      img.dataset.src
+    ){
 
-        img.src =
-          img.dataset.src;
+      img.src =
+        img.dataset.src;
 
-
-        delete
-          img.dataset.src;
-
-      }
+      delete img.dataset.src;
 
     }
-  );
+
+  });
 
 }
 
 
-/* UPDATE */
+/* UPDATE VIEWER */
 
-function updateViewer(
-  animate = true
-){
+function updateViewer(animate=true){
 
-  const s =
-    el("slides");
+  const s = el("slides");
 
 
   s.style.transition =
@@ -2133,63 +1632,38 @@ function updateViewer(
 
   s.style.transform =
     "translate3d(" +
-
-    (
-      -viewerIndex *
-      100
-    ) +
-
+    (-viewerIndex * 100) +
     "%,0,0)";
 
 
   const x =
-    viewerItems[
-      viewerIndex
-    ];
+    viewerItems[viewerIndex];
 
 
   if(!x){
-
     return;
-
   }
 
 
-  el(
-    "viewerTitle"
-  ).textContent =
-    x.name ||
-    "Wallpaper";
+  el("viewerTitle").textContent =
+    x.name || "Wallpaper";
 
 
-  el(
-    "viewerCounter"
-  ).textContent =
-
-    (
-      viewerIndex + 1
-    ) +
-
+  el("viewerCounter").textContent =
+    (viewerIndex + 1) +
     " / " +
-
     viewerItems.length;
 
 
-  el(
-    "viewerDownload"
-  ).href =
-    x.download ||
-    x.url;
+  el("viewerDownload").href =
+    x.download || x.url;
 
 
   const fav =
-    el(
-      "viewerFavorite"
-    );
+    el("viewerFavorite");
 
 
   fav.innerHTML =
-
     favorites.has(x.id)
 
       ? "♥ Remove"
@@ -2204,47 +1678,33 @@ function updateViewer(
 
 /* NEXT / PREVIOUS */
 
-function goViewer(
-  delta
-){
+function goViewer(delta){
 
-  if(
-    !viewerItems.length
-  ){
-
+  if(!viewerItems.length){
     return;
-
   }
 
 
   const next =
-    viewerIndex +
-    delta;
+    viewerIndex + delta;
 
 
   if(
     next < 0 ||
-    next >=
-    viewerItems.length
+    next >= viewerItems.length
   ){
-
     return;
-
   }
 
 
-  viewerIndex =
-    next;
+  viewerIndex = next;
 
-
-  updateViewer(
-    true
-  );
+  updateViewer(true);
 
 }
 
 
-/* CLOSE */
+/* CLOSE VIEWER */
 
 function closeViewer(){
 
@@ -2260,98 +1720,68 @@ function closeViewer(){
     );
 
 
-  document.body.style.overflow =
-    "";
+  document.body.style.overflow = "";
 
 
-  el("slides").innerHTML =
-    "";
+  el("slides").innerHTML = "";
 
-
-  viewerItems =
-    [];
+  viewerItems = [];
 
 }
 
 
 /* VIEWER BUTTONS */
 
-el(
-  "viewerClose"
-).onclick =
+el("viewerClose").onclick =
   closeViewer;
 
 
-el(
-  "viewerPrev"
-).onclick =
-  () =>
-    goViewer(-1);
+el("viewerPrev").onclick =
+  () => goViewer(-1);
 
 
-el(
-  "viewerNext"
-).onclick =
-  () =>
-    goViewer(1);
+el("viewerNext").onclick =
+  () => goViewer(1);
 
 
 /* VIEWER FAVORITE */
 
-el(
-  "viewerFavorite"
-).onclick =
-  () => {
+el("viewerFavorite").onclick = () => {
 
-    const x =
-      viewerItems[
-        viewerIndex
-      ];
+  const x =
+    viewerItems[viewerIndex];
 
 
-    if(!x){
-
-      return;
-
-    }
+  if(!x){
+    return;
+  }
 
 
-    if(
-      favorites.has(
-        x.id
-      )
-    ){
+  if(favorites.has(x.id)){
 
-      favorites.delete(
-        x.id
-      );
+    favorites.delete(x.id);
 
-    }else{
+  }else{
 
-      favorites.add(
-        x.id
-      );
+    favorites.add(x.id);
 
-    }
+  }
 
 
-    saveFav();
+  saveFav();
 
 
-    el(
-      "viewerFavorite"
-    ).innerHTML =
+  el("viewerFavorite").innerHTML =
+    favorites.has(x.id)
 
-      favorites.has(x.id)
+      ? "♥ Remove"
 
-        ? "♥ Remove"
-
-        : "♡ Favorite";
+      : "♡ Favorite";
 
 
-    render();
+  render();
 
-  };
+};
 
 
 /* =========================================================
@@ -2359,21 +1789,15 @@ el(
 ========================================================= */
 
 const stage =
-  el(
-    "viewerStage"
-  );
+  el("viewerStage");
 
 
 stage.addEventListener(
   "touchstart",
   e => {
 
-    if(
-      e.touches.length !== 1
-    ){
-
+    if(e.touches.length !== 1){
       return;
-
     }
 
 
@@ -2393,17 +1817,12 @@ stage.addEventListener(
       Date.now();
 
 
-    dragging =
-      true;
+    dragging = true;
+
+    dragX = 0;
 
 
-    dragX =
-      0;
-
-
-    el(
-      "slides"
-    ).style.transition =
+    el("slides").style.transition =
       "none";
 
   },
@@ -2421,9 +1840,7 @@ stage.addEventListener(
       !dragging ||
       e.touches.length !== 1
     ){
-
       return;
-
     }
 
 
@@ -2445,12 +1862,9 @@ stage.addEventListener(
 
     if(
       dy >
-      Math.abs(dragX) +
-      15
+      Math.abs(dragX) + 15
     ){
-
       return;
-
     }
 
 
@@ -2458,17 +1872,14 @@ stage.addEventListener(
 
 
     const base =
-      (
-        -viewerIndex *
-        window.innerWidth
-      ) +
+      (-viewerIndex *
+      window.innerWidth) +
       dragX;
 
 
-    el(
-      "slides"
-    ).style.transform =
-
+    el("slides")
+      .style
+      .transform =
       "translate3d(" +
       base +
       "px,0,0)";
@@ -2485,14 +1896,11 @@ stage.addEventListener(
   () => {
 
     if(!dragging){
-
       return;
-
     }
 
 
-    dragging =
-      false;
+    dragging = false;
 
 
     const elapsed =
@@ -2511,17 +1919,13 @@ stage.addEventListener(
     const threshold =
       Math.min(
         120,
-        window.innerWidth *
-        .18
+        window.innerWidth * .18
       );
 
 
     if(
-      Math.abs(dragX) >
-      threshold ||
-
-      velocity >
-      .45
+      Math.abs(dragX) > threshold ||
+      velocity > .45
     ){
 
       if(
@@ -2546,10 +1950,16 @@ stage.addEventListener(
     }
 
 
-    updateViewer(
-      true
-    );
+    updateViewer(true);
 
+  }
+);
+
+
+stage.addEventListener(
+  "click",
+  e => {
+    /* Empty area - no action */
   }
 );
 
@@ -2565,39 +1975,22 @@ document.addEventListener(
         .classList
         .contains("show")
     ){
-
       return;
-
     }
 
 
-    if(
-      e.key ===
-      "Escape"
-    ){
-
+    if(e.key === "Escape"){
       closeViewer();
-
     }
 
 
-    if(
-      e.key ===
-      "ArrowLeft"
-    ){
-
+    if(e.key === "ArrowLeft"){
       goViewer(-1);
-
     }
 
 
-    if(
-      e.key ===
-      "ArrowRight"
-    ){
-
+    if(e.key === "ArrowRight"){
       goViewer(1);
-
     }
 
   }
@@ -2615,9 +2008,7 @@ function openSettings(){
     '<div class="handle"></div>' +
 
     '<button class="close" id="close">' +
-
     '&#10005;' +
-
     '</button>' +
 
     '<h2>Settings</h2>' +
@@ -2628,35 +2019,17 @@ function openSettings(){
 
         '<b>Display Wallpaper</b>' +
 
-        '<div style="' +
-
-          'color:#777;' +
-
-          'font-size:13px;' +
-
-          'margin-top:4px' +
-
-        '">' +
-
+        '<div style="color:#777;font-size:13px;margin-top:4px">' +
         'Choose wallpaper grid columns' +
-
         '</div>' +
 
       '</div>' +
 
       '<div class="choice">' +
 
-        '<button data-col="2">' +
+        '<button data-col="2">2</button>' +
 
-        '2' +
-
-        '</button>' +
-
-        '<button data-col="3">' +
-
-        '3' +
-
-        '</button>' +
+        '<button data-col="3">3</button>' +
 
       '</div>' +
 
@@ -2664,25 +2037,19 @@ function openSettings(){
 
 
   document
-    .querySelectorAll(
-      "[data-col]"
-    )
+    .querySelectorAll("[data-col]")
     .forEach(b => {
 
       b.classList.toggle(
         "active",
-        Number(
-          b.dataset.col
-        ) === columns
+        Number(b.dataset.col) === columns
       );
 
 
       b.onclick = () => {
 
         columns =
-          Number(
-            b.dataset.col
-          );
+          Number(b.dataset.col);
 
 
         localStorage.setItem(
@@ -2692,16 +2059,12 @@ function openSettings(){
 
 
         document
-          .querySelectorAll(
-            "[data-col]"
-          )
+          .querySelectorAll("[data-col]")
           .forEach(x => {
 
             x.classList.toggle(
               "active",
-              Number(
-                x.dataset.col
-              ) === columns
+              Number(x.dataset.col) === columns
             );
 
           });
@@ -2721,7 +2084,6 @@ function openSettings(){
 
   el("close").onclick =
     () =>
-
       el("sheet")
         .classList
         .remove("show");
@@ -2730,7 +2092,7 @@ function openSettings(){
 
 
 /* =========================================================
-   DATA LOAD
+   DATA
 ========================================================= */
 
 async function loadData(){
@@ -2774,9 +2136,7 @@ async function loadData(){
 
 
     wallpapers =
-      Array.isArray(
-        data.wallpapers
-      )
+      Array.isArray(data.wallpapers)
 
         ? data.wallpapers
 
@@ -2784,9 +2144,7 @@ async function loadData(){
 
 
     categories =
-      Array.isArray(
-        data.categories
-      )
+      Array.isArray(data.categories)
 
         ? data.categories
 
@@ -2810,14 +2168,11 @@ async function loadData(){
     categories = [];
 
 
-    el(
-      "view"
-    ).innerHTML =
+    el("view").innerHTML =
 
       '<div class="empty">' +
 
       'Unable to load wallpapers. ' +
-
       'Please try again.' +
 
       '</div>';
@@ -2832,9 +2187,7 @@ async function loadData(){
 ========================================================= */
 
 document
-  .querySelectorAll(
-    ".nav"
-  )
+  .querySelectorAll(".nav")
   .forEach(b => {
 
     b.onclick = () => {
@@ -2843,17 +2196,11 @@ document
         b.dataset.page;
 
 
-      if(
-        p === "category"
-      ){
+      if(p === "category"){
 
-        selectedCategory =
-          null;
+        selectedCategory = null;
 
-
-        setPage(
-          "category"
-        );
+        setPage("category");
 
       }else{
 
@@ -2866,57 +2213,74 @@ document
   });
 
 
-/* =========================================================
-   SEARCH
-========================================================= */
+/* TABS */
 
-el(
-  "search"
-)
-.addEventListener(
-  "input",
-  render
-);
+document
+  .querySelectorAll(".tabs button")
+  .forEach(b => {
+
+    b.onclick = () => {
+
+      sort =
+        b.dataset.sort;
 
 
-/* =========================================================
-   SETTINGS BUTTON
-========================================================= */
+      document
+        .querySelectorAll(".tabs button")
+        .forEach(x =>
+          x.classList.remove("active")
+        );
 
-el(
-  "settingsBtn"
-).onclick =
+
+      b.classList.add("active");
+
+
+      render();
+
+    };
+
+  });
+
+
+/* SEARCH */
+
+el("search")
+  .addEventListener(
+    "input",
+    render
+  );
+
+
+/* SETTINGS */
+
+el("settingsBtn")
+  .onclick =
   openSettings;
 
 
-/* =========================================================
-   CLOSE SETTINGS
-========================================================= */
+/* CLOSE SETTINGS */
 
-el(
-  "sheet"
-).addEventListener(
-  "click",
-  e => {
+el("sheet")
+  .addEventListener(
+    "click",
+    e => {
 
-    if(
-      e.target ===
-      el("sheet")
-    ){
+      if(
+        e.target ===
+        el("sheet")
+      ){
 
-      el("sheet")
-        .classList
-        .remove("show");
+        el("sheet")
+          .classList
+          .remove("show");
+
+      }
 
     }
-
-  }
-);
+  );
 
 
-/* =========================================================
-   START
-========================================================= */
+/* START */
 
 loadData();
 
