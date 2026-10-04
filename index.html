@@ -5,2234 +5,635 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
 <title>Wallpaper Mini App</title>
-
 <style>
 :root{
-  --green:#4caf50;
-  --green2:#dff8e2;
-  --bg:#fff;
-  --text:#303038;
-  --muted:#777;
-  --line:#ececec
+  --green:#4caf50;--green2:#dff8e2;--bg:#fff;--text:#303038;
+  --muted:#777;--line:#ececec
 }
-
 *{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+body{padding-bottom:86px}
+.app{max-width:900px;margin:auto;padding:14px}
+.topline{display:flex;align-items:center}
+.search{height:58px;border-radius:30px;background:#e5f9e7;display:flex;align-items:center;padding:0 18px;gap:12px;margin-bottom:14px}
+.search input{border:0;outline:0;background:transparent;font-size:21px;width:100%;color:var(--text)}
+.search svg{width:28px;height:28px;fill:#444;flex:none}
+.settings-btn{border:0;background:#e8f8ea;border-radius:50%;width:42px;height:42px;font-size:21px;flex:none}
+.tabs{display:flex;gap:26px;overflow:auto;white-space:nowrap;padding:8px 4px 12px;margin-bottom:8px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{border:0;background:none;font-size:17px;color:#555;padding:8px 0;position:relative}
+.tabs button.active{color:var(--green)}
+.tabs button.active:after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:3px;background:var(--green);border-radius:3px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{position:relative;aspect-ratio:.68;border-radius:18px;overflow:hidden;background:#eee;cursor:pointer;contain:content}
+.card img{width:100%;height:100%;object-fit:cover;display:block;background:#eee}
+.shade{position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.7));pointer-events:none}
+.meta{position:absolute;left:12px;right:10px;bottom:10px;color:#fff;pointer-events:none}
+.title{font-size:17px;font-weight:600}
+.sub{font-size:13px;opacity:.9;margin-top:3px}
+.fav{position:absolute;right:9px;top:9px;width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.88);font-size:21px;z-index:2}
+.empty{text-align:center;color:var(--muted);padding:50px 15px}
+.loading{text-align:center;color:var(--muted);padding:30px}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:#f1f8fc;border-top:1px solid #e7eef1;height:76px;display:flex;justify-content:center;z-index:20}
+.bottom-inner{width:min(900px,100%);display:grid;grid-template-columns:repeat(3,1fr);align-items:center}
+.nav{border:0;background:none;color:#45454c;font-size:15px;text-align:center;height:100%}
+.nav .ico{display:block;height:30px;line-height:30px}.nav .ico svg{width:27px;height:27px;vertical-align:middle}
+.nav.active{color:var(--green)}
+.cat-grid{display:grid;grid-template-columns:1fr;gap:12px}.cat-grid .category{aspect-ratio:3.2}
+.category{border:0;background:#f5f7f7;border-radius:18px;padding:18px;text-align:left;font-size:17px}
+.category small{display:block;color:#777;margin-top:5px}
 
-html,body{
-  margin:0;
-  background:#fff;
-  color:var(--text);
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif
-}
+/* Settings / generic sheet */
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-end;z-index:50}
+.sheet.show{display:flex}
+.panel{background:#fff;width:100%;max-height:88%;border-radius:24px 24px 0 0;padding:18px;overflow:auto}
+.handle{width:44px;height:5px;background:#ddd;border-radius:5px;margin:0 auto 12px}
+.close{float:right;border:0;background:#eee;border-radius:50%;width:36px;height:36px;font-size:18px}
+.settings-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.choice{display:flex;gap:8px}
+.choice button{border:1px solid #ddd;background:#fff;border-radius:12px;padding:10px 14px}
+.choice button.active{background:var(--green2);border-color:#9ad7a0;color:#277b2e}
 
-body{
-  padding-bottom:86px
-}
-
-.app{
-  max-width:900px;
-  margin:auto;
-  padding:14px
-}
-
-.topline{
-  display:flex;
-  align-items:center
-}
-
-.search{
-  height:58px;
-  border-radius:30px;
-  background:#e5f9e7;
-  display:flex;
-  align-items:center;
-  padding:0 18px;
-  gap:12px;
-  margin-bottom:14px
-}
-
-.search input{
-  border:0;
-  outline:0;
-  background:transparent;
-  font-size:21px;
-  width:100%;
-  color:var(--text)
-}
-
-.search svg{
-  width:28px;
-  height:28px;
-  fill:#444;
-  flex:none
-}
-
-.settings-btn{
-  border:0;
-  background:#e8f8ea;
-  border-radius:50%;
-  width:42px;
-  height:42px;
-  font-size:21px;
-  flex:none;
-  cursor:pointer
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px
-}
-
-.grid.two{
-  grid-template-columns:repeat(2,minmax(0,1fr))
-}
-
-.card{
-  position:relative;
-  aspect-ratio:.68;
-  border-radius:18px;
-  overflow:hidden;
-  background:#eee;
-  cursor:pointer;
-  contain:content
-}
-
-.card img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  background:#eee
-}
-
-.shade{
-  position:absolute;
-  inset:45% 0 0;
-  background:linear-gradient(transparent,rgba(0,0,0,.7));
-  pointer-events:none
-}
-
-.meta{
-  position:absolute;
-  left:12px;
-  right:10px;
-  bottom:10px;
-  color:#fff;
-  pointer-events:none
-}
-
-.title{
-  font-size:17px;
-  font-weight:600
-}
-
-.sub{
-  font-size:13px;
-  opacity:.9;
-  margin-top:3px
-}
-
-.fav{
-  position:absolute;
-  right:9px;
-  top:9px;
-  width:38px;
-  height:38px;
-  border:0;
-  border-radius:50%;
-  background:rgba(255,255,255,.88);
-  font-size:21px;
-  z-index:2;
-  cursor:pointer;
-  color:#333
-}
-
-.empty{
-  text-align:center;
-  color:var(--muted);
-  padding:50px 15px
-}
-
-.loading{
-  text-align:center;
-  color:var(--muted);
-  padding:30px
-}
-
-.bottom{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  background:#f1f8fc;
-  border-top:1px solid #e7eef1;
-  height:76px;
-  display:flex;
-  justify-content:center;
-  z-index:20
-}
-
-.bottom-inner{
-  width:min(900px,100%);
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  align-items:center
-}
-
-.nav{
-  border:0;
-  background:none;
-  color:#45454c;
-  font-size:15px;
-  text-align:center;
-  height:100%;
-  cursor:pointer
-}
-
-.nav .ico{
-  display:block;
-  height:30px;
-  line-height:30px
-}
-
-.nav .ico svg{
-  width:27px;
-  height:27px;
-  vertical-align:middle
-}
-
-.nav.active{
-  color:var(--green)
-}
-
-.cat-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:12px
-}
-
-.cat-grid .category{
-  aspect-ratio:3.2
-}
-
-.category{
-  border:0;
-  background:#f5f7f7;
-  border-radius:18px;
-  padding:18px;
-  text-align:left;
-  font-size:17px
-}
-
-.category small{
-  display:block;
-  color:#777;
-  margin-top:5px
-}
-
-/* SETTINGS */
-.sheet{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  display:none;
-  align-items:flex-end;
-  z-index:50
-}
-
-.sheet.show{
-  display:flex
-}
-
-.panel{
-  background:#fff;
-  width:100%;
-  max-height:88%;
-  border-radius:24px 24px 0 0;
-  padding:18px;
-  overflow:auto
-}
-
-.handle{
-  width:44px;
-  height:5px;
-  background:#ddd;
-  border-radius:5px;
-  margin:0 auto 12px
-}
-
-.close{
-  float:right;
-  border:0;
-  background:#eee;
-  border-radius:50%;
-  width:36px;
-  height:36px;
-  font-size:18px
-}
-
-.settings-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:16px 0;
-  border-bottom:1px solid var(--line)
-}
-
-.choice{
-  display:flex;
-  gap:8px
-}
-
-.choice button{
-  border:1px solid #ddd;
-  background:#fff;
-  border-radius:12px;
-  padding:10px 14px
-}
-
-.choice button.active{
-  background:var(--green2);
-  border-color:#9ad7a0;
-  color:#277b2e
-}
-
-/* VIEWER */
+/* Full-screen swipe viewer */
 .viewer{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:100;
-  display:none;
-  flex-direction:column;
-  color:#fff;
-  touch-action:none
+  position:fixed;inset:0;background:#000;z-index:100;
+  display:none;flex-direction:column;color:#fff;
+  touch-action:none;
 }
-
-.viewer.show{
-  display:flex
-}
-
+.viewer.show{display:flex}
 .viewer-top{
-  height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:8px 12px;
-  flex:none;
-  background:linear-gradient(rgba(0,0,0,.65),transparent);
-  position:absolute;
-  left:0;
-  right:0;
-  top:0;
-  z-index:5
+  height:64px;display:flex;align-items:center;justify-content:space-between;
+  padding:8px 12px;flex:none;background:linear-gradient(rgba(0,0,0,.65),transparent);
+  position:absolute;left:0;right:0;top:0;z-index:5
 }
-
 .viewer-title{
-  font-size:16px;
-  font-weight:600;
-  max-width:70%;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis
+  font-size:16px;font-weight:600;max-width:70%;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
-
 .viewer-close{
-  width:42px;
-  height:42px;
-  border:0;
-  border-radius:50%;
-  background:rgba(255,255,255,.15);
-  color:#fff;
-  font-size:23px
+  width:42px;height:42px;border:0;border-radius:50%;
+  background:rgba(255,255,255,.15);color:#fff;font-size:23px
 }
-
 .viewer-stage{
-  flex:1;
-  min-height:0;
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center
+  flex:1;min-height:0;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center
 }
-
 .slides{
-  width:100%;
-  height:100%;
-  display:flex;
-  will-change:transform;
-  transform:translate3d(0,0,0)
+  width:100%;height:100%;display:flex;
+  will-change:transform;transform:translate3d(0,0,0);
 }
-
 .slide{
-  flex:0 0 100%;
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  flex:0 0 100%;width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
   padding:72px 12px 120px
 }
-
 .slide img{
-  max-width:100%;
-  max-height:100%;
-  width:auto;
-  height:auto;
-  object-fit:contain;
-  border-radius:10px;
-  display:block;
-  user-select:none;
-  -webkit-user-drag:none
+  max-width:100%;max-height:100%;width:auto;height:auto;
+  object-fit:contain;border-radius:10px;display:block;
+  user-select:none;-webkit-user-drag:none;
 }
-
 .viewer-arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:44px;
-  height:44px;
-  border:0;
-  border-radius:50%;
-  background:rgba(255,255,255,.16);
-  color:#fff;
-  font-size:28px;
-  z-index:4
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:44px;height:44px;border:0;border-radius:50%;
+  background:rgba(255,255,255,.16);color:#fff;font-size:28px;z-index:4
 }
-
-.viewer-prev{
-  left:10px
-}
-
-.viewer-next{
-  right:10px
-}
-
+.viewer-prev{left:10px}.viewer-next{right:10px}
 .viewer-bottom{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:5;
+  position:absolute;left:0;right:0;bottom:0;z-index:5;
   padding:10px 12px 18px;
   background:linear-gradient(transparent,rgba(0,0,0,.82))
 }
-
-.viewer-info{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin-bottom:10px;
-  font-size:13px
+.viewer-info{display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:13px}
+.viewer-actions{display:flex;gap:10px}
+.viewer-actions a,.viewer-actions button{
+  flex:1;padding:13px;border:0;border-radius:14px;text-align:center;
+  text-decoration:none;font-size:15px;background:#eaf8ec;color:#247a2a
 }
+.viewer-actions button{cursor:pointer}
 
-.viewer-actions{
-  display:flex;
-  gap:10px
-}
-
-.viewer-actions a,
-.viewer-actions button{
-  flex:1;
-  padding:13px;
-  border:0;
-  border-radius:14px;
-  text-align:center;
-  text-decoration:none;
-  font-size:15px;
-  background:#eaf8ec;
-  color:#247a2a
-}
-
-.viewer-actions button{
-  cursor:pointer
-}
-
-.viewer-stage,
-.viewer-stage *{
-  user-select:none;
-  -webkit-user-select:none
-}
+/* Prevent accidental selection while swiping */
+.viewer-stage,.viewer-stage *{user-select:none;-webkit-user-select:none}
 
 @media(max-width:480px){
-
-  .app{
-    padding:12px
-  }
-
-  .grid{
-    gap:9px
-  }
-
-  .card{
-    border-radius:15px
-  }
-
-  .title{
-    font-size:15px
-  }
-
-  .search input{
-    font-size:18px
-  }
-
-  .viewer-arrow{
-    display:none
-  }
-
-  .slide{
-    padding-left:7px;
-    padding-right:7px
-  }
+  .app{padding:12px}.grid{gap:9px}.card{border-radius:15px}
+  .title{font-size:15px}.tabs{gap:22px}.search input{font-size:18px}
+  .viewer-arrow{display:none}
+  .slide{padding-left:7px;padding-right:7px}
 }
 </style>
 </head>
-
 <body>
 
 <main class="app">
-
   <div class="topline">
-
     <div class="search" style="flex:1;margin-right:10px">
-
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M10.8 4a6.8 6.8 0 1 0 4.25 12.1l4.43 4.43 1.42-1.42-4.43-4.43A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z"/>
-      </svg>
-
-      <input
-        id="search"
-        placeholder="Search wallpapers"
-        autocomplete="off"
-      >
-
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.8 4a6.8 6.8 0 1 0 4.25 12.1l4.43 4.43 1.42-1.42-4.43-4.43A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z"/></svg>
+      <input id="search" placeholder="Search wallpapers" autocomplete="off">
     </div>
-
-    <button
-      class="settings-btn"
-      id="settingsBtn"
-      aria-label="Settings"
-    >
-      <svg viewBox="0 0 24 24" width="23" height="23">
-        <path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.03-1.58-1.92-3.32-2.39.96a7.7 7.7 0 0 0-1.69-.98L15.1 3.5h-3.84l-.36 2.6c-.61.25-1.18.58-1.69.98l-2.39-.96L4.9 9.44l2.03 1.58c-.04.32-.08.65-.08.98s.03.66.08.98L4.9 14.56l1.92 3.32 2.39-.96c.51.4 1.08.73 1.69.98l.36 2.6h3.84l.36-2.6a7.7 7.7 0 0 0 1.69-.98l2.39.96 1.92-3.32-2.03-1.58ZM13.18 15.5A3.5 3.5 0 1 1 13.18 8a3.5 3.5 0 0 1 0 7.5Z"/>
-      </svg>
-    </button>
-
+    <button class="settings-btn" id="settingsBtn" aria-label="Settings">
+<svg viewBox="0 0 24 24" width="23" height="23" aria-hidden="true">
+<path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.03-1.58-1.92-3.32-2.39.96a7.7 7.7 0 0 0-1.69-.98L15.1 3.5h-3.84l-.36 2.6c-.61.25-1.18.58-1.69.98l-2.39-.96L4.9 9.44l2.03 1.58c-.04.32-.08.65-.08.98s.03.66.08.98L4.9 14.56l1.92 3.32 2.39-.96c.51.4 1.08.73 1.69.98l.36 2.6h3.84l.36-2.6a7.7 7.7 0 0 0 1.69-.98l2.39.96 1.92-3.32-2.03-1.58ZM13.18 15.5A3.5 3.5 0 1 1 13.18 8a3.5 3.5 0 0 1 0 7.5Z"/>
+</svg>
+</button>
   </div>
 
-  <section id="view">
-    <div class="loading">Loading wallpapers…</div>
-  </section>
+  <div id="tabs" class="tabs">
+    <button class="active" data-sort="recent">Recent</button>
+    <button data-sort="featured">Featured</button>
+    <button data-sort="popular">Popular</button>
+    <button data-sort="random">Random</button>
+  </div>
 
+  <section id="view"><div class="loading">Loading wallpapers…</div></section>
 </main>
 
-
-<!-- BOTTOM NAV -->
-
 <nav class="bottom">
-
   <div class="bottom-inner">
-
-    <button class="nav active" data-page="wallpaper">
-
-      <span class="ico">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M4 4h16v16H4z"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-          />
-          <circle
-            cx="9"
-            cy="9"
-            r="1.6"
-            fill="currentColor"
-          />
-          <path
-            d="m5.5 18 4.8-5 3.2 3 2.2-2.3 2.8 4.3"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </span>
-
-      Wallpaper
-
-    </button>
-
-
-    <button class="nav" data-page="category">
-
-      <span class="ico">
-        <svg viewBox="0 0 24 24">
-          <rect
-            x="5"
-            y="5"
-            width="14"
-            height="14"
-            rx="2"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-          />
-          <rect
-            x="9"
-            y="9"
-            width="6"
-            height="6"
-            fill="currentColor"
-          />
-        </svg>
-      </span>
-
-      Category
-
-    </button>
-
-
-    <button class="nav" data-page="favorite">
-
-      <span class="ico">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M20.8 8.9c0 5.3-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.9A4.4 4.4 0 0 1 11 6.3a4.4 4.4 0 0 1 9.8 2.6Z"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </span>
-
-      Favorite
-
-    </button>
-
+    <button class="nav active" data-page="wallpaper"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="9" r="1.6" fill="currentColor"/><path d="m5.5 18 4.8-5 3.2 3 2.2-2.3 2.8 4.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Wallpaper</button>
+    <button class="nav" data-page="category"><span class="ico"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="9" y="9" width="6" height="6" fill="currentColor"/></svg></span>Category</button>
+    <button class="nav" data-page="favorite"><span class="ico"><svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5.3-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.9A4.4 4.4 0 0 1 11 6.3a4.4 4.4 0 0 1 9.8 2.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>Favorite</button>
   </div>
-
 </nav>
 
-
-<!-- SETTINGS -->
-
+<!-- Settings / category sheet -->
 <div class="sheet" id="sheet">
-
   <div class="panel" id="panel"></div>
-
 </div>
 
-
-<!-- VIEWER -->
-
-<div
-  class="viewer"
-  id="viewer"
-  aria-hidden="true"
->
-
+<!-- Full-screen swipe viewer -->
+<div class="viewer" id="viewer" aria-hidden="true">
   <div class="viewer-top">
-
-    <div
-      class="viewer-title"
-      id="viewerTitle"
-    ></div>
-
-    <button
-      class="viewer-close"
-      id="viewerClose"
-      aria-label="Close"
-    >
-      &#10005;
-    </button>
-
+    <div class="viewer-title" id="viewerTitle"></div>
+    <button class="viewer-close" id="viewerClose" aria-label="Close">&#10005;</button>
   </div>
 
-
-  <div
-    class="viewer-stage"
-    id="viewerStage"
-  >
-
-    <div
-      class="slides"
-      id="slides"
-    ></div>
-
-    <button
-      class="viewer-arrow viewer-prev"
-      id="viewerPrev"
-      aria-label="Previous"
-    >
-      &#8249;
-    </button>
-
-    <button
-      class="viewer-arrow viewer-next"
-      id="viewerNext"
-      aria-label="Next"
-    >
-      &#8250;
-    </button>
-
+  <div class="viewer-stage" id="viewerStage">
+    <div class="slides" id="slides"></div>
+    <button class="viewer-arrow viewer-prev" id="viewerPrev" aria-label="Previous">&#8249;</button>
+    <button class="viewer-arrow viewer-next" id="viewerNext" aria-label="Next">&#8250;</button>
   </div>
-
 
   <div class="viewer-bottom">
-
-    <div class="viewer-info">
-      <span id="viewerCounter"></span>
-    </div>
-
+    <div class="viewer-info"><span id="viewerCounter"></span></div>
     <div class="viewer-actions">
-
-      <a
-        id="viewerDownload"
-        href="#"
-        target="_blank"
-        rel="noopener"
-      >
-        &#8595; Download
-      </a>
-
-      <button id="viewerFavorite">
-        ♡ Favorite
-      </button>
-
+      <a id="viewerDownload" href="#" target="_blank" rel="noopener">&#8595; Download</a>
+      <button id="viewerFavorite">&#9825; Favorite</button>
     </div>
-
   </div>
-
 </div>
 
-
 <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzhkSGtZekKzqwop0A7iB9TnPsJ2yXYBXlLh1M1qwS6QsWSm_gAecZvzPlxCp1alJDyHA/exec";
 
-/* =========================================================
-   API
-========================================================= */
+const demo = [
+  {id:"demo1",name:"Nature",category:"Nature",url:"https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=85"},
+  {id:"demo2",name:"Mountain",category:"Nature",url:"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=85"},
+  {id:"demo3",name:"Car",category:"Cars",url:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85"},
+  {id:"demo4",name:"Space",category:"Space",url:"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=900&q=85"}
+];
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbzhkSGtZekKzqwop0A7iB9TnPsJ2yXYBXlLh1M1qwS6QsWSm_gAecZvzPlxCp1alJDyHA/exec";
+let wallpapers=[], categories=[], page="wallpaper", sort="recent", columns=3;
+let categoryFilter=null;
+let selectedCategory=null;
 
+const favorites = new Set(JSON.parse(localStorage.getItem("favorites")||"[]"));
+const savedCols = Number(localStorage.getItem("wallpaperColumns"));
+if(savedCols===2||savedCols===3) columns=savedCols;
 
-/* =========================================================
-   CACHE
-========================================================= */
-
-const CACHE_KEY = "wallpaper_app_cache_v3";
-
-
-/* =========================================================
-   STATE
-========================================================= */
-
-let wallpapers = [];
-let categories = [];
-
-let page = "wallpaper";
-let columns = 3;
-
-let categoryFilter = null;
-let selectedCategory = null;
-
-
-/* =========================================================
-   FAVORITES
-========================================================= */
-
-let favorites = new Set();
-
-try{
-
-  const saved =
-    JSON.parse(
-      localStorage.getItem("favorites") || "[]"
-    );
-
-  if(Array.isArray(saved)){
-    favorites = new Set(saved);
-  }
-
-}catch(e){
-
-  favorites = new Set();
-
-}
-
+const el=id=>document.getElementById(id);
 
 function saveFav(){
-
-  try{
-
-    localStorage.setItem(
-      "favorites",
-      JSON.stringify([...favorites])
-    );
-
-  }catch(e){}
-
+  localStorage.setItem("favorites",JSON.stringify([...favorites]));
 }
-
-
-/* =========================================================
-   COLUMNS
-========================================================= */
-
-const savedCols =
-  Number(
-    localStorage.getItem("wallpaperColumns")
-  );
-
-if(savedCols === 2 || savedCols === 3){
-  columns = savedCols;
-}
-
-
-/* =========================================================
-   ELEMENT
-========================================================= */
-
-const el = id =>
-  document.getElementById(id);
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
 
 function escapeHtml(s){
-
-  return String(s || "").replace(
-    /[&<>"']/g,
-    m => ({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-    }[m])
-  );
-
+  return String(s||"").replace(/[&<>"']/g,m=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
 }
-
-
-/* =========================================================
-   PAGE
-========================================================= */
 
 function setPage(p){
-
-  page = p;
-
-  if(p !== "wallpaper"){
-    categoryFilter = null;
-  }
-
-  if(p !== "categoryWallpapers"){
-    selectedCategory = null;
-  }
-
-  document
-    .querySelectorAll(".nav")
-    .forEach(b => {
-
-      const active =
-        b.dataset.page === p ||
-        (
-          b.dataset.page === "category" &&
-          (
-            p === "category" ||
-            p === "categoryWallpapers"
-          )
-        );
-
-      b.classList.toggle(
-        "active",
-        active
-      );
-
-    });
-
+  page=p;
+  if(p!=="wallpaper") categoryFilter=null;
+  if(p!=="categoryWallpapers") selectedCategory=null;
+  document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("active",b.dataset.page==="category" && (p==="category"||p==="categoryWallpapers") || b.dataset.page===p));
   render();
-
 }
-
-
-/* =========================================================
-   DISPLAY ARRAY
-========================================================= */
 
 function getDisplayArray(){
-
-  const q =
-    el("search").value
-      .trim()
-      .toLowerCase();
-
-  return wallpapers.filter(x => {
-
-    const text =
-      (
-        String(x.name || "") +
-        " " +
-        String(x.category || "")
-      ).toLowerCase();
-
-    return text.includes(q);
-
+  let q=el("search").value.trim().toLowerCase();
+  let arr=wallpapers.filter(x=>{
+    const text=(x.name+" "+x.category).toLowerCase();
+    return text.includes(q) && (!categoryFilter || x.category===categoryFilter);
   });
 
+  if(sort==="random") arr=[...arr].sort(()=>Math.random()-.5);
+  return arr;
 }
-
-
-/* =========================================================
-   RENDER
-========================================================= */
 
 function render(){
+  const v=el("view");
+  v.innerHTML="";
 
-  const v = el("view");
-
-  v.innerHTML = "";
-
-
-  if(page === "category"){
-
+  if(page==="category"){
     renderCategories(v);
-
     return;
-
   }
 
-
-  if(page === "categoryWallpapers"){
-
+  if(page==="categoryWallpapers"){
     renderCategoryWallpapers(v);
-
     return;
-
   }
 
+  let arr=page==="favorite"
+    ? wallpapers.filter(x=>favorites.has(x.id))
+    : getDisplayArray();
 
-  let arr =
-    page === "favorite"
-      ? wallpapers.filter(x =>
-          favorites.has(x.id)
-        )
-      : getDisplayArray();
-
-
-  if(
-    page === "favorite" &&
-    !arr.length
-  ){
-
-    v.innerHTML =
-      '<div class="empty">No favorite wallpapers yet.</div>';
-
+  if(page==="favorite" && !arr.length){
+    v.innerHTML='<div class="empty">No favorite wallpapers yet.</div>';
     return;
-
   }
-
 
   if(!arr.length){
-
-    v.innerHTML =
-      '<div class="empty">No wallpapers found.</div>';
-
+    v.innerHTML='<div class="empty">No wallpapers found.</div>';
     return;
-
   }
 
+  const grid=document.createElement("div");
+  grid.className="grid"+(columns===2?" two":"");
 
-  const grid =
-    document.createElement("div");
+  arr.forEach((x)=>{
+    const c=document.createElement("article");
+    c.className="card";
 
-  grid.className =
-    "grid" +
-    (columns === 2 ? " two" : "");
+    c.innerHTML=
+      '<img loading="lazy" decoding="async" src="'+escapeHtml(x.url)+'" alt="'+escapeHtml(x.name)+'">'+
+      '<div class="shade"></div>'+
+      '<button class="fav" aria-label="Favorite">'+(favorites.has(x.id)?"&#9829;":"&#9825;")+'</button>'+
+      '<div class="meta"><div class="title">'+escapeHtml(x.name)+'</div>'+
+      '<div class="sub">'+escapeHtml(x.category)+'</div></div>';
 
+    c.querySelector(".fav").addEventListener("click",e=>{
+      e.stopPropagation();
+      favorites.has(x.id)?favorites.delete(x.id):favorites.add(x.id);
+      saveFav();
+      render();
+    });
 
-  arr.forEach(x => {
-
-    const c =
-      document.createElement("article");
-
-    c.className = "card";
-
-
-    const isFav =
-      favorites.has(x.id);
-
-
-    c.innerHTML =
-
-      '<img loading="lazy" decoding="async" src="' +
-      escapeHtml(x.url) +
-      '" alt="' +
-      escapeHtml(x.name) +
-      '">' +
-
-      '<div class="shade"></div>' +
-
-      '<button class="fav" aria-label="Favorite">' +
-      (isFav ? "♥" : "♡") +
-      '</button>' +
-
-      '<div class="meta">' +
-
-      '<div class="title">' +
-      escapeHtml(x.name) +
-      '</div>' +
-
-      '<div class="sub">' +
-      escapeHtml(x.category) +
-      '</div>' +
-
-      '</div>';
-
-
-    c.querySelector(".fav")
-      .addEventListener("click", e => {
-
-        e.stopPropagation();
-
-        toggleFavorite(x.id);
-
-        render();
-
-      });
-
-
-    c.addEventListener(
-      "click",
-      () => openViewer(x, arr)
-    );
-
-
+    c.addEventListener("click",()=>openViewer(x,arr));
     grid.appendChild(c);
-
   });
 
-
   v.appendChild(grid);
-
 }
-
-
-/* =========================================================
-   FAVORITE TOGGLE
-========================================================= */
-
-function toggleFavorite(id){
-
-  if(favorites.has(id)){
-
-    favorites.delete(id);
-
-  }else{
-
-    favorites.add(id);
-
-  }
-
-  saveFav();
-
-}
-
-
-/* =========================================================
-   CATEGORY
-========================================================= */
 
 function renderCategories(v){
-
   if(!categories.length){
-
-    v.innerHTML =
-      '<div class="empty">No categories found.</div>';
-
+    v.innerHTML='<div class="empty">No categories found.</div>';
     return;
-
   }
 
-
-  const header =
-    document.createElement("div");
-
-
-  header.style.cssText =
-    "display:flex;align-items:center;gap:10px;margin:4px 0 14px";
-
-
-  header.innerHTML =
-    '<button id="catBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:#333">&#8249;</button>' +
-    '<div style="font-size:25px;font-weight:600">Category</div>';
-
-
+  const header=document.createElement("div");
+  header.style.cssText="display:flex;align-items:center;gap:10px;margin:4px 0 14px";
+  header.innerHTML='<button id="catBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:#333">&#8249;</button><div style="font-size:25px;font-weight:600">Category</div>';
   v.appendChild(header);
+  header.querySelector("#catBack").onclick=()=>setPage("wallpaper");
 
+  const g=document.createElement("div");
+  g.className="cat-grid";
 
-  header.querySelector("#catBack")
-    .onclick = () => setPage("wallpaper");
+  categories.forEach(cat=>{
+    const name=typeof cat==="string"?cat:(cat.name||"");
+    const items=wallpapers.filter(x=>String(x.category||"").trim().toLowerCase()===String(name||"").trim().toLowerCase());
+    const cover=items[0]?.url || "";
+    const b=document.createElement("button");
+    b.className="category";
+    b.style.cssText="position:relative;min-height:115px;overflow:hidden;color:#fff;padding:18px;border:0;background:#ddd;text-shadow:0 1px 4px rgba(0,0,0,.5)";
+    b.innerHTML=
+      (cover?'<img src="'+escapeHtml(cover)+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0">':'')+
+      '<span style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.48),rgba(0,0,0,.08));z-index:1"></span>'+
+      '<span style="position:relative;z-index:2;display:block"><b>'+escapeHtml(name)+'</b><small style="color:#fff">'+items.length+' Wallpapers</small></span>';
 
-
-  const g =
-    document.createElement("div");
-
-  g.className = "cat-grid";
-
-
-  categories.forEach(cat => {
-
-    const name =
-      typeof cat === "string"
-        ? cat
-        : (cat.name || "");
-
-
-    const items =
-      wallpapers.filter(x =>
-        String(x.category || "")
-          .trim()
-          .toLowerCase() ===
-        String(name || "")
-          .trim()
-          .toLowerCase()
-      );
-
-
-    const cover =
-      items[0]?.url || "";
-
-
-    const b =
-      document.createElement("button");
-
-    b.className = "category";
-
-
-    b.style.cssText =
-      "position:relative;min-height:115px;overflow:hidden;color:#fff;padding:18px;border:0;background:#ddd;text-shadow:0 1px 4px rgba(0,0,0,.5)";
-
-
-    b.innerHTML =
-
-      (
-        cover
-        ?
-        '<img src="' +
-        escapeHtml(cover) +
-        '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0">'
-        :
-        ""
-      ) +
-
-      '<span style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.48),rgba(0,0,0,.08));z-index:1"></span>' +
-
-      '<span style="position:relative;z-index:2;display:block">' +
-
-      '<b>' +
-      escapeHtml(name) +
-      '</b>' +
-
-      '<small style="color:#fff">' +
-      items.length +
-      ' Wallpapers</small>' +
-
-      '</span>';
-
-
-    b.onclick = () => {
-
-      selectedCategory = name;
-
-      page = "categoryWallpapers";
-
-      document
-        .querySelectorAll(".nav")
-        .forEach(x =>
-          x.classList.toggle(
-            "active",
-            x.dataset.page === "category"
-          )
-        );
-
+    b.onclick=()=>{
+      selectedCategory=name;
+      page="categoryWallpapers";
+      document.querySelectorAll(".nav").forEach(x=>x.classList.toggle("active",x.dataset.page==="category"));
       render();
-
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
+      window.scrollTo({top:0,behavior:"smooth"});
     };
-
-
     g.appendChild(b);
-
   });
-
 
   v.appendChild(g);
-
 }
-
-
-/* =========================================================
-   CATEGORY WALLPAPERS
-========================================================= */
 
 function renderCategoryWallpapers(v){
+  const name=selectedCategory||"Category";
+  const q=el("search").value.trim().toLowerCase();
 
-  const name =
-    selectedCategory || "Category";
+  const arr=wallpapers.filter(x=>{
+    const same=String(x.category||"").trim().toLowerCase()===String(name).trim().toLowerCase();
+    const text=(x.name+" "+x.category).toLowerCase();
+    return same && text.includes(q);
+  });
 
-
-  const q =
-    el("search")
-      .value
-      .trim()
-      .toLowerCase();
-
-
-  const arr =
-    wallpapers.filter(x => {
-
-      const same =
-        String(x.category || "")
-          .trim()
-          .toLowerCase() ===
-        String(name)
-          .trim()
-          .toLowerCase();
-
-
-      const text =
-        (
-          String(x.name || "") +
-          " " +
-          String(x.category || "")
-        ).toLowerCase();
-
-
-      return same && text.includes(q);
-
-    });
-
-
-  const header =
-    document.createElement("div");
-
-
-  header.style.cssText =
-    "display:flex;align-items:center;gap:10px;margin:2px 0 14px";
-
-
-  header.innerHTML =
-
-    '<button id="catWallBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:#333">&#8249;</button>' +
-
-    '<div style="font-size:23px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
-
-    escapeHtml(name) +
-
-    '</div>' +
-
+  const header=document.createElement("div");
+  header.style.cssText="display:flex;align-items:center;gap:10px;margin:2px 0 14px";
+  header.innerHTML=
+    '<button id="catWallBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:#333">&#8249;</button>'+
+    '<div style="font-size:23px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+escapeHtml(name)+'</div>'+
     '<button id="catWallSearch" style="border:0;background:none;font-size:24px">&#128269;</button>';
-
-
   v.appendChild(header);
 
-
-  header.querySelector("#catWallBack")
-    .onclick = () => {
-
-      selectedCategory = null;
-
-      page = "category";
-
-      render();
-
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-    };
-
-
-  header.querySelector("#catWallSearch")
-    .onclick = () => {
-
-      el("search").focus();
-
-    };
-
+  header.querySelector("#catWallBack").onclick=()=>{
+    selectedCategory=null;
+    page="category";
+    render();
+    window.scrollTo({top:0,behavior:"smooth"});
+  };
+  header.querySelector("#catWallSearch").onclick=()=>{ el("search").focus(); };
 
   if(!arr.length){
-
-    const e =
-      document.createElement("div");
-
-    e.className = "empty";
-
-    e.textContent =
-      "No wallpapers found in " +
-      name +
-      ".";
-
+    const e=document.createElement("div");
+    e.className="empty";
+    e.textContent="No wallpapers found in "+name+".";
     v.appendChild(e);
-
     return;
-
   }
 
+  const grid=document.createElement("div");
+  grid.className="grid"+(columns===2?" two":"");
 
-  const grid =
-    document.createElement("div");
+  arr.forEach(x=>{
+    const c=document.createElement("article");
+    c.className="card";
+    c.innerHTML=
+      '<img loading="lazy" decoding="async" src="'+escapeHtml(x.url)+'" alt="'+escapeHtml(x.name)+'">'+
+      '<div class="shade"></div>'+
+      '<button class="fav" aria-label="Favorite">'+(favorites.has(x.id)?"&#9829;":"&#9825;")+'</button>'+
+      '<div class="meta"><div class="title">'+escapeHtml(x.name)+'</div>'+
+      '<div class="sub">'+escapeHtml(x.category)+'</div></div>';
 
-
-  grid.className =
-    "grid" +
-    (columns === 2 ? " two" : "");
-
-
-  arr.forEach(x => {
-
-    const c =
-      document.createElement("article");
-
-    c.className = "card";
-
-
-    c.innerHTML =
-
-      '<img loading="lazy" decoding="async" src="' +
-      escapeHtml(x.url) +
-      '" alt="' +
-      escapeHtml(x.name) +
-      '">' +
-
-      '<div class="shade"></div>' +
-
-      '<button class="fav" aria-label="Favorite">' +
-
-      (
-        favorites.has(x.id)
-        ? "♥"
-        : "♡"
-      ) +
-
-      '</button>' +
-
-      '<div class="meta">' +
-
-      '<div class="title">' +
-      escapeHtml(x.name) +
-      '</div>' +
-
-      '<div class="sub">' +
-      escapeHtml(x.category) +
-      '</div>' +
-
-      '</div>';
-
-
-    c.querySelector(".fav")
-      .addEventListener("click", e => {
-
-        e.stopPropagation();
-
-        toggleFavorite(x.id);
-
-        render();
-
-      });
-
-
-    c.addEventListener(
-      "click",
-      () => openViewer(x, arr)
-    );
-
-
+    c.querySelector(".fav").addEventListener("click",e=>{
+      e.stopPropagation();
+      favorites.has(x.id)?favorites.delete(x.id):favorites.add(x.id);
+      saveFav();
+      render();
+    });
+    c.addEventListener("click",()=>openViewer(x,arr));
     grid.appendChild(c);
-
   });
-
-
   v.appendChild(grid);
-
 }
 
+/* ---------- Full-screen swipe viewer ---------- */
+let viewerItems=[];
+let viewerIndex=0;
+let touchStartX=0,touchStartY=0,touchStartTime=0;
+let dragging=false;
+let dragX=0;
 
-/* =========================================================
-   VIEWER
-========================================================= */
+function openViewer(item,arr){
+  viewerItems=arr;
+  viewerIndex=Math.max(0,arr.findIndex(x=>x.id===item.id));
 
-let viewerItems = [];
-let viewerIndex = 0;
-
-let touchStartX = 0;
-let touchStartY = 0;
-let touchStartTime = 0;
-let dragging = false;
-let dragX = 0;
-
-
-function openViewer(item, arr){
-
-  viewerItems = arr;
-
-  viewerIndex =
-    Math.max(
-      0,
-      arr.findIndex(
-        x => x.id === item.id
-      )
-    );
-
-
-  const viewer = el("viewer");
-
+  const viewer=el("viewer");
   viewer.classList.add("show");
-
-  viewer.setAttribute(
-    "aria-hidden",
-    "false"
-  );
-
-  document.body.style.overflow = "hidden";
-
+  viewer.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
 
   buildSlides();
-
   updateViewer(false);
-
 }
-
 
 function buildSlides(){
+  const s=el("slides");
+  s.innerHTML="";
 
-  const s = el("slides");
+  /* Only nearby images are loaded immediately for faster opening.
+     Others are lazy-loaded when they become the active/adjacent slide. */
+  viewerItems.forEach((x,i)=>{
+    const slide=document.createElement("div");
+    slide.className="slide";
 
-  s.innerHTML = "";
+    const img=document.createElement("img");
+    img.alt=x.name||"Wallpaper";
+    img.draggable=false;
 
-
-  viewerItems.forEach((x,i) => {
-
-    const slide =
-      document.createElement("div");
-
-    slide.className = "slide";
-
-
-    const img =
-      document.createElement("img");
-
-    img.alt =
-      x.name || "Wallpaper";
-
-    img.draggable = false;
-
-
-    if(
-      Math.abs(i - viewerIndex) <= 1
-    ){
-
-      img.src = x.url;
-
+    if(Math.abs(i-viewerIndex)<=1){
+      img.src=x.url;
     }else{
-
-      img.dataset.src = x.url;
-
+      img.dataset.src=x.url;
     }
-
 
     slide.appendChild(img);
-
     s.appendChild(slide);
-
   });
-
 }
-
 
 function loadNearby(){
-
-  [-1,0,1].forEach(offset => {
-
-    const i =
-      viewerIndex + offset;
-
-
-    if(
-      i < 0 ||
-      i >= viewerItems.length
-    ) return;
-
-
-    const img =
-      el("slides")
-        .children[i]
-        ?.querySelector("img");
-
-
-    if(
-      img &&
-      !img.src &&
-      img.dataset.src
-    ){
-
-      img.src = img.dataset.src;
-
+  [-1,0,1].forEach(offset=>{
+    const i=viewerIndex+offset;
+    if(i<0||i>=viewerItems.length)return;
+    const img=el("slides").children[i]?.querySelector("img");
+    if(img && !img.src && img.dataset.src){
+      img.src=img.dataset.src;
       delete img.dataset.src;
-
     }
-
   });
-
 }
 
+function updateViewer(animate=true){
+  const s=el("slides");
+  s.style.transition=animate?"transform 260ms cubic-bezier(.2,.8,.2,1)":"none";
+  s.style.transform="translate3d("+(-viewerIndex*100)+"%,0,0)";
 
-function updateViewer(animate = true){
+  const x=viewerItems[viewerIndex];
+  if(!x)return;
 
-  const s = el("slides");
+  el("viewerTitle").textContent=x.name||"Wallpaper";
+  el("viewerCounter").textContent=(viewerIndex+1)+" / "+viewerItems.length;
 
+  el("viewerDownload").href=x.download||x.url;
 
-  s.style.transition =
-    animate
-      ? "transform 260ms cubic-bezier(.2,.8,.2,1)"
-      : "none";
-
-
-  s.style.transform =
-    "translate3d(" +
-    (-viewerIndex * 100) +
-    "%,0,0)";
-
-
-  const x =
-    viewerItems[viewerIndex];
-
-
-  if(!x) return;
-
-
-  el("viewerTitle").textContent =
-    x.name || "Wallpaper";
-
-
-  el("viewerCounter").textContent =
-    (viewerIndex + 1) +
-    " / " +
-    viewerItems.length;
-
-
-  el("viewerDownload").href =
-    x.download || x.url;
-
-
-  el("viewerFavorite").textContent =
-    favorites.has(x.id)
-      ? "♥ Remove"
-      : "♡ Favorite";
-
+  const fav=el("viewerFavorite");
+  fav.textContent=favorites.has(x.id)?"&#9829; Remove":"&#9825; Favorite";
 
   loadNearby();
-
 }
-
 
 function goViewer(delta){
-
-  if(!viewerItems.length) return;
-
-
-  const next =
-    viewerIndex + delta;
-
-
-  if(
-    next < 0 ||
-    next >= viewerItems.length
-  ) return;
-
-
-  viewerIndex = next;
-
+  if(!viewerItems.length)return;
+  const next=viewerIndex+delta;
+  if(next<0||next>=viewerItems.length)return;
+  viewerIndex=next;
   updateViewer(true);
-
 }
-
 
 function closeViewer(){
-
-  el("viewer")
-    .classList.remove("show");
-
-
-  el("viewer")
-    .setAttribute(
-      "aria-hidden",
-      "true"
-    );
-
-
-  document.body.style.overflow = "";
-
-  el("slides").innerHTML = "";
-
-  viewerItems = [];
-
+  el("viewer").classList.remove("show");
+  el("viewer").setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+  el("slides").innerHTML="";
+  viewerItems=[];
 }
 
+el("viewerClose").onclick=closeViewer;
+el("viewerPrev").onclick=()=>goViewer(-1);
+el("viewerNext").onclick=()=>goViewer(1);
 
-el("viewerClose").onclick =
-  closeViewer;
+el("viewerFavorite").onclick=()=>{
+  const x=viewerItems[viewerIndex];
+  if(!x)return;
 
-
-el("viewerPrev").onclick =
-  () => goViewer(-1);
-
-
-el("viewerNext").onclick =
-  () => goViewer(1);
-
-
-/* =========================================================
-   VIEWER FAVORITE
-========================================================= */
-
-el("viewerFavorite").onclick = () => {
-
-  const x =
-    viewerItems[viewerIndex];
-
-
-  if(!x) return;
-
-
-  toggleFavorite(x.id);
-
-
-  el("viewerFavorite").textContent =
-    favorites.has(x.id)
-      ? "♥ Remove"
-      : "♡ Favorite";
-
-
-  /*
-     Do NOT render() here.
-     This prevents the viewer from closing
-     or jumping while changing favorite.
-  */
-
+  favorites.has(x.id)?favorites.delete(x.id):favorites.add(x.id);
+  saveFav();
+  el("viewerFavorite").textContent=favorites.has(x.id)?"&#9829; Remove":"&#9825; Favorite";
+  render();
 };
 
+const stage=el("viewerStage");
 
-/* =========================================================
-   SWIPE
-========================================================= */
+stage.addEventListener("touchstart",e=>{
+  if(e.touches.length!==1)return;
+  const t=e.touches[0];
+  touchStartX=t.clientX;
+  touchStartY=t.clientY;
+  touchStartTime=Date.now();
+  dragging=true;
+  dragX=0;
+  el("slides").style.transition="none";
+},{passive:true});
 
-const stage =
-  el("viewerStage");
+stage.addEventListener("touchmove",e=>{
+  if(!dragging||e.touches.length!==1)return;
 
+  const t=e.touches[0];
+  dragX=t.clientX-touchStartX;
+  const dy=Math.abs(t.clientY-touchStartY);
 
-stage.addEventListener(
-  "touchstart",
-  e => {
+  /* If the gesture is mostly vertical, let the browser handle it. */
+  if(dy>Math.abs(dragX)+15)return;
 
-    if(e.touches.length !== 1)
-      return;
+  e.preventDefault();
 
+  const base=(-viewerIndex*window.innerWidth)+dragX;
+  el("slides").style.transform="translate3d("+base+"px,0,0)";
+},{passive:false});
 
-    const t =
-      e.touches[0];
+stage.addEventListener("touchend",()=>{
+  if(!dragging)return;
+  dragging=false;
 
+  const elapsed=Math.max(1,Date.now()-touchStartTime);
+  const velocity=Math.abs(dragX)/elapsed;
+  const threshold=Math.min(120,window.innerWidth*.18);
 
-    touchStartX = t.clientX;
-
-    touchStartY = t.clientY;
-
-    touchStartTime =
-      Date.now();
-
-
-    dragging = true;
-
-    dragX = 0;
-
-
-    el("slides").style.transition =
-      "none";
-
-  },
-  {passive:true}
-);
-
-
-stage.addEventListener(
-  "touchmove",
-  e => {
-
-    if(
-      !dragging ||
-      e.touches.length !== 1
-    ) return;
-
-
-    const t =
-      e.touches[0];
-
-
-    dragX =
-      t.clientX -
-      touchStartX;
-
-
-    const dy =
-      Math.abs(
-        t.clientY -
-        touchStartY
-      );
-
-
-    if(
-      dy >
-      Math.abs(dragX) + 15
-    ) return;
-
-
-    e.preventDefault();
-
-
-    const base =
-      (-viewerIndex *
-        window.innerWidth) +
-      dragX;
-
-
-    el("slides").style.transform =
-      "translate3d(" +
-      base +
-      "px,0,0)";
-
-  },
-  {passive:false}
-);
-
-
-stage.addEventListener(
-  "touchend",
-  () => {
-
-    if(!dragging) return;
-
-
-    dragging = false;
-
-
-    const elapsed =
-      Math.max(
-        1,
-        Date.now() -
-        touchStartTime
-      );
-
-
-    const velocity =
-      Math.abs(dragX) /
-      elapsed;
-
-
-    const threshold =
-      Math.min(
-        120,
-        window.innerWidth * .18
-      );
-
-
-    if(
-      Math.abs(dragX) > threshold ||
-      velocity > .45
-    ){
-
-      if(
-        dragX < 0 &&
-        viewerIndex <
-        viewerItems.length - 1
-      ){
-
-        viewerIndex++;
-
-      }else if(
-        dragX > 0 &&
-        viewerIndex > 0
-      ){
-
-        viewerIndex--;
-
-      }
-
-    }
-
-
-    updateViewer(true);
-
+  if(Math.abs(dragX)>threshold || velocity>.45){
+    if(dragX<0 && viewerIndex<viewerItems.length-1) viewerIndex++;
+    else if(dragX>0 && viewerIndex>0) viewerIndex--;
   }
-);
 
+  updateViewer(true);
+});
 
-document.addEventListener(
-  "keydown",
-  e => {
+stage.addEventListener("click",e=>{
+  /* Tap empty area: no action. */
+});
 
-    if(
-      !el("viewer")
-        .classList
-        .contains("show")
-    ) return;
+document.addEventListener("keydown",e=>{
+  if(!el("viewer").classList.contains("show"))return;
+  if(e.key==="Escape")closeViewer();
+  if(e.key==="ArrowLeft")goViewer(-1);
+  if(e.key==="ArrowRight")goViewer(1);
+});
 
-
-    if(e.key === "Escape")
-      closeViewer();
-
-
-    if(e.key === "ArrowLeft")
-      goViewer(-1);
-
-
-    if(e.key === "ArrowRight")
-      goViewer(1);
-
-  }
-);
-
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
+/* ---------- Settings ---------- */
 function openSettings(){
-
-  el("panel").innerHTML =
-
-    '<div class="handle"></div>' +
-
-    '<button class="close" id="close">' +
-    '&#10005;' +
-    '</button>' +
-
-    '<h2>Settings</h2>' +
-
-    '<div class="settings-row">' +
-
-    '<div>' +
-
-    '<b>Display Wallpaper</b>' +
-
-    '<div style="color:#777;font-size:13px;margin-top:4px">' +
-
-    'Choose wallpaper grid columns' +
-
-    '</div>' +
-
-    '</div>' +
-
-    '<div class="choice">' +
-
-    '<button data-col="2">2</button>' +
-
-    '<button data-col="3">3</button>' +
-
-    '</div>' +
-
+  el("panel").innerHTML=
+    '<div class="handle"></div>'+
+    '<button class="close" id="close">&#10005;</button>'+
+    '<h2>Settings</h2>'+
+    '<div class="settings-row">'+
+      '<div><b>Display Wallpaper</b>'+
+      '<div style="color:#777;font-size:13px;margin-top:4px">Choose wallpaper grid columns</div></div>'+
+      '<div class="choice">'+
+        '<button data-col="2">2</button>'+
+        '<button data-col="3">3</button>'+
+      '</div>'+
     '</div>';
 
-
-  document
-    .querySelectorAll("[data-col]")
-    .forEach(b => {
-
-      b.classList.toggle(
-        "active",
-        Number(b.dataset.col) === columns
+  document.querySelectorAll("[data-col]").forEach(b=>{
+    b.classList.toggle("active",Number(b.dataset.col)===columns);
+    b.onclick=()=>{
+      columns=Number(b.dataset.col);
+      localStorage.setItem("wallpaperColumns",columns);
+      document.querySelectorAll("[data-col]").forEach(x=>
+        x.classList.toggle("active",Number(x.dataset.col)===columns)
       );
-
-
-      b.onclick = () => {
-
-        columns =
-          Number(b.dataset.col);
-
-
-        localStorage.setItem(
-          "wallpaperColumns",
-          columns
-        );
-
-
-        document
-          .querySelectorAll("[data-col]")
-          .forEach(x =>
-            x.classList.toggle(
-              "active",
-              Number(x.dataset.col) === columns
-            )
-          );
-
-
-        render();
-
-      };
-
-    });
-
-
-  el("sheet")
-    .classList.add("show");
-
-
-  el("close").onclick =
-    () =>
-      el("sheet")
-        .classList
-        .remove("show");
-
-}
-
-
-/* =========================================================
-   CACHE LOAD
-========================================================= */
-
-function loadCache(){
-
-  try{
-
-    const raw =
-      localStorage.getItem(
-        CACHE_KEY
-      );
-
-
-    if(!raw) return false;
-
-
-    const data =
-      JSON.parse(raw);
-
-
-    if(
-      !data ||
-      !Array.isArray(data.wallpapers)
-    ){
-
-      return false;
-
-    }
-
-
-    wallpapers =
-      data.wallpapers || [];
-
-
-    categories =
-      Array.isArray(data.categories)
-        ? data.categories
-        : [];
-
-
-    if(wallpapers.length){
-
       render();
-
-      return true;
-
-    }
-
-  }catch(e){
-
-    console.warn(
-      "Cache read error:",
-      e
-    );
-
-  }
-
-
-  return false;
-
-}
-
-
-/* =========================================================
-   SAVE CACHE
-========================================================= */
-
-function saveCache(){
-
-  try{
-
-    localStorage.setItem(
-      CACHE_KEY,
-      JSON.stringify({
-        wallpapers: wallpapers,
-        categories: categories,
-        savedAt: Date.now()
-      })
-    );
-
-  }catch(e){
-
-    console.warn(
-      "Cache save error:",
-      e
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   API LOAD
-========================================================= */
-
-async function loadData(){
-
-  /*
-     IMPORTANT:
-     Cache is displayed immediately.
-     API runs in background.
-  */
-
-
-  const hasCache =
-    loadCache();
-
-
-  try{
-
-    const controller =
-      new AbortController();
-
-
-    /*
-       Maximum API wait.
-       Old cache remains visible if API is slow.
-    */
-
-    const timeout =
-      setTimeout(
-        () => controller.abort(),
-        12000
-      );
-
-
-    const r =
-      await fetch(
-        API_URL +
-        "?t=" +
-        Date.now(),
-        {
-          cache:"no-store",
-          signal:controller.signal
-        }
-      );
-
-
-    clearTimeout(timeout);
-
-
-    if(!r.ok){
-
-      throw new Error(
-        "API HTTP " +
-        r.status
-      );
-
-    }
-
-
-    const data =
-      await r.json();
-
-
-    if(
-      !data ||
-      data.success === false
-    ){
-
-      throw new Error(
-        data?.error ||
-        "API returned an error"
-      );
-
-    }
-
-
-    if(
-      Array.isArray(data.wallpapers)
-    ){
-
-      wallpapers =
-        data.wallpapers;
-
-    }
-
-
-    if(
-      Array.isArray(data.categories)
-    ){
-
-      categories =
-        data.categories;
-
-    }
-
-
-    /*
-       Save newest API data
-       for instant next opening.
-    */
-
-    saveCache();
-
-
-    /*
-       Render updated data.
-    */
-
-    render();
-
-
-  }catch(e){
-
-    console.warn(
-      "Wallpaper API error:",
-      e
-    );
-
-
-    /*
-       IMPORTANT:
-       If cache exists, NEVER replace it
-       with "Unable to load".
-    */
-
-    if(
-      !hasCache &&
-      !wallpapers.length
-    ){
-
-      el("view").innerHTML =
-        '<div class="empty">' +
-        'Unable to load wallpapers. ' +
-        'Please try again.' +
-        '</div>';
-
-    }
-
-  }
-
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-document
-  .querySelectorAll(".nav")
-  .forEach(b => {
-
-    b.onclick = () => {
-
-      const p =
-        b.dataset.page;
-
-
-      if(p === "category"){
-
-        selectedCategory = null;
-
-        setPage("category");
-
-      }else{
-
-        setPage(p);
-
-      }
-
     };
-
   });
 
+  el("sheet").classList.add("show");
+  el("close").onclick=()=>el("sheet").classList.remove("show");
+}
 
-/* =========================================================
-   SEARCH
-========================================================= */
+/* ---------- Data ---------- */
+async function loadData(){
+  try{
+    const r=await fetch(API_URL,{cache:"no-store"});
+    if(!r.ok)throw new Error("API HTTP "+r.status);
 
-el("search")
-  .addEventListener(
-    "input",
-    render
-  );
+    const data=await r.json();
 
-
-/* =========================================================
-   SETTINGS BUTTON
-========================================================= */
-
-el("settingsBtn")
-  .onclick =
-  openSettings;
-
-
-/* =========================================================
-   SHEET CLOSE
-========================================================= */
-
-el("sheet")
-  .addEventListener(
-    "click",
-    e => {
-
-      if(
-        e.target ===
-        el("sheet")
-      ){
-
-        el("sheet")
-          .classList
-          .remove("show");
-
-      }
-
+    if(!data || data.success===false){
+      throw new Error(data?.error||"API returned an error");
     }
-  );
 
+    wallpapers=Array.isArray(data.wallpapers)?data.wallpapers:[];
+    categories=Array.isArray(data.categories)?data.categories:[];
 
-/* =========================================================
-   START
-========================================================= */
+    render();
+  }catch(e){
+    console.error("Wallpaper API error:",e);
 
-/*
-   First try cache immediately.
-   Then update from API in background.
-*/
+    wallpapers=[];
+    categories=[];
+    el("view").innerHTML='<div class="empty">Unable to load wallpapers. Please try again.</div>';
+  }
+}
+
+document.querySelectorAll(".nav").forEach(b=>{
+  b.onclick=()=>{
+    const p=b.dataset.page;
+    if(p==="category") {
+      selectedCategory=null;
+      setPage("category");
+    } else {
+      setPage(p);
+    }
+  };
+});
+
+document.querySelectorAll(".tabs button").forEach(b=>{
+  b.onclick=()=>{
+    sort=b.dataset.sort;
+    document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    render();
+  };
+});
+
+el("search").addEventListener("input",render);
+el("settingsBtn").onclick=openSettings;
+
+el("sheet").addEventListener("click",e=>{
+  if(e.target===el("sheet"))el("sheet").classList.remove("show");
+});
 
 loadData();
-
 </script>
-
 </body>
 </html>
