@@ -25,6 +25,8 @@ html,body{
   font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
 }
 body{padding-bottom:86px;transition:background .2s,color .2s}
+body.settings-mode{padding-bottom:0}
+body.settings-mode .app{max-width:900px;min-height:100vh;padding-top:18px}
 .app{max-width:900px;margin:auto;padding:14px}
 .topline{display:flex;align-items:center}
 .search{
@@ -396,7 +398,7 @@ body.dark .about-version{color:#aaa}
 <main class="app">
 
   <!-- Top search remains visible on every normal/settings page -->
-  <div class="topline">
+  <div class="topline" id="topline">
 
     <div class="search" style="flex:1;margin-right:10px">
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -427,7 +429,7 @@ body.dark .about-version{color:#aaa}
 
 </main>
 
-<nav class="bottom">
+<nav class="bottom" id="bottomNav">
   <div class="bottom-inner">
 
     <button class="nav active" data-page="wallpaper">
@@ -599,8 +601,13 @@ function setPage(p){
   if(p !== "wallpaper") categoryFilter = null;
   if(p !== "categoryWallpapers") selectedCategory = null;
 
-  /* Settings is a real page, so tabs disappear completely. */
-  el("tabs").style.display = p === "settings" ? "none" : "";
+  /* Settings is a completely separate page.
+     Hide the normal Home UI: search bar, settings button, tabs and bottom navigation. */
+  const isSettings = p === "settings";
+  el("topline").style.display = isSettings ? "none" : "";
+  el("tabs").style.display = isSettings ? "none" : "";
+  el("bottomNav").style.display = isSettings ? "none" : "";
+  document.body.classList.toggle("settings-mode", isSettings);
 
   document.querySelectorAll(".nav").forEach(b=>{
     b.classList.toggle(
