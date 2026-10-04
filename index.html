@@ -38,9 +38,9 @@ body{padding-bottom:86px}
 .bottom{position:fixed;left:0;right:0;bottom:0;background:#f1f8fc;border-top:1px solid #e7eef1;height:76px;display:flex;justify-content:center;z-index:20}
 .bottom-inner{width:min(900px,100%);display:grid;grid-template-columns:repeat(3,1fr);align-items:center}
 .nav{border:0;background:none;color:#45454c;font-size:15px;text-align:center;height:100%}
-.nav .ico{font-size:27px;display:block;line-height:30px}
+.nav .ico{display:block;height:30px;line-height:30px}.nav .ico svg{width:27px;height:27px;vertical-align:middle}
 .nav.active{color:var(--green)}
-.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.cat-grid .category{aspect-ratio:1.8}
+.cat-grid{display:grid;grid-template-columns:1fr;gap:12px}.cat-grid .category{aspect-ratio:3.2}
 .category{border:0;background:#f5f7f7;border-radius:18px;padding:18px;text-align:left;font-size:17px}
 .category small{display:block;color:#777;margin-top:5px}
 
@@ -131,7 +131,11 @@ body{padding-bottom:86px}
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.8 4a6.8 6.8 0 1 0 4.25 12.1l4.43 4.43 1.42-1.42-4.43-4.43A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z"/></svg>
       <input id="search" placeholder="Search wallpapers" autocomplete="off">
     </div>
-    <button class="settings-btn" id="settingsBtn" aria-label="Settings">âš™ï¸</button>
+    <button class="settings-btn" id="settingsBtn" aria-label="Settings">
+<svg viewBox="0 0 24 24" width="23" height="23" aria-hidden="true">
+<path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.03-1.58-1.92-3.32-2.39.96a7.7 7.7 0 0 0-1.69-.98L15.1 3.5h-3.84l-.36 2.6c-.61.25-1.18.58-1.69.98l-2.39-.96L4.9 9.44l2.03 1.58c-.04.32-.08.65-.08.98s.03.66.08.98L4.9 14.56l1.92 3.32 2.39-.96c.51.4 1.08.73 1.69.98l.36 2.6h3.84l.36-2.6a7.7 7.7 0 0 0 1.69-.98l2.39.96 1.92-3.32-2.03-1.58ZM13.18 15.5A3.5 3.5 0 1 1 13.18 8a3.5 3.5 0 0 1 0 7.5Z"/>
+</svg>
+</button>
   </div>
 
   <div id="tabs" class="tabs">
@@ -141,14 +145,14 @@ body{padding-bottom:86px}
     <button data-sort="random">Random</button>
   </div>
 
-  <section id="view"><div class="loading">Loading wallpapersâ€¦</div></section>
+  <section id="view"><div class="loading">Loading wallpapers…</div></section>
 </main>
 
 <nav class="bottom">
   <div class="bottom-inner">
-    <button class="nav active" data-page="wallpaper"><span class="ico">ðŸ–¼ï¸</span>Wallpaper</button>
-    <button class="nav" data-page="category"><span class="ico">â–£</span>Category</button>
-    <button class="nav" data-page="favorite"><span class="ico">â™¡</span>Favorite</button>
+    <button class="nav active" data-page="wallpaper"><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="9" r="1.6" fill="currentColor"/><path d="m5.5 18 4.8-5 3.2 3 2.2-2.3 2.8 4.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Wallpaper</button>
+    <button class="nav" data-page="category"><span class="ico"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="9" y="9" width="6" height="6" fill="currentColor"/></svg></span>Category</button>
+    <button class="nav" data-page="favorite"><span class="ico"><svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5.3-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.9A4.4 4.4 0 0 1 11 6.3a4.4 4.4 0 0 1 9.8 2.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>Favorite</button>
   </div>
 </nav>
 
@@ -161,20 +165,20 @@ body{padding-bottom:86px}
 <div class="viewer" id="viewer" aria-hidden="true">
   <div class="viewer-top">
     <div class="viewer-title" id="viewerTitle"></div>
-    <button class="viewer-close" id="viewerClose" aria-label="Close">âœ•</button>
+    <button class="viewer-close" id="viewerClose" aria-label="Close">&#10005;</button>
   </div>
 
   <div class="viewer-stage" id="viewerStage">
     <div class="slides" id="slides"></div>
-    <button class="viewer-arrow viewer-prev" id="viewerPrev" aria-label="Previous">â€¹</button>
-    <button class="viewer-arrow viewer-next" id="viewerNext" aria-label="Next">â€º</button>
+    <button class="viewer-arrow viewer-prev" id="viewerPrev" aria-label="Previous">&#8249;</button>
+    <button class="viewer-arrow viewer-next" id="viewerNext" aria-label="Next">&#8250;</button>
   </div>
 
   <div class="viewer-bottom">
     <div class="viewer-info"><span id="viewerCounter"></span></div>
     <div class="viewer-actions">
-      <a id="viewerDownload" href="#" target="_blank" rel="noopener">â¬‡ Download</a>
-      <button id="viewerFavorite">â™¡ Favorite</button>
+      <a id="viewerDownload" href="#" target="_blank" rel="noopener">&#8595; Download</a>
+      <button id="viewerFavorite">&#9825; Favorite</button>
     </div>
   </div>
 </div>
@@ -247,7 +251,7 @@ function render(){
     : getDisplayArray();
 
   if(page==="favorite" && !arr.length){
-    v.innerHTML='<div class="empty">No favorite wallpapers yet â¤ï¸</div>';
+    v.innerHTML='<div class="empty">No favorite wallpapers yet.</div>';
     return;
   }
 
@@ -266,7 +270,7 @@ function render(){
     c.innerHTML=
       '<img loading="lazy" decoding="async" src="'+escapeHtml(x.url)+'" alt="'+escapeHtml(x.name)+'">'+
       '<div class="shade"></div>'+
-      '<button class="fav" aria-label="Favorite">'+(favorites.has(x.id)?"â™¥":"â™¡")+'</button>'+
+      '<button class="fav" aria-label="Favorite">'+(favorites.has(x.id)?"&#9829;":"&#9825;")+'</button>'+
       '<div class="meta"><div class="title">'+escapeHtml(x.name)+'</div>'+
       '<div class="sub">'+escapeHtml(x.category)+'</div></div>';
 
@@ -292,7 +296,7 @@ function renderCategories(v){
 
   const header=document.createElement("div");
   header.style.cssText="display:flex;align-items:center;gap:10px;margin:4px 0 14px";
-  header.innerHTML='<button id="catBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:#333">â€¹</button><div style="font-size:25px;font-weight:600">Category</div>';
+  header.innerHTML='<button id="catBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:#333">&#8249;</button><div style="font-size:25px;font-weight:600">Category</div>';
   v.appendChild(header);
   header.querySelector("#catBack").onclick=()=>setPage("wallpaper");
 
@@ -301,7 +305,7 @@ function renderCategories(v){
 
   categories.forEach(cat=>{
     const name=typeof cat==="string"?cat:(cat.name||"");
-    const items=wallpapers.filter(x=>String(x.category||"").toLowerCase()===name.toLowerCase());
+    const items=wallpapers.filter(x=>String(x.category||"").trim().toLowerCase()===String(name||"").trim().toLowerCase());
     const cover=items[0]?.url || "";
     const b=document.createElement("button");
     b.className="category";
@@ -329,7 +333,7 @@ function renderCategoryWallpapers(v){
   const q=el("search").value.trim().toLowerCase();
 
   const arr=wallpapers.filter(x=>{
-    const same=String(x.category||"").toLowerCase()===String(name).toLowerCase();
+    const same=String(x.category||"").trim().toLowerCase()===String(name).trim().toLowerCase();
     const text=(x.name+" "+x.category).toLowerCase();
     return same && text.includes(q);
   });
@@ -337,9 +341,9 @@ function renderCategoryWallpapers(v){
   const header=document.createElement("div");
   header.style.cssText="display:flex;align-items:center;gap:10px;margin:2px 0 14px";
   header.innerHTML=
-    '<button id="catWallBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:#333">â€¹</button>'+
+    '<button id="catWallBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:#333">&#8249;</button>'+
     '<div style="font-size:23px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+escapeHtml(name)+'</div>'+
-    '<button id="catWallSearch" style="border:0;background:none;font-size:24px">âŒ•</button>';
+    '<button id="catWallSearch" style="border:0;background:none;font-size:24px">&#128269;</button>';
   v.appendChild(header);
 
   header.querySelector("#catWallBack").onclick=()=>{
@@ -348,7 +352,7 @@ function renderCategoryWallpapers(v){
     render();
     window.scrollTo({top:0,behavior:"smooth"});
   };
-  header.querySelector("#catWallSearch").onclick=()=>el("search").focus();
+  header.querySelector("#catWallSearch").onclick=()=>{ el("search").focus(); };
 
   if(!arr.length){
     const e=document.createElement("div");
@@ -367,7 +371,7 @@ function renderCategoryWallpapers(v){
     c.innerHTML=
       '<img loading="lazy" decoding="async" src="'+escapeHtml(x.url)+'" alt="'+escapeHtml(x.name)+'">'+
       '<div class="shade"></div>'+
-      '<button class="fav" aria-label="Favorite">'+(favorites.has(x.id)?"â™¥":"â™¡")+'</button>'+
+      '<button class="fav" aria-label="Favorite">'+(favorites.has(x.id)?"&#9829;":"&#9825;")+'</button>'+
       '<div class="meta"><div class="title">'+escapeHtml(x.name)+'</div>'+
       '<div class="sub">'+escapeHtml(x.category)+'</div></div>';
 
@@ -454,7 +458,7 @@ function updateViewer(animate=true){
   el("viewerDownload").href=x.download||x.url;
 
   const fav=el("viewerFavorite");
-  fav.textContent=favorites.has(x.id)?"â™¥ Remove":"â™¡ Favorite";
+  fav.textContent=favorites.has(x.id)?"&#9829; Remove":"&#9825; Favorite";
 
   loadNearby();
 }
@@ -485,7 +489,7 @@ el("viewerFavorite").onclick=()=>{
 
   favorites.has(x.id)?favorites.delete(x.id):favorites.add(x.id);
   saveFav();
-  el("viewerFavorite").textContent=favorites.has(x.id)?"â™¥ Remove":"â™¡ Favorite";
+  el("viewerFavorite").textContent=favorites.has(x.id)?"&#9829; Remove":"&#9825; Favorite";
   render();
 };
 
@@ -549,7 +553,7 @@ document.addEventListener("keydown",e=>{
 function openSettings(){
   el("panel").innerHTML=
     '<div class="handle"></div>'+
-    '<button class="close" id="close">âœ•</button>'+
+    '<button class="close" id="close">&#10005;</button>'+
     '<h2>Settings</h2>'+
     '<div class="settings-row">'+
       '<div><b>Display Wallpaper</b>'+
@@ -595,10 +599,9 @@ async function loadData(){
   }catch(e){
     console.error("Wallpaper API error:",e);
 
-    /* Keep the UI usable if the API is temporarily unavailable. */
-    wallpapers=demo;
-    categories=[...new Set(demo.map(x=>x.category))].map(name=>({name}));
-    render();
+    wallpapers=[];
+    categories=[];
+    el("view").innerHTML='<div class="empty">Unable to load wallpapers. Please try again.</div>';
   }
 }
 
