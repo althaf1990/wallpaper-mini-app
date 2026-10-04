@@ -1,188 +1,34 @@
 <!doctype html>
 <html lang="en">
 <head>
-
 <meta charset="utf-8">
-
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
-
-<title>Wallpaper App</title>
+<title>Wallpaper App Bot</title>
 
 <style>
-
-/* =========================================================
-   ROOT
-========================================================= */
-
 :root{
   --green:#4caf50;
   --green2:#dff8e2;
-
-  --bg:#ffffff;
-  --surface:#ffffff;
-  --surface2:#f5f7f7;
-
+  --bg:#fff;
+  --surface:#fff;
   --text:#303038;
   --muted:#777;
   --line:#ececec;
-
-  --navbg:#f1f8fc;
+  --nav:#f1f8fc;
+  --input:#e5f9e7;
 }
-
-
-/* =========================================================
-   DARK THEME
-========================================================= */
-
-html.dark{
-  --bg:#101010;
-  --surface:#181818;
-  --surface2:#222222;
-
-  --text:#f1f1f1;
-  --muted:#a7a7a7;
-  --line:#303030;
-
-  --navbg:#181818;
-  --green2:#203d24;
-}
-
-html.dark body{
-  background:var(--bg);
-  color:var(--text);
-}
-
-html.dark .search{
-  background:#202b21;
-}
-
-html.dark .search input{
-  color:#fff;
-}
-
-html.dark .search input::placeholder{
-  color:#aaa;
-}
-
-html.dark .settings-btn{
-  background:#222;
-  color:#fff;
-}
-
-html.dark .tabs button{
-  color:#aaa;
-}
-
-html.dark .tabs button.active{
-  color:var(--green);
-}
-
-html.dark .category{
-  background:#222;
-  color:#fff;
-}
-
-html.dark .empty,
-html.dark .loading{
-  color:#aaa;
-}
-
-html.dark .bottom{
-  background:#181818;
-  border-color:#303030;
-}
-
-html.dark .nav{
-  color:#aaa;
-}
-
-html.dark .nav.active{
-  color:var(--green);
-}
-
-html.dark .settings-page,
-html.dark .about-page{
-  background:var(--bg);
-}
-
-html.dark .settings-item,
-html.dark .about-item{
-  border-color:#303030;
-}
-
-html.dark .settings-item:active,
-html.dark .about-item:active{
-  background:#222;
-}
-
-html.dark .settings-icon{
-  background:#242424;
-}
-
-html.dark .back-btn{
-  color:#fff;
-}
-
-html.dark .page-title{
-  color:#fff;
-}
-
-html.dark .switch{
-  background:#444;
-}
-
-html.dark .switch.on{
-  background:#4caf50;
-}
-
-html.dark .switch-dot{
-  background:#ccc;
-}
-
-html.dark .switch.on .switch-dot{
-  background:#fff;
-}
-
-html.dark .choice button{
-  background:#222;
-  color:#ddd;
-  border-color:#444;
-}
-
-html.dark .choice button.active{
-  background:#203d24;
-  border-color:#4caf50;
-  color:#75d57b;
-}
-
-
-/* =========================================================
-   BASIC
-========================================================= */
 
 *{
   box-sizing:border-box;
 }
 
-html,
-body{
+html,body{
   margin:0;
   padding:0;
-
   background:var(--bg);
   color:var(--text);
-
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    sans-serif;
-
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   transition:
     background .2s ease,
     color .2s ease;
@@ -192,30 +38,26 @@ body{
   padding-bottom:86px;
 }
 
-button,
-input{
-  font-family:inherit;
+body.dark{
+  --bg:#101112;
+  --surface:#191a1c;
+  --text:#f4f4f4;
+  --muted:#aaa;
+  --line:#303236;
+  --nav:#181a1c;
+  --input:#202d23;
+  --green2:#243d28;
 }
 
-button{
-  -webkit-tap-highlight-color:transparent;
-}
-
-
-/* =========================================================
+/* =========================
    APP
-========================================================= */
+========================= */
 
 .app{
   max-width:900px;
   margin:auto;
   padding:14px;
 }
-
-
-/* =========================================================
-   TOP SEARCH
-========================================================= */
 
 .topline{
   display:flex;
@@ -224,86 +66,60 @@ button{
 
 .search{
   height:58px;
-
   border-radius:30px;
-
-  background:#e5f9e7;
-
+  background:var(--input);
   display:flex;
   align-items:center;
-
   padding:0 18px;
-
   gap:12px;
-
   margin-bottom:14px;
 }
 
 .search input{
   border:0;
   outline:0;
-
   background:transparent;
-
   font-size:21px;
-
   width:100%;
-
   color:var(--text);
+}
+
+.search input::placeholder{
+  color:var(--muted);
 }
 
 .search svg{
   width:28px;
   height:28px;
-
-  fill:#444;
-
+  fill:var(--text);
   flex:none;
-}
-
-html.dark .search svg{
-  fill:#ddd;
 }
 
 .settings-btn{
   border:0;
-
-  background:#e8f8ea;
-
-  color:#333;
-
+  background:var(--input);
+  color:var(--text);
   border-radius:50%;
-
   width:42px;
   height:42px;
-
-  font-size:21px;
-
   flex:none;
-
+  display:flex;
+  align-items:center;
+  justify-content:center;
   cursor:pointer;
-
-  margin-bottom:14px;
 }
 
-
-/* =========================================================
+/* =========================
    TABS
-========================================================= */
+========================= */
 
 .tabs{
   display:flex;
-
   gap:26px;
-
   overflow:auto;
-
   white-space:nowrap;
-
   padding:8px 4px 12px;
-
   margin-bottom:8px;
-
   scrollbar-width:none;
 }
 
@@ -313,17 +129,11 @@ html.dark .search svg{
 
 .tabs button{
   border:0;
-
   background:none;
-
   font-size:17px;
-
-  color:#555;
-
+  color:var(--muted);
   padding:8px 0;
-
   position:relative;
-
   cursor:pointer;
 }
 
@@ -333,90 +143,63 @@ html.dark .search svg{
 
 .tabs button.active:after{
   content:"";
-
   position:absolute;
-
   left:0;
   right:0;
-
   bottom:-4px;
-
   height:3px;
-
   background:var(--green);
-
   border-radius:3px;
 }
 
-
-/* =========================================================
+/* =========================
    GRID
-========================================================= */
+========================= */
 
 .grid{
   display:grid;
-
-  grid-template-columns:
-    repeat(3,minmax(0,1fr));
-
+  grid-template-columns:repeat(3,minmax(0,1fr));
   gap:12px;
 }
 
 .grid.two{
-  grid-template-columns:
-    repeat(2,minmax(0,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr));
 }
 
 .card{
   position:relative;
-
   aspect-ratio:.68;
-
   border-radius:18px;
-
   overflow:hidden;
-
   background:#eee;
-
   cursor:pointer;
-
   contain:content;
 }
 
 .card img{
   width:100%;
   height:100%;
-
   object-fit:cover;
-
   display:block;
-
   background:#eee;
 }
 
 .shade{
   position:absolute;
-
   inset:45% 0 0;
-
-  background:
-    linear-gradient(
-      transparent,
-      rgba(0,0,0,.7)
-    );
-
+  background:linear-gradient(
+    transparent,
+    rgba(0,0,0,.7)
+  );
   pointer-events:none;
 }
 
 .meta{
   position:absolute;
-
   left:12px;
   right:10px;
   bottom:10px;
-
   color:#fff;
-
   pointer-events:none;
 }
 
@@ -427,119 +210,80 @@ html.dark .search svg{
 
 .sub{
   font-size:13px;
-
   opacity:.9;
-
   margin-top:3px;
 }
 
 .fav{
   position:absolute;
-
   right:9px;
   top:9px;
-
   width:38px;
   height:38px;
-
   border:0;
-
   border-radius:50%;
-
   background:rgba(255,255,255,.88);
-
+  color:#111;
   font-size:21px;
-
   z-index:2;
-
   cursor:pointer;
 }
 
-
-/* =========================================================
-   EMPTY / LOADING
-========================================================= */
-
 .empty{
   text-align:center;
-
   color:var(--muted);
-
   padding:50px 15px;
 }
 
 .loading{
   text-align:center;
-
   color:var(--muted);
-
   padding:30px;
 }
 
-
-/* =========================================================
+/* =========================
    BOTTOM NAV
-========================================================= */
+========================= */
 
 .bottom{
   position:fixed;
-
   left:0;
   right:0;
   bottom:0;
-
-  background:var(--navbg);
-
-  border-top:1px solid #e7eef1;
-
+  background:var(--nav);
+  border-top:1px solid var(--line);
   height:76px;
-
   display:flex;
-
   justify-content:center;
-
   z-index:20;
 }
 
 .bottom-inner{
   width:min(900px,100%);
-
   display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
+  grid-template-columns:repeat(3,1fr);
   align-items:center;
 }
 
 .nav{
   border:0;
-
   background:none;
-
-  color:#45454c;
-
+  color:var(--text);
   font-size:15px;
-
   text-align:center;
-
   height:100%;
-
   cursor:pointer;
 }
 
 .nav .ico{
   display:block;
-
   height:30px;
-
   line-height:30px;
 }
 
 .nav .ico svg{
   width:27px;
   height:27px;
-
   vertical-align:middle;
 }
 
@@ -547,555 +291,292 @@ html.dark .search svg{
   color:var(--green);
 }
 
-
-/* =========================================================
+/* =========================
    CATEGORY
-========================================================= */
+========================= */
 
 .cat-grid{
   display:grid;
-
   grid-template-columns:1fr;
-
   gap:12px;
 }
 
 .category{
   border:0;
-
   background:#f5f7f7;
-
   border-radius:18px;
-
   padding:18px;
-
   text-align:left;
-
   font-size:17px;
-
   cursor:pointer;
 }
 
 .category small{
   display:block;
-
   color:#777;
-
   margin-top:5px;
 }
 
+/* =========================
+   FULL SCREEN SETTINGS
+========================= */
 
-/* =========================================================
-   FULL PAGE SETTINGS
-========================================================= */
-
-.settings-page,
-.about-page{
-  min-height:
-    calc(100vh - 100px);
-
+.settings-page{
+  position:fixed;
+  inset:0;
   background:var(--bg);
-
   color:var(--text);
-
-  padding-bottom:30px;
+  z-index:200;
+  display:none;
+  flex-direction:column;
+  overflow:auto;
 }
 
-
-/* HEADER */
-
-.page-header{
+.settings-page.show{
   display:flex;
-
-  align-items:center;
-
-  gap:8px;
-
-  height:58px;
-
-  margin-bottom:8px;
 }
 
-.back-btn{
+.settings-header{
+  height:70px;
+  min-height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 16px;
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+}
+
+.settings-header-title{
+  font-size:24px;
+  font-weight:700;
+}
+
+.settings-close{
   width:44px;
   height:44px;
-
   border:0;
-
-  background:transparent;
-
-  color:var(--text);
-
-  font-size:32px;
-
-  line-height:1;
-
   border-radius:50%;
-
-  cursor:pointer;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-}
-
-.back-btn:active{
-  background:var(--surface2);
-}
-
-.page-title{
-  font-size:22px;
-
-  font-weight:600;
-
-  color:var(--text);
-}
-
-
-/* SETTINGS ITEM */
-
-.settings-list{
-  display:flex;
-
-  flex-direction:column;
-}
-
-.settings-item{
-  width:100%;
-
-  min-height:74px;
-
-  border:0;
-
-  border-bottom:1px solid var(--line);
-
-  background:transparent;
-
-  color:var(--text);
-
-  display:flex;
-
-  align-items:center;
-
-  gap:14px;
-
-  padding:13px 4px;
-
-  text-align:left;
-
+  background:#eee;
+  color:#222;
+  font-size:24px;
   cursor:pointer;
 }
 
-.settings-item:active{
-  background:var(--surface2);
-}
-
-.settings-icon{
-  width:43px;
-  height:43px;
-
-  min-width:43px;
-
-  border-radius:50%;
-
-  background:#f1f3f3;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-}
-
-.settings-icon svg{
-  width:23px;
-  height:23px;
-
-  fill:none;
-
-  stroke:currentColor;
-
-  stroke-width:1.8;
+body.dark .settings-close{
+  background:#292b2e;
+  color:#fff;
 }
 
 .settings-content{
-  flex:1;
-
-  min-width:0;
+  width:min(900px,100%);
+  margin:auto;
+  padding:18px 16px 40px;
 }
 
-.settings-title{
-  font-size:16px;
-
-  font-weight:600;
-
-  color:var(--text);
-
-  line-height:1.3;
+.settings-section{
+  margin-bottom:24px;
 }
 
-.settings-sub{
+.settings-section-title{
   font-size:13px;
-
   color:var(--muted);
-
-  margin-top:4px;
-
-  line-height:1.35;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  margin:8px 2px 8px;
 }
 
-.settings-right{
-  flex:none;
-
-  color:var(--muted);
-
-  font-size:14px;
-}
-
-
-/* =========================================================
-   SWITCH
-========================================================= */
-
-.switch{
-  width:48px;
-  height:28px;
-
-  border-radius:20px;
-
-  background:#ddd;
-
-  padding:3px;
-
-  transition:.2s;
-
-  flex:none;
-}
-
-.switch-dot{
-  display:block;
-
-  width:22px;
-  height:22px;
-
-  border-radius:50%;
-
-  background:#fff;
-
-  box-shadow:
-    0 1px 3px rgba(0,0,0,.25);
-
-  transform:translateX(0);
-
-  transition:.2s;
-}
-
-.switch.on{
-  background:#4caf50;
-}
-
-.switch.on .switch-dot{
-  transform:
-    translateX(20px);
-}
-
-
-/* =========================================================
-   DISPLAY CHOICE
-========================================================= */
-
-.choice{
+.settings-item{
   display:flex;
-
-  gap:7px;
-}
-
-.choice button{
-  min-width:40px;
-
-  height:34px;
-
-  padding:0 10px;
-
-  border:1px solid #ddd;
-
-  border-radius:10px;
-
-  background:#fff;
-
-  color:#555;
-
-  cursor:pointer;
-}
-
-.choice button.active{
-  background:var(--green2);
-
-  border-color:#9ad7a0;
-
-  color:#277b2e;
-}
-
-
-/* =========================================================
-   ABOUT PAGE
-========================================================= */
-
-.about-content{
-  padding:8px 4px 30px;
-}
-
-.about-item{
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
   padding:18px 0;
-
   border-bottom:1px solid var(--line);
 }
 
-.about-title{
-  font-size:17px;
-
-  font-weight:600;
-
-  color:var(--text);
-
-  margin-bottom:8px;
+.settings-item-left{
+  min-width:0;
 }
 
-.about-text{
+.settings-item-title{
+  font-size:18px;
+  font-weight:650;
+}
+
+.settings-item-sub{
   color:var(--muted);
-
   font-size:14px;
-
-  line-height:1.55;
+  margin-top:5px;
 }
 
-.about-logo{
-  width:76px;
-  height:76px;
-
-  border-radius:20px;
-
-  background:var(--green2);
-
+.settings-choice{
   display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  margin:12px 0 20px;
+  gap:8px;
+  flex:none;
 }
 
-.about-logo svg{
-  width:40px;
-  height:40px;
-
-  stroke:var(--green);
-
-  fill:none;
-
-  stroke-width:1.7;
-}
-
-
-/* =========================================================
-   VIDEO
-========================================================= */
-
-.video-grid{
-  display:grid;
-
-  grid-template-columns:
-    repeat(2,minmax(0,1fr));
-
-  gap:12px;
-}
-
-.video-card{
-  position:relative;
-
-  aspect-ratio:.68;
-
-  border-radius:18px;
-
-  overflow:hidden;
-
-  background:#111;
-
+.settings-choice button{
+  min-width:58px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--text);
+  border-radius:13px;
+  padding:10px 15px;
+  font-size:15px;
   cursor:pointer;
 }
 
-.video-card img{
-  width:100%;
-  height:100%;
-
-  object-fit:cover;
-
-  display:block;
+.settings-choice button.active{
+  background:var(--green2);
+  border-color:#9ad7a0;
+  color:#277b2e;
 }
 
-.video-card .play{
-  position:absolute;
-
-  left:50%;
-  top:50%;
-
-  transform:
-    translate(-50%,-50%);
-
-  width:58px;
-  height:58px;
-
-  border-radius:50%;
-
+.settings-about-button{
+  width:100%;
   border:0;
-
-  background:rgba(255,255,255,.9);
-
-  font-size:27px;
-}
-
-.video-card .vmeta{
-  position:absolute;
-
-  left:12px;
-  right:10px;
-  bottom:10px;
-
-  color:#fff;
-
-  text-shadow:
-    0 1px 4px #000;
-}
-
-.video-viewer{
-  position:fixed;
-
-  inset:0;
-
-  background:#000;
-
-  z-index:100;
-
-  display:none;
-
-  flex-direction:column;
-}
-
-.video-viewer.show{
+  background:transparent;
+  color:var(--text);
+  padding:18px 0;
   display:flex;
-}
-
-.video-viewer video{
-  width:100%;
-  height:100%;
-
-  object-fit:contain;
-}
-
-.video-top{
-  position:absolute;
-
-  top:0;
-  left:0;
-  right:0;
-
-  z-index:2;
-
-  display:flex;
-
-  justify-content:space-between;
-
   align-items:center;
-
-  padding:16px;
-
-  background:
-    linear-gradient(
-      #000b,
-      transparent
-    );
+  justify-content:space-between;
+  text-align:left;
+  cursor:pointer;
+  border-bottom:1px solid var(--line);
 }
 
-.video-top button{
+.settings-about-arrow{
+  font-size:28px;
+  color:var(--muted);
+}
+
+/* =========================
+   ABOUT PAGE
+========================= */
+
+.about-page{
+  position:fixed;
+  inset:0;
+  background:var(--bg);
+  color:var(--text);
+  z-index:210;
+  display:none;
+  flex-direction:column;
+  overflow:auto;
+}
+
+.about-page.show{
+  display:flex;
+}
+
+.about-header{
+  height:70px;
+  min-height:70px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 16px;
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+}
+
+.about-back{
+  width:44px;
+  height:44px;
   border:0;
-
-  background:#ffffff22;
-
-  color:#fff;
-
   border-radius:50%;
-
-  width:42px;
-  height:42px;
-
-  font-size:24px;
+  background:#eee;
+  color:#222;
+  font-size:30px;
+  cursor:pointer;
 }
 
-.video-title{
+body.dark .about-back{
+  background:#292b2e;
   color:#fff;
-
-  font-size:18px;
-
-  font-weight:600;
 }
 
-.video-download{
-  position:absolute;
-
-  left:16px;
-  right:16px;
-  bottom:20px;
-
-  z-index:2;
+.about-title{
+  font-size:24px;
+  font-weight:700;
 }
 
-.video-download a{
-  display:block;
+.about-content{
+  width:min(900px,100%);
+  margin:auto;
+  padding:28px 20px 50px;
+}
 
+.about-logo{
+  width:82px;
+  height:82px;
+  border-radius:22px;
+  background:var(--green2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:10px auto 18px;
+}
+
+.about-logo svg{
+  width:45px;
+  height:45px;
+  fill:var(--green);
+}
+
+.about-name{
   text-align:center;
-
-  text-decoration:none;
-
-  background:#eaf8ec;
-
-  color:#247a2a;
-
-  padding:13px;
-
-  border-radius:14px;
+  font-size:27px;
+  font-weight:750;
 }
 
-.video-empty{
+.about-version{
   text-align:center;
-
-  color:#777;
-
-  padding:50px 15px;
+  color:var(--muted);
+  margin-top:5px;
 }
 
+.about-card{
+  margin-top:30px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  border-radius:18px;
+  padding:20px;
+}
 
-/* =========================================================
-   FULL SCREEN VIEWER
-========================================================= */
+.about-card h3{
+  margin:0 0 10px;
+  font-size:19px;
+}
+
+.about-card p{
+  margin:0;
+  line-height:1.65;
+  color:var(--muted);
+}
+
+.copyright{
+  margin-top:30px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+}
+
+/* =========================
+   VIEWER
+========================= */
 
 .viewer{
   position:fixed;
-
   inset:0;
-
   background:#000;
-
   z-index:100;
-
   display:none;
-
   flex-direction:column;
-
   color:#fff;
-
   touch-action:none;
 }
 
@@ -1105,143 +586,92 @@ html.dark .search svg{
 
 .viewer-top{
   height:64px;
-
   display:flex;
-
   align-items:center;
-
   justify-content:space-between;
-
   padding:8px 12px;
-
   flex:none;
-
-  background:
-    linear-gradient(
-      rgba(0,0,0,.65),
-      transparent
-    );
-
+  background:linear-gradient(
+    rgba(0,0,0,.65),
+    transparent
+  );
   position:absolute;
-
   left:0;
   right:0;
   top:0;
-
   z-index:5;
 }
 
 .viewer-title{
   font-size:16px;
-
   font-weight:600;
-
   max-width:70%;
-
   white-space:nowrap;
-
   overflow:hidden;
-
   text-overflow:ellipsis;
 }
 
 .viewer-close{
   width:42px;
   height:42px;
-
   border:0;
-
   border-radius:50%;
-
   background:rgba(255,255,255,.15);
-
   color:#fff;
-
   font-size:23px;
 }
 
 .viewer-stage{
   flex:1;
-
   min-height:0;
-
   position:relative;
-
   overflow:hidden;
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
 }
 
 .slides{
   width:100%;
   height:100%;
-
   display:flex;
-
   will-change:transform;
-
-  transform:
-    translate3d(0,0,0);
+  transform:translate3d(0,0,0);
 }
 
 .slide{
   flex:0 0 100%;
-
   width:100%;
   height:100%;
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
   padding:72px 12px 120px;
 }
 
 .slide img{
   max-width:100%;
   max-height:100%;
-
   width:auto;
   height:auto;
-
   object-fit:contain;
-
   border-radius:10px;
-
   display:block;
-
   user-select:none;
-
   -webkit-user-drag:none;
 }
 
 .viewer-arrow{
   position:absolute;
-
   top:50%;
-
-  transform:
-    translateY(-50%);
-
+  transform:translateY(-50%);
   width:44px;
   height:44px;
-
   border:0;
-
   border-radius:50%;
-
   background:rgba(255,255,255,.16);
-
   color:#fff;
-
   font-size:28px;
-
   z-index:4;
 }
 
@@ -1255,58 +685,40 @@ html.dark .search svg{
 
 .viewer-bottom{
   position:absolute;
-
   left:0;
   right:0;
   bottom:0;
-
   z-index:5;
-
   padding:10px 12px 18px;
-
-  background:
-    linear-gradient(
-      transparent,
-      rgba(0,0,0,.82)
-    );
+  background:linear-gradient(
+    transparent,
+    rgba(0,0,0,.82)
+  );
 }
 
 .viewer-info{
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
   margin-bottom:10px;
-
   font-size:13px;
 }
 
 .viewer-actions{
   display:flex;
-
   gap:10px;
 }
 
 .viewer-actions a,
 .viewer-actions button{
   flex:1;
-
   padding:13px;
-
   border:0;
-
   border-radius:14px;
-
   text-align:center;
-
   text-decoration:none;
-
   font-size:15px;
-
   background:#eaf8ec;
-
   color:#247a2a;
 }
 
@@ -1317,14 +729,132 @@ html.dark .search svg{
 .viewer-stage,
 .viewer-stage *{
   user-select:none;
-
   -webkit-user-select:none;
 }
 
+/* =========================
+   VIDEO
+========================= */
 
-/* =========================================================
+.video-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.video-card{
+  position:relative;
+  aspect-ratio:.68;
+  border-radius:18px;
+  overflow:hidden;
+  background:#111;
+  cursor:pointer;
+}
+
+.video-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.video-card .play{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  border:0;
+  background:rgba(255,255,255,.9);
+  font-size:27px;
+}
+
+.video-card .vmeta{
+  position:absolute;
+  left:12px;
+  right:10px;
+  bottom:10px;
+  color:#fff;
+  text-shadow:0 1px 4px #000;
+}
+
+.video-viewer{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:100;
+  display:none;
+  flex-direction:column;
+}
+
+.video-viewer.show{
+  display:flex;
+}
+
+.video-viewer video{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.video-top{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  z-index:2;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px;
+  background:linear-gradient(#000b,transparent);
+}
+
+.video-top button{
+  border:0;
+  background:#ffffff22;
+  color:#fff;
+  border-radius:50%;
+  width:42px;
+  height:42px;
+  font-size:24px;
+}
+
+.video-title{
+  color:#fff;
+  font-size:18px;
+  font-weight:600;
+}
+
+.video-download{
+  position:absolute;
+  left:16px;
+  right:16px;
+  bottom:20px;
+  z-index:2;
+}
+
+.video-download a{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#eaf8ec;
+  color:#247a2a;
+  padding:13px;
+  border-radius:14px;
+}
+
+.video-empty{
+  text-align:center;
+  color:#777;
+  padding:50px 15px;
+}
+
+/* =========================
    MOBILE
-========================================================= */
+========================= */
 
 @media(max-width:480px){
 
@@ -1361,109 +891,63 @@ html.dark .search svg{
     padding-right:7px;
   }
 
-  .page-title{
-    font-size:21px;
+  .settings-header-title,
+  .about-title{
+    font-size:23px;
+  }
+
+  .settings-content{
+    padding:15px;
+  }
+
+  .settings-item-title{
+    font-size:17px;
+  }
+
+  .settings-item-sub{
+    font-size:13px;
+  }
+
+  .settings-choice button{
+    min-width:52px;
+    padding:9px 12px;
   }
 
 }
-
-
-/* =========================================================
-   DARK THEME SYSTEM BAR
-========================================================= */
-
-html.dark{
-  color-scheme:dark;
-}
-
 </style>
-
 </head>
 
 <body>
 
 <main class="app">
 
-  <!-- =====================================================
-       HOME TOP
-  ====================================================== -->
+  <!-- SEARCH -->
 
   <div class="topline">
 
-    <div class="search"
-         style="flex:1;margin-right:10px">
+    <div class="search" style="flex:1;margin-right:10px">
 
-      <svg viewBox="0 0 24 24"
-           aria-hidden="true">
-
-        <path d="
-          M10.8 4
-          a6.8 6.8 0 1 0
-          4.25 12.1
-          l4.43 4.43
-          1.42-1.42
-          -4.43-4.43
-          A6.8 6.8 0 0 0
-          10.8 4Zm0 2
-          a4.8 4.8 0 1 1
-          0 9.6
-          4.8 4.8 0 0 1
-          0-9.6Z"/>
-
+      <svg viewBox="0 0 24 24">
+        <path d="M10.8 4a6.8 6.8 0 1 0 4.25 12.1l4.43 4.43 1.42-1.42-4.43-4.43A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z"/>
       </svg>
 
       <input
         id="search"
         placeholder="Search wallpapers"
-        autocomplete="off">
+        autocomplete="off"
+      >
 
     </div>
-
-
-    <!-- SETTINGS -->
 
     <button
       class="settings-btn"
       id="settingsBtn"
-      aria-label="Settings">
+      aria-label="Settings"
+    >
 
-      <svg viewBox="0 0 24 24"
-           width="23"
-           height="23"
-           aria-hidden="true">
+      <svg viewBox="0 0 24 24">
 
-        <path d="
-          M19.43 12.98
-          c.04-.32.07-.65.07-.98
-          s-.02-.66-.07-.98
-          l2.03-1.58
-          -1.92-3.32
-          -2.39.96
-          a7.7 7.7 0 0 0-1.69-.98
-          L15.1 3.5
-          h-3.84
-          l-.36 2.6
-          c-.61.25-1.18.58-1.69.98
-          l-2.39-.96
-          L4.9 9.44
-          l2.03 1.58
-          c-.04.32-.08.65-.08.98
-          s.03.66.08.98
-          L4.9 14.56
-          l1.92 3.32
-          2.39-.96
-          c.51.4 1.08.73 1.69.98
-          l.36 2.6
-          h3.84
-          l.36-2.6
-          a7.7 7.7 0 0 0 1.69-.98
-          l2.39.96
-          1.92-3.32
-          -2.03-1.58ZM13.18 15.5
-          A3.5 3.5 0 1 1
-          13.18 8
-          a3.5 3.5 0 0 1
-          0 7.5Z"/>
+        <path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.03-1.58-1.92-3.32-2.39.96a7.7 7.7 0 0 0-1.69-.98L15.1 3.5h-3.84l-.36 2.6c-.61.25-1.18.58-1.69.98l-2.39-.96L4.9 9.44l2.03 1.58c-.04.32-.08.65-.08.98s.03.66.08.98L4.9 14.56l1.92 3.32 2.39-.96c.51.4 1.08.73 1.69.98l.36 2.6h3.84l.36-2.6a7.7 7.7 0 0 0 1.69-.98l2.39.96 1.92-3.32-2.03-1.58ZM13.18 15.5A3.5 3.5 0 1 1 13.18 8a3.5 3.5 0 0 1 0 7.5Z"/>
 
       </svg>
 
@@ -1472,14 +956,11 @@ html.dark{
   </div>
 
 
-  <!-- =====================================================
-       TABS
-  ====================================================== -->
+  <!-- TABS -->
 
   <div id="tabs" class="tabs">
 
-    <button class="active"
-            data-sort="recent">
+    <button class="active" data-sort="recent">
       Recent
     </button>
 
@@ -1498,9 +979,7 @@ html.dark{
   </div>
 
 
-  <!-- =====================================================
-       MAIN VIEW
-  ====================================================== -->
+  <!-- MAIN VIEW -->
 
   <section id="view">
 
@@ -1513,20 +992,18 @@ html.dark{
 </main>
 
 
-<!-- =======================================================
+<!-- =========================
      BOTTOM NAV
-======================================================== -->
+========================= -->
 
 <nav class="bottom">
 
   <div class="bottom-inner">
 
-
-    <!-- WALLPAPER -->
-
     <button
       class="nav active"
-      data-page="wallpaper">
+      data-page="wallpaper"
+    >
 
       <span class="ico">
 
@@ -1536,26 +1013,24 @@ html.dark{
             d="M4 4h16v16H4z"
             fill="none"
             stroke="currentColor"
-            stroke-width="1.8"/>
+            stroke-width="1.8"
+          />
 
           <circle
             cx="9"
             cy="9"
             r="1.6"
-            fill="currentColor"/>
+            fill="currentColor"
+          />
 
           <path
-            d="
-              m5.5 18
-              4.8-5
-              3.2 3
-              2.2-2.3
-              2.8 4.3"
+            d="m5.5 18 4.8-5 3.2 3 2.2-2.3 2.8 4.3"
             fill="none"
             stroke="currentColor"
             stroke-width="1.8"
             stroke-linecap="round"
-            stroke-linejoin="round"/>
+            stroke-linejoin="round"
+          />
 
         </svg>
 
@@ -1566,11 +1041,10 @@ html.dark{
     </button>
 
 
-    <!-- CATEGORY -->
-
     <button
       class="nav"
-      data-page="category">
+      data-page="category"
+    >
 
       <span class="ico">
 
@@ -1584,14 +1058,16 @@ html.dark{
             rx="2"
             fill="none"
             stroke="currentColor"
-            stroke-width="1.8"/>
+            stroke-width="1.8"
+          />
 
           <rect
             x="9"
             y="9"
             width="6"
             height="6"
-            fill="currentColor"/>
+            fill="currentColor"
+          />
 
         </svg>
 
@@ -1602,29 +1078,22 @@ html.dark{
     </button>
 
 
-    <!-- FAVORITE -->
-
     <button
       class="nav"
-      data-page="favorite">
+      data-page="favorite"
+    >
 
       <span class="ico">
 
         <svg viewBox="0 0 24 24">
 
           <path
-            d="
-              M20.8 8.9
-              c0 5.3-8.8 10.2-8.8 10.2
-              S3.2 14.2 3.2 8.9
-              A4.4 4.4 0 0 1
-              11 6.3
-              a4.4 4.4 0 0 1
-              9.8 2.6Z"
+            d="M20.8 8.9c0 5.3-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.9A4.4 4.4 0 0 1 11 6.3a4.4 4.4 0 0 1 9.8 2.6Z"
             fill="none"
             stroke="currentColor"
             stroke-width="1.8"
-            stroke-linejoin="round"/>
+            stroke-linejoin="round"
+          />
 
         </svg>
 
@@ -1634,36 +1103,301 @@ html.dark{
 
     </button>
 
-
   </div>
 
 </nav>
 
 
-<!-- =======================================================
-     FULL SCREEN VIEWER
-======================================================== -->
+<!-- =========================
+     FULL SCREEN SETTINGS
+========================= -->
+
+<div
+  class="settings-page"
+  id="settingsPage"
+  aria-hidden="true"
+>
+
+  <header class="settings-header">
+
+    <div class="settings-header-title">
+      Settings
+    </div>
+
+    <button
+      class="settings-close"
+      id="settingsClose"
+      aria-label="Close"
+    >
+      &#10005;
+    </button>
+
+  </header>
+
+
+  <div class="settings-content">
+
+
+    <!-- DISPLAY -->
+
+    <div class="settings-section">
+
+      <div class="settings-section-title">
+        Display
+      </div>
+
+
+      <div class="settings-item">
+
+        <div class="settings-item-left">
+
+          <div class="settings-item-title">
+            Display Wallpaper
+          </div>
+
+          <div class="settings-item-sub">
+            Choose wallpaper grid columns
+          </div>
+
+        </div>
+
+
+        <div class="settings-choice">
+
+          <button
+            data-col="2"
+            id="col2"
+          >
+            2
+          </button>
+
+          <button
+            data-col="3"
+            id="col3"
+          >
+            3
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- DARK THEME -->
+
+      <div class="settings-item">
+
+        <div class="settings-item-left">
+
+          <div class="settings-item-title">
+            Dark Theme
+          </div>
+
+          <div class="settings-item-sub">
+            Choose Light or Dark appearance
+          </div>
+
+        </div>
+
+
+        <div class="settings-choice">
+
+          <button
+            data-theme="light"
+            id="themeLight"
+          >
+            Light
+          </button>
+
+          <button
+            data-theme="dark"
+            id="themeDark"
+          >
+            Dark
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ABOUT -->
+
+    <div class="settings-section">
+
+      <div class="settings-section-title">
+        Information
+      </div>
+
+
+      <button
+        class="settings-about-button"
+        id="aboutOpen"
+      >
+
+        <div class="settings-item-left">
+
+          <div class="settings-item-title">
+            About
+          </div>
+
+          <div class="settings-item-sub">
+            App information and copyright
+          </div>
+
+        </div>
+
+
+        <span class="settings-about-arrow">
+          &#8250;
+        </span>
+
+      </button>
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     ABOUT PAGE
+========================= -->
+
+<div
+  class="about-page"
+  id="aboutPage"
+  aria-hidden="true"
+>
+
+  <header class="about-header">
+
+    <button
+      class="about-back"
+      id="aboutBack"
+      aria-label="Back"
+    >
+      &#8249;
+    </button>
+
+    <div class="about-title">
+      About
+    </div>
+
+  </header>
+
+
+  <div class="about-content">
+
+
+    <div class="about-logo">
+
+      <svg viewBox="0 0 24 24">
+
+        <path d="M4 4h16v16H4z"/>
+
+        <circle
+          cx="9"
+          cy="9"
+          r="1.5"
+          fill="#fff"
+        />
+
+        <path
+          d="m5.5 18 4.8-5 3.2 3 2.2-2.3 2.8 4.3"
+          fill="none"
+          stroke="#fff"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+      </svg>
+
+    </div>
+
+
+    <div class="about-name">
+      Wallpaper App Bot
+    </div>
+
+
+    <div class="about-version">
+      Version 1.0
+    </div>
+
+
+    <div class="about-card">
+
+      <h3>
+        About this App
+      </h3>
+
+      <p>
+        Wallpaper App Bot is a wallpaper application
+        for browsing, viewing, downloading and saving
+        your favorite wallpapers.
+      </p>
+
+    </div>
+
+
+    <div class="about-card">
+
+      <h3>
+        Features
+      </h3>
+
+      <p>
+        Browse wallpapers, search wallpapers,
+        categories, favorites, full-screen preview,
+        download wallpapers and video support.
+      </p>
+
+    </div>
+
+
+    <div class="copyright">
+
+      © 2026 Wallpaper App Bot<br>
+      All Rights Reserved.
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     FULL SCREEN IMAGE VIEWER
+========================= -->
 
 <div
   class="viewer"
   id="viewer"
-  aria-hidden="true">
-
+  aria-hidden="true"
+>
 
   <div class="viewer-top">
 
     <div
       class="viewer-title"
-      id="viewerTitle">
-    </div>
+      id="viewerTitle"
+    ></div>
+
 
     <button
       class="viewer-close"
       id="viewerClose"
-      aria-label="Close">
-
+      aria-label="Close"
+    >
       &#10005;
-
     </button>
 
   </div>
@@ -1671,29 +1405,30 @@ html.dark{
 
   <div
     class="viewer-stage"
-    id="viewerStage">
+    id="viewerStage"
+  >
 
     <div
       class="slides"
-      id="slides">
-    </div>
+      id="slides"
+    ></div>
 
 
     <button
       class="viewer-arrow viewer-prev"
-      id="viewerPrev">
-
+      id="viewerPrev"
+      aria-label="Previous"
+    >
       &#8249;
-
     </button>
 
 
     <button
       class="viewer-arrow viewer-next"
-      id="viewerNext">
-
+      id="viewerNext"
+      aria-label="Next"
+    >
       &#8250;
-
     </button>
 
   </div>
@@ -1714,18 +1449,14 @@ html.dark{
         id="viewerDownload"
         href="#"
         target="_blank"
-        rel="noopener">
-
+        rel="noopener"
+      >
         &#8595; Download
-
       </a>
 
 
-      <button
-        id="viewerFavorite">
-
+      <button id="viewerFavorite">
         ♡ Favorite
-
       </button>
 
     </div>
@@ -1735,30 +1466,29 @@ html.dark{
 </div>
 
 
-<!-- =======================================================
+<!-- =========================
      VIDEO VIEWER
-======================================================== -->
+========================= -->
 
 <div
   class="video-viewer"
   id="videoViewer"
-  aria-hidden="true">
-
+  aria-hidden="true"
+>
 
   <div class="video-top">
 
     <div
       class="video-title"
-      id="videoTitle">
-    </div>
+      id="videoTitle"
+    ></div>
 
 
     <button
       id="videoClose"
-      aria-label="Close">
-
+      aria-label="Close"
+    >
       &#10005;
-
     </button>
 
   </div>
@@ -1768,8 +1498,8 @@ html.dark{
     id="videoPlayer"
     controls
     playsinline
-    preload="metadata">
-  </video>
+    preload="metadata"
+  ></video>
 
 
   <div class="video-download">
@@ -1778,10 +1508,9 @@ html.dark{
       id="videoDownload"
       href="#"
       target="_blank"
-      rel="noopener">
-
+      rel="noopener"
+    >
       &#8595; Download
-
     </a>
 
   </div>
@@ -1790,7 +1519,6 @@ html.dark{
 
 
 <script>
-
 
 /* =========================================================
    API
@@ -1805,94 +1533,56 @@ const API_URL =
 ========================================================= */
 
 let wallpapers = [];
-
 let categories = [];
-
 let videos = [];
 
 let page = "wallpaper";
-
 let sort = "recent";
-
 let columns = 3;
 
 let categoryFilter = null;
-
 let selectedCategory = null;
-
-
-/* =========================================================
-   ELEMENT HELPER
-========================================================= */
-
-const el = id =>
-  document.getElementById(id);
 
 
 /* =========================================================
    FAVORITES
 ========================================================= */
 
-const favorites =
-  new Set(
-    JSON.parse(
-      localStorage.getItem("favorites") || "[]"
-    )
-  );
-
-
-function saveFav(){
-
-  localStorage.setItem(
-    "favorites",
-    JSON.stringify(
-      [...favorites]
-    )
-  );
-
-}
+const favorites = new Set(
+  JSON.parse(
+    localStorage.getItem("favorites") || "[]"
+  )
+);
 
 
 /* =========================================================
-   COLUMNS
+   SAVED COLUMNS
 ========================================================= */
 
 const savedCols =
   Number(
-    localStorage.getItem(
-      "wallpaperColumns"
-    )
+    localStorage.getItem("wallpaperColumns")
   );
 
-
-if(
-  savedCols === 2 ||
-  savedCols === 3
-){
-
+if(savedCols === 2 || savedCols === 3){
   columns = savedCols;
-
 }
 
 
 /* =========================================================
-   DARK THEME
+   THEME
 ========================================================= */
 
-let darkTheme =
-  localStorage.getItem(
-    "darkTheme"
-  ) === "true";
+let savedTheme =
+  localStorage.getItem("theme") || "light";
 
 
 function applyTheme(){
 
-  document.documentElement
-    .classList
-    .toggle(
-      "dark",
-      darkTheme
-    );
+  document.body.classList.toggle(
+    "dark",
+    savedTheme === "dark"
+  );
 
 
   const meta =
@@ -1900,14 +1590,47 @@ function applyTheme(){
       'meta[name="theme-color"]'
     );
 
-
   if(meta){
 
     meta.setAttribute(
       "content",
-      darkTheme
-        ? "#101010"
+      savedTheme === "dark"
+        ? "#101112"
         : "#ffffff"
+    );
+
+  }
+
+
+  updateThemeButtons();
+
+}
+
+
+function updateThemeButtons(){
+
+  const light =
+    document.getElementById("themeLight");
+
+  const dark =
+    document.getElementById("themeDark");
+
+
+  if(light){
+
+    light.classList.toggle(
+      "active",
+      savedTheme === "light"
+    );
+
+  }
+
+
+  if(dark){
+
+    dark.classList.toggle(
+      "active",
+      savedTheme === "dark"
     );
 
   }
@@ -1918,34 +1641,27 @@ function applyTheme(){
 applyTheme();
 
 
-function toggleDarkTheme(){
+/* =========================================================
+   HELPERS
+========================================================= */
 
-  darkTheme =
-    !darkTheme;
+const el = id =>
+  document.getElementById(id);
 
+
+function saveFav(){
 
   localStorage.setItem(
-    "darkTheme",
-    darkTheme
+    "favorites",
+    JSON.stringify([...favorites])
   );
-
-
-  applyTheme();
-
-  renderSettings();
 
 }
 
 
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
 function escapeHtml(s){
 
-  return String(
-    s || ""
-  ).replace(
+  return String(s || "").replace(
     /[&<>"']/g,
     m => ({
       "&":"&amp;",
@@ -1968,22 +1684,13 @@ function setPage(p){
   page = p;
 
 
-  if(
-    p !== "wallpaper" &&
-    p !== "favorite"
-  ){
-
+  if(p !== "wallpaper"){
     categoryFilter = null;
-
   }
 
 
-  if(
-    p !== "categoryWallpapers"
-  ){
-
+  if(p !== "categoryWallpapers"){
     selectedCategory = null;
-
   }
 
 
@@ -1991,21 +1698,16 @@ function setPage(p){
     .querySelectorAll(".nav")
     .forEach(b => {
 
-      const bp =
-        b.dataset.page;
-
       b.classList.toggle(
         "active",
-
         (
-          bp === "category" &&
+          b.dataset.page === "category" &&
           (
             p === "category" ||
             p === "categoryWallpapers"
           )
-        )
-        ||
-        bp === p
+        ) ||
+        b.dataset.page === p
       );
 
     });
@@ -2034,18 +1736,16 @@ function getDisplayArray(){
 
       const text =
         (
-          x.name +
+          (x.name || "") +
           " " +
-          x.category
+          (x.category || "")
         ).toLowerCase();
 
 
       return (
-        text.includes(q)
-        &&
+        text.includes(q) &&
         (
-          !categoryFilter
-          ||
+          !categoryFilter ||
           x.category === categoryFilter
         )
       );
@@ -2057,8 +1757,7 @@ function getDisplayArray(){
 
     arr =
       [...arr].sort(
-        () =>
-          Math.random() - .5
+        () => Math.random() - .5
       );
 
   }
@@ -2082,31 +1781,7 @@ function render(){
   v.innerHTML = "";
 
 
-  if(
-    page === "settings"
-  ){
-
-    renderSettings();
-
-    return;
-
-  }
-
-
-  if(
-    page === "about"
-  ){
-
-    renderAbout();
-
-    return;
-
-  }
-
-
-  if(
-    page === "category"
-  ){
+  if(page === "category"){
 
     renderCategories(v);
 
@@ -2115,9 +1790,7 @@ function render(){
   }
 
 
-  if(
-    page === "categoryWallpapers"
-  ){
+  if(page === "categoryWallpapers"){
 
     renderCategoryWallpapers(v);
 
@@ -2126,9 +1799,7 @@ function render(){
   }
 
 
-  if(
-    page === "videos"
-  ){
+  if(page === "videos"){
 
     renderVideos(v);
 
@@ -2140,8 +1811,7 @@ function render(){
   let arr =
     page === "favorite"
       ? wallpapers.filter(
-          x =>
-            favorites.has(x.id)
+          x => favorites.has(x.id)
         )
       : getDisplayArray();
 
@@ -2174,9 +1844,7 @@ function render(){
 
 
   const grid =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
 
   grid.className =
@@ -2191,13 +1859,10 @@ function render(){
   arr.forEach(x => {
 
     const c =
-      document.createElement(
-        "article"
-      );
+      document.createElement("article");
 
 
-    c.className =
-      "card";
+    c.className = "card";
 
 
     c.innerHTML =
@@ -2210,14 +1875,12 @@ function render(){
 
       '<div class="shade"></div>' +
 
-      '<button class="fav" aria-label="Favorite">' +
-
+      '<button class="fav">' +
       (
         favorites.has(x.id)
           ? "♥"
           : "♡"
       ) +
-
       '</button>' +
 
       '<div class="meta">' +
@@ -2233,47 +1896,30 @@ function render(){
       '</div>';
 
 
-    c.querySelector(
-      ".fav"
-    ).addEventListener(
-      "click",
-      e => {
+    c.querySelector(".fav")
+      .addEventListener(
+        "click",
+        e => {
 
-        e.stopPropagation();
+          e.stopPropagation();
 
 
-        if(
           favorites.has(x.id)
-        ){
+            ? favorites.delete(x.id)
+            : favorites.add(x.id);
 
-          favorites.delete(
-            x.id
-          );
 
-        }else{
+          saveFav();
 
-          favorites.add(
-            x.id
-          );
+          render();
 
         }
-
-
-        saveFav();
-
-        render();
-
-      }
-    );
+      );
 
 
     c.addEventListener(
       "click",
-      () =>
-        openViewer(
-          x,
-          arr
-        )
+      () => openViewer(x, arr)
     );
 
 
@@ -2283,474 +1929,6 @@ function render(){
 
 
   v.appendChild(grid);
-
-}
-
-
-/* =========================================================
-   SETTINGS PAGE
-========================================================= */
-
-function renderSettings(){
-
-  const v =
-    el("view");
-
-
-  v.innerHTML = "";
-
-
-  const pageBox =
-    document.createElement(
-      "div"
-    );
-
-
-  pageBox.className =
-    "settings-page";
-
-
-  pageBox.innerHTML = `
-
-    <div class="page-header">
-
-      <button
-        class="back-btn"
-        id="settingsBack"
-        aria-label="Back">
-
-        &#8249;
-
-      </button>
-
-      <div class="page-title">
-        Settings
-      </div>
-
-    </div>
-
-
-    <div class="settings-list">
-
-
-      <!-- DARK THEME -->
-
-      <button
-        class="settings-item"
-        id="darkThemeItem">
-
-        <div class="settings-icon">
-
-          <svg viewBox="0 0 24 24">
-
-            <path
-              d="
-                M20.5 15.2
-                A8.5 8.5 0 0 1
-                8.8 3.5
-                A8.5 8.5 0 1 0
-                20.5 15.2Z"/>
-
-          </svg>
-
-        </div>
-
-
-        <div class="settings-content">
-
-          <div class="settings-title">
-            Dark Theme
-          </div>
-
-          <div class="settings-sub">
-            Better for eyesight & battery life
-          </div>
-
-        </div>
-
-
-        <div
-          class="switch ${
-            darkTheme
-              ? "on"
-              : ""
-          }"
-          id="darkSwitch">
-
-          <span class="switch-dot"></span>
-
-        </div>
-
-      </button>
-
-
-      <!-- DISPLAY WALLPAPER -->
-
-      <div
-        class="settings-item"
-        style="cursor:default">
-
-        <div class="settings-icon">
-
-          <svg viewBox="0 0 24 24">
-
-            <rect
-              x="4"
-              y="4"
-              width="16"
-              height="16"
-              rx="2"/>
-
-            <path
-              d="M7 16l4-4 2.5 2.5L16 12l2 4"/>
-
-          </svg>
-
-        </div>
-
-
-        <div class="settings-content">
-
-          <div class="settings-title">
-            Display Wallpaper
-          </div>
-
-          <div class="settings-sub">
-            Choose wallpaper grid columns
-          </div>
-
-        </div>
-
-
-        <div class="choice">
-
-          <button
-            data-setting-col="2"
-            class="${
-              columns === 2
-                ? "active"
-                : ""
-            }">
-            2
-          </button>
-
-          <button
-            data-setting-col="3"
-            class="${
-              columns === 3
-                ? "active"
-                : ""
-            }">
-            3
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- ABOUT -->
-
-      <button
-        class="settings-item"
-        id="aboutItem">
-
-        <div class="settings-icon">
-
-          <svg viewBox="0 0 24 24">
-
-            <circle
-              cx="12"
-              cy="12"
-              r="9"/>
-
-            <path
-              d="M12 10v6"/>
-
-            <circle
-              cx="12"
-              cy="7"
-              r=".7"
-              fill="currentColor"
-              stroke="none"/>
-
-          </svg>
-
-        </div>
-
-
-        <div class="settings-content">
-
-          <div class="settings-title">
-            About
-          </div>
-
-          <div class="settings-sub">
-            Copyright information & app details
-          </div>
-
-        </div>
-
-
-        <div class="settings-right">
-          &#8250;
-        </div>
-
-      </button>
-
-
-    </div>
-
-  `;
-
-
-  v.appendChild(
-    pageBox
-  );
-
-
-  /* BACK */
-
-  el("settingsBack")
-    .onclick = () => {
-
-      page =
-        "wallpaper";
-
-      render();
-
-      window.scrollTo(
-        0,
-        0
-      );
-
-    };
-
-
-  /* DARK THEME */
-
-  el("darkThemeItem")
-    .onclick =
-    toggleDarkTheme;
-
-
-  /* COLUMNS */
-
-  document
-    .querySelectorAll(
-      "[data-setting-col]"
-    )
-    .forEach(btn => {
-
-      btn.onclick = () => {
-
-        columns =
-          Number(
-            btn.dataset.settingCol
-          );
-
-
-        localStorage.setItem(
-          "wallpaperColumns",
-          columns
-        );
-
-
-        renderSettings();
-
-      };
-
-    });
-
-
-  /* ABOUT */
-
-  el("aboutItem")
-    .onclick = () => {
-
-      page =
-        "about";
-
-      render();
-
-      window.scrollTo(
-        0,
-        0
-      );
-
-    };
-
-}
-
-
-/* =========================================================
-   ABOUT PAGE
-========================================================= */
-
-function renderAbout(){
-
-  const v =
-    el("view");
-
-
-  v.innerHTML = "";
-
-
-  const box =
-    document.createElement(
-      "div"
-    );
-
-
-  box.className =
-    "about-page";
-
-
-  box.innerHTML = `
-
-    <div class="page-header">
-
-      <button
-        class="back-btn"
-        id="aboutBack"
-        aria-label="Back">
-
-        &#8249;
-
-      </button>
-
-      <div class="page-title">
-        About
-      </div>
-
-    </div>
-
-
-    <div class="about-content">
-
-
-      <div class="about-logo">
-
-        <svg viewBox="0 0 24 24">
-
-          <rect
-            x="3"
-            y="3"
-            width="18"
-            height="18"
-            rx="3"/>
-
-          <circle
-            cx="8"
-            cy="8"
-            r="1.4"/>
-
-          <path
-            d="
-              M5 18
-              l5-5
-              3 3
-              2-2
-              4 4"/>
-
-        </svg>
-
-      </div>
-
-
-      <div class="about-item">
-
-        <div class="about-title">
-          Copyright Information
-        </div>
-
-        <div class="about-text">
-
-          All wallpapers that are available in
-          the App are free and their credit goes
-          to their respective owners.
-
-          <br><br>
-
-          These wallpapers are licensed under
-          the Creative Commons Zero (CC0) license.
-
-          <br><br>
-
-          Please contact us if you find any
-          wallpaper that violates any rules and
-          we will remove the wallpaper.
-
-        </div>
-
-      </div>
-
-
-      <div class="about-item">
-
-        <div class="about-title">
-          About This App
-        </div>
-
-        <div class="about-text">
-
-          Wallpaper App is a simple and fast
-          wallpaper browsing application.
-
-          <br><br>
-
-          Browse wallpapers, search for your
-          favorite wallpapers, save wallpapers
-          to favorites and download them easily.
-
-        </div>
-
-      </div>
-
-
-      <div class="about-item">
-
-        <div class="about-title">
-          App Information
-        </div>
-
-        <div class="about-text">
-
-          Wallpaper App
-
-          <br>
-
-          Version 1.0
-
-        </div>
-
-      </div>
-
-
-    </div>
-
-  `;
-
-
-  v.appendChild(
-    box
-  );
-
-
-  el("aboutBack")
-    .onclick = () => {
-
-      page =
-        "settings";
-
-      render();
-
-      window.scrollTo(
-        0,
-        0
-      );
-
-    };
 
 }
 
@@ -2774,9 +1952,7 @@ function renderCategories(v){
 
 
   const header =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
 
   header.style.cssText =
@@ -2784,201 +1960,149 @@ function renderCategories(v){
 
 
   header.innerHTML =
-
-    '<button id="catBack" ' +
-    'style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:var(--text)">' +
-    '&#8249;' +
-    '</button>' +
-
-    '<div style="font-size:25px;font-weight:600">' +
-    'Category' +
-    '</div>';
+    '<button id="catBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:var(--text)">&#8249;</button>' +
+    '<div style="font-size:25px;font-weight:600">Category</div>';
 
 
-  v.appendChild(
-    header
-  );
+  v.appendChild(header);
 
 
-  header.querySelector(
-    "#catBack"
-  ).onclick =
-    () =>
-      setPage(
-        "wallpaper"
-      );
+  header.querySelector("#catBack")
+    .onclick =
+    () => setPage("wallpaper");
 
 
   const g =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
 
-  g.className =
-    "cat-grid";
+  g.className = "cat-grid";
 
 
-  categories.forEach(
-    cat => {
+  categories.forEach(cat => {
 
-      const name =
-        typeof cat === "string"
-          ? cat
-          : (
-              cat.name ||
-              ""
-            );
+    const name =
+      typeof cat === "string"
+        ? cat
+        : (cat.name || "");
 
 
-      const isVideos =
-        String(name || "")
-          .trim()
-          .toLowerCase()
-        ===
-        "videos";
+    const isVideos =
+      String(name)
+        .trim()
+        .toLowerCase() ===
+      "videos";
 
 
-      const items =
-        isVideos
-          ? videos
-          : wallpapers.filter(
-              x =>
-                String(
-                  x.category ||
-                  ""
-                )
+    const items =
+      isVideos
+        ? videos
+        : wallpapers.filter(
+            x =>
+              String(x.category || "")
+                .trim()
+                .toLowerCase() ===
+              String(name || "")
                 .trim()
                 .toLowerCase()
-                ===
-                String(
-                  name ||
-                  ""
-                )
-                .trim()
-                .toLowerCase()
-            );
+          );
 
 
-      const cover =
+    const cover =
+      isVideos
+        ? (videos[0]?.thumb || "")
+        : (items[0]?.url || "");
+
+
+    const b =
+      document.createElement("button");
+
+
+    b.className = "category";
+
+
+    b.style.cssText =
+      "position:relative;min-height:115px;overflow:hidden;color:#fff;padding:18px;border:0;background:#ddd;text-shadow:0 1px 4px rgba(0,0,0,.5)";
+
+
+    b.innerHTML =
+
+      (
+        cover
+          ? '<img src="' +
+            escapeHtml(cover) +
+            '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0">'
+          : ""
+      ) +
+
+      '<span style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.48),rgba(0,0,0,.08));z-index:1"></span>' +
+
+      '<span style="position:relative;z-index:2;display:block">' +
+
+      '<b>' +
+      escapeHtml(name) +
+      '</b>' +
+
+      '<small style="color:#fff">' +
+      items.length +
+      (
         isVideos
-          ? (
-              videos[0]?.thumb ||
-              ""
-            )
-          : (
-              items[0]?.url ||
-              ""
-            );
+          ? " Videos"
+          : " Wallpapers"
+      ) +
+      '</small>' +
+
+      '</span>';
 
 
-      const b =
-        document.createElement(
-          "button"
+    b.onclick = () => {
+
+      if(isVideos){
+
+        page = "videos";
+
+        selectedCategory = null;
+
+        render();
+
+        window.scrollTo({
+          top:0,
+          behavior:"smooth"
+        });
+
+        return;
+
+      }
+
+
+      selectedCategory = name;
+
+      page = "categoryWallpapers";
+
+
+      document
+        .querySelectorAll(".nav")
+        .forEach(x =>
+          x.classList.toggle(
+            "active",
+            x.dataset.page === "category"
+          )
         );
 
 
-      b.className =
-        "category";
+      render();
+
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
+
+    };
 
 
-      b.style.cssText =
-        "position:relative;min-height:115px;overflow:hidden;color:#fff;padding:18px;border:0;background:#ddd;text-shadow:0 1px 4px rgba(0,0,0,.5)";
+    g.appendChild(b);
 
-
-      b.innerHTML =
-
-        (
-          cover
-            ?
-              '<img src="' +
-              escapeHtml(cover) +
-              '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0">'
-            :
-              ""
-        ) +
-
-        '<span style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.48),rgba(0,0,0,.08));z-index:1"></span>' +
-
-        '<span style="position:relative;z-index:2;display:block">' +
-
-        '<b>' +
-        escapeHtml(name) +
-        '</b>' +
-
-        '<small style="color:#fff">' +
-
-        items.length +
-
-        (
-          isVideos
-            ? " Videos"
-            : " Wallpapers"
-        ) +
-
-        '</small>' +
-
-        '</span>';
-
-
-      b.onclick =
-        () => {
-
-          if(isVideos){
-
-            page =
-              "videos";
-
-            selectedCategory =
-              null;
-
-            render();
-
-            window.scrollTo({
-              top:0,
-              behavior:"smooth"
-            });
-
-            return;
-
-          }
-
-
-          selectedCategory =
-            name;
-
-          page =
-            "categoryWallpapers";
-
-
-          document
-            .querySelectorAll(
-              ".nav"
-            )
-            .forEach(x =>
-              x.classList.toggle(
-                "active",
-                x.dataset.page ===
-                "category"
-              )
-            );
-
-
-          render();
-
-
-          window.scrollTo({
-            top:0,
-            behavior:"smooth"
-          });
-
-        };
-
-
-      g.appendChild(b);
-
-    }
-  );
+  });
 
 
   v.appendChild(g);
@@ -2993,9 +2117,7 @@ function renderCategories(v){
 function renderVideos(v){
 
   const header =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
 
   header.style.cssText =
@@ -3003,28 +2125,19 @@ function renderVideos(v){
 
 
   header.innerHTML =
+    '<button id="videoBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:var(--text)">&#8249;</button>' +
 
-    '<button id="videoBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:var(--text)">' +
-    '&#8249;' +
-    '</button>' +
-
-    '<div style="font-size:23px;font-weight:600;flex:1">' +
-    'Videos' +
-    '</div>';
+    '<div style="font-size:23px;font-weight:600;flex:1">Videos</div>';
 
 
-  v.appendChild(
-    header
-  );
+  v.appendChild(header);
 
 
-  header.querySelector(
-    "#videoBack"
-  ).onclick =
+  header.querySelector("#videoBack")
+    .onclick =
     () => {
 
-      page =
-        "category";
+      page = "category";
 
       render();
 
@@ -3049,60 +2162,47 @@ function renderVideos(v){
 
 
   const g =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
 
-  g.className =
-    "video-grid";
+  g.className = "video-grid";
 
 
-  videos.forEach(
-    x => {
+  videos.forEach(x => {
 
-      const c =
-        document.createElement(
-          "article"
-        );
+    const c =
+      document.createElement("article");
 
 
-      c.className =
-        "video-card";
+    c.className = "video-card";
 
 
-      c.innerHTML =
+    c.innerHTML =
 
-        (
-          x.thumb
-            ?
-              '<img loading="lazy" src="' +
-              escapeHtml(x.thumb) +
-              '" alt="' +
-              escapeHtml(x.name) +
-              '">'
-            :
-              '<div style="width:100%;height:100%;background:#222"></div>'
-        ) +
+      (
+        x.thumb
+          ? '<img loading="lazy" src="' +
+            escapeHtml(x.thumb) +
+            '" alt="' +
+            escapeHtml(x.name) +
+            '">'
+          : '<div style="width:100%;height:100%;background:#222"></div>'
+      ) +
 
-        '<button class="play" aria-label="Play">' +
-        '&#9654;' +
-        '</button>' +
+      '<button class="play">&#9654;</button>' +
 
-        '<div class="vmeta"><b>' +
-        escapeHtml(x.name) +
-        '</b></div>';
+      '<div class="vmeta"><b>' +
+      escapeHtml(x.name) +
+      '</b></div>';
 
 
-      c.onclick =
-        () =>
-          openVideo(x);
+    c.onclick =
+      () => openVideo(x);
 
 
-      g.appendChild(c);
+    g.appendChild(c);
 
-    }
-  );
+  });
 
 
   v.appendChild(g);
@@ -3119,29 +2219,24 @@ function openVideo(x){
   const box =
     el("videoViewer");
 
+
   const player =
     el("videoPlayer");
 
 
-  el("videoTitle")
-    .textContent =
-    x.name ||
-    "Video";
+  el("videoTitle").textContent =
+    x.name || "Video";
 
 
   player.src =
     x.url;
 
 
-  el("videoDownload")
-    .href =
-    x.download ||
-    x.url;
+  el("videoDownload").href =
+    x.download || x.url;
 
 
-  box.classList.add(
-    "show"
-  );
+  box.classList.add("show");
 
 
   box.setAttribute(
@@ -3154,10 +2249,9 @@ function openVideo(x){
     "hidden";
 
 
-  player.play()
-    .catch(
-      () => {}
-    );
+  player.play().catch(
+    () => {}
+  );
 
 }
 
@@ -3167,22 +2261,19 @@ function closeVideo(){
   const box =
     el("videoViewer");
 
+
   const player =
     el("videoPlayer");
 
 
   player.pause();
 
-  player.removeAttribute(
-    "src"
-  );
+  player.removeAttribute("src");
 
   player.load();
 
 
-  box.classList.remove(
-    "show"
-  );
+  box.classList.remove("show");
 
 
   box.setAttribute(
@@ -3197,8 +2288,7 @@ function closeVideo(){
 }
 
 
-el("videoClose")
-  .onclick =
+el("videoClose").onclick =
   closeVideo;
 
 
@@ -3221,43 +2311,33 @@ function renderCategoryWallpapers(v){
 
 
   const arr =
-    wallpapers.filter(
-      x => {
+    wallpapers.filter(x => {
 
-        const same =
-          String(
-            x.category ||
-            ""
-          )
+      const same =
+        String(x.category || "")
           .trim()
-          .toLowerCase()
-          ===
-          String(name)
-            .trim()
-            .toLowerCase();
+          .toLowerCase() ===
+        String(name)
+          .trim()
+          .toLowerCase();
 
 
-        const text =
-          (
-            x.name +
-            " " +
-            x.category
-          ).toLowerCase();
+      const text =
+        (
+          (x.name || "") +
+          " " +
+          (x.category || "")
+        ).toLowerCase();
 
 
-        return (
-          same &&
-          text.includes(q)
-        );
+      return same &&
+        text.includes(q);
 
-      }
-    );
+    });
 
 
   const header =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
 
   header.style.cssText =
@@ -3266,9 +2346,7 @@ function renderCategoryWallpapers(v){
 
   header.innerHTML =
 
-    '<button id="catWallBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:var(--text)">' +
-    '&#8249;' +
-    '</button>' +
+    '<button id="catWallBack" style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:var(--text)">&#8249;</button>' +
 
     '<div style="font-size:23px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
 
@@ -3276,26 +2354,19 @@ function renderCategoryWallpapers(v){
 
     '</div>' +
 
-    '<button id="catWallSearch" style="border:0;background:none;font-size:24px;color:var(--text)">' +
-    '&#128269;' +
-    '</button>';
+    '<button id="catWallSearch" style="border:0;background:none;font-size:24px;color:var(--text)">&#128269;</button>';
 
 
-  v.appendChild(
-    header
-  );
+  v.appendChild(header);
 
 
-  header.querySelector(
-    "#catWallBack"
-  ).onclick =
+  header.querySelector("#catWallBack")
+    .onclick =
     () => {
 
-      selectedCategory =
-        null;
+      selectedCategory = null;
 
-      page =
-        "category";
+      page = "category";
 
       render();
 
@@ -3307,13 +2378,11 @@ function renderCategoryWallpapers(v){
     };
 
 
-  header.querySelector(
-    "#catWallSearch"
-  ).onclick =
+  header.querySelector("#catWallSearch")
+    .onclick =
     () => {
 
-      el("search")
-        .focus();
+      el("search").focus();
 
     };
 
@@ -3321,13 +2390,10 @@ function renderCategoryWallpapers(v){
   if(!arr.length){
 
     const e =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
 
-    e.className =
-      "empty";
+    e.className = "empty";
 
 
     e.textContent =
@@ -3344,9 +2410,7 @@ function renderCategoryWallpapers(v){
 
 
   const grid =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
 
   grid.className =
@@ -3358,55 +2422,48 @@ function renderCategoryWallpapers(v){
     );
 
 
-  arr.forEach(
-    x => {
+  arr.forEach(x => {
 
-      const c =
-        document.createElement(
-          "article"
-        );
+    const c =
+      document.createElement("article");
 
 
-      c.className =
-        "card";
+    c.className = "card";
 
 
-      c.innerHTML =
+    c.innerHTML =
 
-        '<img loading="lazy" decoding="async" src="' +
-        escapeHtml(x.url) +
-        '" alt="' +
-        escapeHtml(x.name) +
-        '">' +
+      '<img loading="lazy" decoding="async" src="' +
+      escapeHtml(x.url) +
+      '" alt="' +
+      escapeHtml(x.name) +
+      '">' +
 
-        '<div class="shade"></div>' +
+      '<div class="shade"></div>' +
 
-        '<button class="fav" aria-label="Favorite">' +
+      '<button class="fav">' +
+      (
+        favorites.has(x.id)
+          ? "♥"
+          : "♡"
+      ) +
+      '</button>' +
 
-        (
-          favorites.has(x.id)
-            ? "♥"
-            : "♡"
-        ) +
+      '<div class="meta">' +
 
-        '</button>' +
+      '<div class="title">' +
+      escapeHtml(x.name) +
+      '</div>' +
 
-        '<div class="meta">' +
+      '<div class="sub">' +
+      escapeHtml(x.category) +
+      '</div>' +
 
-        '<div class="title">' +
-        escapeHtml(x.name) +
-        '</div>' +
-
-        '<div class="sub">' +
-        escapeHtml(x.category) +
-        '</div>' +
-
-        '</div>';
+      '</div>';
 
 
-      c.querySelector(
-        ".fav"
-      ).addEventListener(
+    c.querySelector(".fav")
+      .addEventListener(
         "click",
         e => {
 
@@ -3426,65 +2483,49 @@ function renderCategoryWallpapers(v){
       );
 
 
-      c.addEventListener(
-        "click",
-        () =>
-          openViewer(
-            x,
-            arr
-          )
-      );
+    c.addEventListener(
+      "click",
+      () => openViewer(x, arr)
+    );
 
 
-      grid.appendChild(c);
+    grid.appendChild(c);
 
-    }
-  );
+  });
 
 
-  v.appendChild(
-    grid
-  );
+  v.appendChild(grid);
 
 }
 
 
 /* =========================================================
-   FULL SCREEN VIEWER
+   VIEWER
 ========================================================= */
 
 let viewerItems = [];
-
 let viewerIndex = 0;
 
 let touchStartX = 0;
-
 let touchStartY = 0;
-
 let touchStartTime = 0;
 
 let dragging = false;
-
 let dragX = 0;
 
 
 /* OPEN */
 
-function openViewer(
-  item,
-  arr
-){
+function openViewer(item, arr){
 
-  viewerItems =
-    arr;
+  viewerItems = arr;
 
 
   viewerIndex =
     Math.max(
       0,
       arr.findIndex(
-        x =>
-          x.id === item.id
+        x => x.id === item.id
       )
     );
 
@@ -3493,9 +2534,7 @@ function openViewer(
     el("viewer");
 
 
-  viewer.classList.add(
-    "show"
-  );
+  viewer.classList.add("show");
 
 
   viewer.setAttribute(
@@ -3523,17 +2562,14 @@ function buildSlides(){
     el("slides");
 
 
-  s.innerHTML =
-    "";
+  s.innerHTML = "";
 
 
   viewerItems.forEach(
     (x,i) => {
 
       const slide =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
 
       slide.className =
@@ -3541,24 +2577,18 @@ function buildSlides(){
 
 
       const img =
-        document.createElement(
-          "img"
-        );
+        document.createElement("img");
 
 
       img.alt =
-        x.name ||
-        "Wallpaper";
+        x.name || "Wallpaper";
 
 
-      img.draggable =
-        false;
+      img.draggable = false;
 
 
       if(
-        Math.abs(
-          i - viewerIndex
-        ) <= 1
+        Math.abs(i - viewerIndex) <= 1
       ){
 
         img.src =
@@ -3572,14 +2602,9 @@ function buildSlides(){
       }
 
 
-      slide.appendChild(
-        img
-      );
+      slide.appendChild(img);
 
-
-      s.appendChild(
-        slide
-      );
+      s.appendChild(slide);
 
     }
   );
@@ -3591,47 +2616,40 @@ function buildSlides(){
 
 function loadNearby(){
 
-  [-1,0,1]
-    .forEach(
-      offset => {
+  [-1,0,1].forEach(
+    offset => {
 
-        const i =
-          viewerIndex +
-          offset;
+      const i =
+        viewerIndex + offset;
 
 
-        if(
-          i < 0 ||
-          i >=
-          viewerItems.length
-        )
-          return;
+      if(
+        i < 0 ||
+        i >= viewerItems.length
+      ) return;
 
 
-        const img =
-          el("slides")
-            .children[i]
-            ?.querySelector(
-              "img"
-            );
+      const img =
+        el("slides")
+          .children[i]
+          ?.querySelector("img");
 
 
-        if(
-          img &&
-          !img.src &&
-          img.dataset.src
-        ){
+      if(
+        img &&
+        !img.src &&
+        img.dataset.src
+      ){
 
-          img.src =
-            img.dataset.src;
+        img.src =
+          img.dataset.src;
 
-
-          delete img.dataset.src;
-
-        }
+        delete img.dataset.src;
 
       }
-    );
+
+    }
+  );
 
 }
 
@@ -3648,38 +2666,28 @@ function updateViewer(
 
   s.style.transition =
     animate
-      ?
-      "transform 260ms cubic-bezier(.2,.8,.2,1)"
-      :
-      "none";
+      ? "transform 260ms cubic-bezier(.2,.8,.2,1)"
+      : "none";
 
 
   s.style.transform =
     "translate3d(" +
-    (
-      -viewerIndex * 100
-    ) +
+    (-viewerIndex * 100) +
     "%,0,0)";
 
 
   const x =
-    viewerItems[
-      viewerIndex
-    ];
+    viewerItems[viewerIndex];
 
 
-  if(!x)
-    return;
+  if(!x) return;
 
 
-  el("viewerTitle")
-    .textContent =
-    x.name ||
-    "Wallpaper";
+  el("viewerTitle").textContent =
+    x.name || "Wallpaper";
 
 
-  el("viewerCounter")
-    .textContent =
+  el("viewerCounter").textContent =
     (
       viewerIndex + 1
     ) +
@@ -3687,19 +2695,14 @@ function updateViewer(
     viewerItems.length;
 
 
-  el("viewerDownload")
-    .href =
-    x.download ||
-    x.url;
+  el("viewerDownload").href =
+    x.download || x.url;
 
 
-  el("viewerFavorite")
-    .textContent =
+  el("viewerFavorite").textContent =
     favorites.has(x.id)
-      ?
-      "♥ Remove"
-      :
-      "♡ Favorite";
+      ? "♥ Remove"
+      : "♡ Favorite";
 
 
   loadNearby();
@@ -3707,29 +2710,22 @@ function updateViewer(
 }
 
 
-/* NEXT / PREVIOUS */
+/* NEXT */
 
-function goViewer(
-  delta
-){
+function goViewer(delta){
 
-  if(
-    !viewerItems.length
-  )
+  if(!viewerItems.length)
     return;
 
 
   const next =
-    viewerIndex +
-    delta;
+    viewerIndex + delta;
 
 
   if(
     next < 0 ||
-    next >=
-    viewerItems.length
-  )
-    return;
+    next >= viewerItems.length
+  ) return;
 
 
   viewerIndex =
@@ -3765,62 +2761,44 @@ function closeViewer(){
     "";
 
 
-  viewerItems =
-    [];
+  viewerItems = [];
 
 }
 
 
-el("viewerClose")
-  .onclick =
+el("viewerClose").onclick =
   closeViewer;
 
 
-el("viewerPrev")
-  .onclick =
-  () =>
-    goViewer(-1);
+el("viewerPrev").onclick =
+  () => goViewer(-1);
 
 
-el("viewerNext")
-  .onclick =
-  () =>
-    goViewer(1);
+el("viewerNext").onclick =
+  () => goViewer(1);
 
 
-/* =========================================================
-   FAVORITE FROM VIEWER
-========================================================= */
+/* FAVORITE */
 
-el("viewerFavorite")
-  .onclick =
+el("viewerFavorite").onclick =
   () => {
 
     const x =
-      viewerItems[
-        viewerIndex
-      ];
+      viewerItems[viewerIndex];
 
 
-    if(!x)
-      return;
+    if(!x) return;
 
 
     if(
-      favorites.has(
-        x.id
-      )
+      favorites.has(x.id)
     ){
 
-      favorites.delete(
-        x.id
-      );
+      favorites.delete(x.id);
 
     }else{
 
-      favorites.add(
-        x.id
-      );
+      favorites.add(x.id);
 
     }
 
@@ -3828,20 +2806,13 @@ el("viewerFavorite")
     saveFav();
 
 
-    el("viewerFavorite")
-      .textContent =
+    el("viewerFavorite").textContent =
       favorites.has(x.id)
-        ?
-        "♥ Remove"
-        :
-        "♡ Favorite";
+        ? "♥ Remove"
+        : "♡ Favorite";
 
 
-    /*
-       Do not close viewer.
-       Do not rebuild viewer.
-       Only update Favorite button.
-    */
+    render();
 
   };
 
@@ -3860,8 +2831,7 @@ stage.addEventListener(
 
     if(
       e.touches.length !== 1
-    )
-      return;
+    ) return;
 
 
     const t =
@@ -3880,12 +2850,9 @@ stage.addEventListener(
       Date.now();
 
 
-    dragging =
-      true;
+    dragging = true;
 
-
-    dragX =
-      0;
+    dragX = 0;
 
 
     el("slides")
@@ -3907,8 +2874,7 @@ stage.addEventListener(
     if(
       !dragging ||
       e.touches.length !== 1
-    )
-      return;
+    ) return;
 
 
     const t =
@@ -3929,10 +2895,8 @@ stage.addEventListener(
 
     if(
       dy >
-      Math.abs(dragX) +
-      15
-    )
-      return;
+      Math.abs(dragX) + 15
+    ) return;
 
 
     e.preventDefault();
@@ -3968,8 +2932,7 @@ stage.addEventListener(
       return;
 
 
-    dragging =
-      false;
+    dragging = false;
 
 
     const elapsed =
@@ -3988,15 +2951,12 @@ stage.addEventListener(
     const threshold =
       Math.min(
         120,
-        window.innerWidth *
-        .18
+        window.innerWidth * .18
       );
 
 
     if(
-      Math.abs(dragX) >
-        threshold
-      ||
+      Math.abs(dragX) > threshold ||
       velocity > .45
     ){
 
@@ -4035,46 +2995,357 @@ document.addEventListener(
   e => {
 
     if(
-      el("viewer")
-        .classList
-        .contains("show")
+      e.key === "Escape"
     ){
 
       if(
-        e.key === "Escape"
-      )
+        el("videoViewer")
+          .classList
+          .contains("show")
+      ){
+
+        closeVideo();
+
+        return;
+
+      }
+
+
+      if(
+        el("viewer")
+          .classList
+          .contains("show")
+      ){
+
         closeViewer();
 
+        return;
 
-      if(
-        e.key === "ArrowLeft"
-      )
-        goViewer(-1);
+      }
 
 
       if(
-        e.key === "ArrowRight"
-      )
-        goViewer(1);
+        el("aboutPage")
+          .classList
+          .contains("show")
+      ){
+
+        closeAbout();
+
+        return;
+
+      }
+
+
+      if(
+        el("settingsPage")
+          .classList
+          .contains("show")
+      ){
+
+        closeSettings();
+
+      }
 
     }
 
 
     if(
-      el("videoViewer")
+      el("viewer")
         .classList
         .contains("show")
     ){
 
-      if(
-        e.key === "Escape"
-      )
-        closeVideo();
+      if(e.key === "ArrowLeft")
+        goViewer(-1);
+
+      if(e.key === "ArrowRight")
+        goViewer(1);
 
     }
 
   }
 );
+
+
+/* =========================================================
+   SETTINGS PAGE
+========================================================= */
+
+function openSettings(){
+
+  el("settingsPage")
+    .classList
+    .add("show");
+
+
+  el("settingsPage")
+    .setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+
+  document.body.style.overflow =
+    "hidden";
+
+
+  updateColumnButtons();
+  updateThemeButtons();
+
+}
+
+
+function closeSettings(){
+
+  el("settingsPage")
+    .classList
+    .remove("show");
+
+
+  el("settingsPage")
+    .setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+
+  document.body.style.overflow =
+    "";
+
+}
+
+
+/* CLOSE */
+
+el("settingsBtn")
+  .onclick =
+  openSettings;
+
+
+el("settingsClose")
+  .onclick =
+  closeSettings;
+
+
+/* =========================================================
+   DISPLAY COLUMNS
+========================================================= */
+
+function updateColumnButtons(){
+
+  document
+    .querySelectorAll(
+      "[data-col]"
+    )
+    .forEach(b => {
+
+      b.classList.toggle(
+        "active",
+        Number(
+          b.dataset.col
+        ) === columns
+      );
+
+    });
+
+}
+
+
+document
+  .querySelectorAll(
+    "[data-col]"
+  )
+  .forEach(b => {
+
+    b.onclick = () => {
+
+      columns =
+        Number(
+          b.dataset.col
+        );
+
+
+      localStorage.setItem(
+        "wallpaperColumns",
+        columns
+      );
+
+
+      updateColumnButtons();
+
+      render();
+
+    };
+
+  });
+
+
+/* =========================================================
+   DARK / LIGHT THEME
+========================================================= */
+
+document
+  .querySelectorAll(
+    "[data-theme]"
+  )
+  .forEach(b => {
+
+    b.onclick = () => {
+
+      savedTheme =
+        b.dataset.theme;
+
+
+      localStorage.setItem(
+        "theme",
+        savedTheme
+      );
+
+
+      applyTheme();
+
+    };
+
+  });
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+function openAbout(){
+
+  el("aboutPage")
+    .classList
+    .add("show");
+
+
+  el("aboutPage")
+    .setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+
+  document.body.style.overflow =
+    "hidden";
+
+}
+
+
+function closeAbout(){
+
+  el("aboutPage")
+    .classList
+    .remove("show");
+
+
+  el("aboutPage")
+    .setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+
+  document.body.style.overflow =
+    "hidden";
+
+}
+
+
+el("aboutOpen")
+  .onclick =
+  openAbout;
+
+
+el("aboutBack")
+  .onclick =
+  closeAbout;
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+document
+  .querySelectorAll(".nav")
+  .forEach(b => {
+
+    b.onclick = () => {
+
+      const p =
+        b.dataset.page;
+
+
+      if(p === "category"){
+
+        selectedCategory =
+          null;
+
+        setPage(
+          "category"
+        );
+
+      }else{
+
+        setPage(p);
+
+      }
+
+    };
+
+  });
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+document
+  .querySelectorAll(
+    ".tabs button"
+  )
+  .forEach(b => {
+
+    b.onclick = () => {
+
+      sort =
+        b.dataset.sort;
+
+
+      document
+        .querySelectorAll(
+          ".tabs button"
+        )
+        .forEach(x =>
+          x.classList.remove(
+            "active"
+          )
+        );
+
+
+      b.classList.add(
+        "active"
+      );
+
+
+      render();
+
+    };
+
+  });
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+el("search")
+  .addEventListener(
+    "input",
+    render
+  );
 
 
 /* =========================================================
@@ -4122,30 +3393,24 @@ async function loadData(){
       Array.isArray(
         data.wallpapers
       )
-        ?
-        data.wallpapers
-        :
-        [];
+        ? data.wallpapers
+        : [];
 
 
     categories =
       Array.isArray(
         data.categories
       )
-        ?
-        data.categories
-        :
-        [];
+        ? data.categories
+        : [];
 
 
     videos =
       Array.isArray(
         data.videos
       )
-        ?
-        data.videos
-        :
-        [];
+        ? data.videos
+        : [];
 
 
     render();
@@ -4167,150 +3432,12 @@ async function loadData(){
 
     el("view").innerHTML =
       '<div class="empty">' +
-
-      'Unable to load wallpapers. ' +
-
-      'Please try again.' +
-
+      'Unable to load wallpapers. Please try again.' +
       '</div>';
 
   }
 
 }
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-document
-  .querySelectorAll(".nav")
-  .forEach(
-    b => {
-
-      b.onclick =
-        () => {
-
-          const p =
-            b.dataset.page;
-
-
-          if(
-            p === "category"
-          ){
-
-            selectedCategory =
-              null;
-
-            setPage(
-              "category"
-            );
-
-          }else{
-
-            setPage(p);
-
-          }
-
-        };
-
-    }
-  );
-
-
-/* =========================================================
-   TABS
-========================================================= */
-
-document
-  .querySelectorAll(
-    ".tabs button"
-  )
-  .forEach(
-    b => {
-
-      b.onclick =
-        () => {
-
-          sort =
-            b.dataset.sort;
-
-
-          document
-            .querySelectorAll(
-              ".tabs button"
-            )
-            .forEach(
-              x =>
-                x.classList
-                 .remove(
-                   "active"
-                 )
-            );
-
-
-          b.classList.add(
-            "active"
-          );
-
-
-          render();
-
-        };
-
-    }
-  );
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-el("search")
-  .addEventListener(
-    "input",
-    () => {
-
-      /*
-        Search only when normal
-        wallpaper/category page.
-      */
-
-      if(
-        page === "wallpaper" ||
-        page === "favorite" ||
-        page === "categoryWallpapers"
-      ){
-
-        render();
-
-      }
-
-    }
-  );
-
-
-/* =========================================================
-   SETTINGS BUTTON
-========================================================= */
-
-el("settingsBtn")
-  .onclick =
-  () => {
-
-    page =
-      "settings";
-
-
-    render();
-
-
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
-
-  };
 
 
 /* =========================================================
