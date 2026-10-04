@@ -3,34 +3,64 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
 <title>Wallpaper Mini App</title>
 <style>
 :root{--green:#4caf50;--green2:#dff8e2;--bg:#fff;--text:#303038;--muted:#777;--line:#ececec}
-*{box-sizing:border-box}html,body{margin:0;background:#fff;color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 body{padding-bottom:86px}.app{max-width:900px;margin:auto;padding:14px}
+.topline{display:flex;align-items:center}
 .search{height:58px;border-radius:30px;background:#e5f9e7;display:flex;align-items:center;padding:0 18px;gap:12px;margin-bottom:14px}
 .search input{border:0;outline:0;background:transparent;font-size:21px;width:100%;color:var(--text)}
 .search svg{width:28px;height:28px;fill:#444;flex:none}
-.tabs{display:flex;gap:26px;overflow:auto;white-space:nowrap;padding:8px 4px 12px;margin-bottom:8px}
-.tabs button{border:0;background:none;font-size:17px;color:#555;padding:8px 0;position:relative}.tabs button.active{color:var(--green)}
+.settings-btn{border:0;background:#e8f8ea;border-radius:50%;width:50px;height:50px;font-size:24px;flex:none;cursor:pointer}
+.tabs{display:flex;gap:26px;overflow:auto;white-space:nowrap;padding:8px 4px 12px;margin-bottom:8px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{border:0;background:none;font-size:17px;color:#555;padding:8px 0;position:relative}
+.tabs button.active{color:var(--green)}
 .tabs button.active:after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:3px;background:var(--green);border-radius:3px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-.card{position:relative;aspect-ratio:0.68;border-radius:18px;overflow:hidden;background:#eee;cursor:pointer}
-.card img{width:100%;height:100%;object-fit:cover;display:block}.shade{position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.7))}
-.meta{position:absolute;left:12px;right:10px;bottom:10px;color:#fff}.title{font-size:17px;font-weight:600}.sub{font-size:13px;opacity:.9;margin-top:3px}
-.fav{position:absolute;right:9px;top:9px;width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.88);font-size:21px}
-.empty{text-align:center;color:var(--muted);padding:50px 15px}.loading{text-align:center;color:var(--muted);padding:30px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{position:relative;aspect-ratio:.68;border-radius:18px;overflow:hidden;background:#eee;cursor:pointer;contain:content}
+.card img{width:100%;height:100%;object-fit:cover;display:block;background:#eee}
+.shade{position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.7));pointer-events:none}
+.meta{position:absolute;left:12px;right:10px;bottom:10px;color:#fff;pointer-events:none}
+.title{font-size:17px;font-weight:600}.sub{font-size:13px;opacity:.9;margin-top:3px}
+.fav{position:absolute;right:9px;top:9px;width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.9);font-size:22px;z-index:2;cursor:pointer}
+.empty{text-align:center;color:var(--muted);padding:50px 15px}
+.loading{text-align:center;color:var(--muted);padding:30px}
 .bottom{position:fixed;left:0;right:0;bottom:0;background:#f1f8fc;border-top:1px solid #e7eef1;height:76px;display:flex;justify-content:center;z-index:20}
 .bottom-inner{width:min(900px,100%);display:grid;grid-template-columns:repeat(3,1fr);align-items:center}
-.nav{border:0;background:none;color:#45454c;font-size:15px;text-align:center;height:100%}.nav .ico{font-size:27px;display:block;line-height:30px}.nav.active{color:var(--green)}
-.sheet{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-end;z-index:50}.sheet.show{display:flex}
-.panel{background:#fff;width:100%;max-height:88%;border-radius:24px 24px 0 0;padding:18px;overflow:auto}
-.handle{width:44px;height:5px;background:#ddd;border-radius:5px;margin:0 auto 18px}.close{float:right;border:0;background:#eee;border-radius:50%;width:36px;height:36px}
-.preview img{width:100%;max-height:70vh;object-fit:contain;border-radius:18px;background:#111}.actions{display:flex;gap:10px;margin-top:12px}.actions a,.actions button{flex:1;padding:13px;border:0;border-radius:14px;text-align:center;text-decoration:none;font-size:15px;background:#eaf8ec;color:#247a2a}
-.settings-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}.choice{display:flex;gap:8px}.choice button{border:1px solid #ddd;background:#fff;border-radius:12px;padding:10px 14px}.choice button.active{background:var(--green2);border-color:#9ad7a0;color:#277b2e}
-.category{border:0;background:#f5f7f7;border-radius:18px;padding:18px;text-align:left;font-size:17px}.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.topline{display:flex;justify-content:space-between;align-items:center}.settings-btn{border:0;background:#e8f8ea;border-radius:50%;width:42px;height:42px;font-size:21px}
-@media(max-width:480px){.app{padding:12px}.grid{gap:9px}.card{border-radius:15px}.title{font-size:15px}.tabs{gap:22px}.search input{font-size:18px}}
+.nav{border:0;background:none;color:#45454c;font-size:15px;text-align:center;height:100%;cursor:pointer}
+.nav .ico{font-size:27px;display:block;line-height:30px}.nav.active{color:var(--green)}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:50}
+.sheet.show{display:flex}
+.panel{background:#fff;width:min(900px,96vw);max-height:94vh;border-radius:24px;padding:18px;overflow:auto;position:relative}
+.close{position:absolute;right:18px;top:18px;border:0;background:#eee;border-radius:50%;width:42px;height:42px;font-size:24px;cursor:pointer;z-index:4}
+.preview img{width:100%;max-height:72vh;object-fit:contain;border-radius:18px;background:#111;display:block}
+.video-box{background:#000;border-radius:18px;overflow:hidden}
+.video-box video{width:100%;max-height:72vh;display:block;background:#000}
+.actions{display:flex;gap:10px;margin-top:12px}
+.actions a,.actions button{flex:1;padding:14px;border:0;border-radius:14px;text-align:center;text-decoration:none;font-size:16px;background:#eaf8ec;color:#247a2a;cursor:pointer}
+.settings-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.choice{display:flex;gap:8px}.choice button{border:1px solid #ddd;background:#fff;border-radius:12px;padding:10px 14px;cursor:pointer}
+.choice button.active{background:var(--green2);border-color:#9ad7a0;color:#277b2e}
+.category{position:relative;min-height:130px;border:0;background:#eee;border-radius:18px;padding:18px;text-align:left;font-size:17px;color:#fff;overflow:hidden;cursor:pointer;background-size:cover;background-position:center}
+.category:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.65),rgba(0,0,0,.18))}
+.category-content{position:relative;z-index:1}.category-name{font-size:20px;font-weight:700}.category-count{font-size:15px;margin-top:7px}
+.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.page-head{display:flex;align-items:center;gap:8px;margin:12px 0 16px}
+.back-btn{border:0;background:none;font-size:32px;line-height:1;cursor:pointer;color:#333}
+.page-head h2{margin:0;font-size:30px}
+.video-card{position:relative;aspect-ratio:.68}
+.video-card img{width:100%;height:100%;object-fit:cover}
+.video-badge{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.65);color:#fff;border-radius:10px;padding:6px 9px;font-size:13px}
+@media(max-width:480px){
+ .app{padding:12px}.grid{gap:9px}.card{border-radius:15px}.title{font-size:15px}.tabs{gap:22px}.search input{font-size:18px}
+ .panel{width:100%;max-height:96vh;border-radius:24px 24px 0 0}.cat-grid{grid-template-columns:1fr}
+ .category{min-height:145px}
+}
 </style>
 </head>
 <body>
@@ -40,7 +70,7 @@ body{padding-bottom:86px}.app{max-width:900px;margin:auto;padding:14px}
       <svg viewBox="0 0 24 24"><path d="M10.8 4a6.8 6.8 0 1 0 4.25 12.1l4.43 4.43 1.42-1.42-4.43-4.43A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z"/></svg>
       <input id="search" placeholder="Search wallpapers">
     </div>
-    <button class="settings-btn" id="settingsBtn" aria-label="Settings">âš™ï¸</button>
+    <button class="settings-btn" id="settingsBtn" aria-label="Settings">âš™</button>
   </div>
 
   <div id="tabs" class="tabs">
@@ -61,75 +91,360 @@ body{padding-bottom:86px}.app{max-width:900px;margin:auto;padding:14px}
   </div>
 </nav>
 
-<div class="sheet" id="sheet">
- <div class="panel" id="panel"></div>
-</div>
+<div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbzhkSGtZekKzqwop0A7iB9TnPsJ2yXYBXlLh1M1qwS6QsWSm_gAecZvzPlxCp1alJDyHA/exec";
-const demo = [
- {id:"demo1",name:"Nature",category:"Nature",url:"https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=85"},
- {id:"demo2",name:"Mountain",category:"Nature",url:"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=85"},
- {id:"demo3",name:"Car",category:"Cars",url:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85"},
- {id:"demo4",name:"Space",category:"Space",url:"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=900&q=85"}
-];
-let wallpapers=[], categories=[], page="wallpaper", sort="recent", columns=3;
-const favorites = new Set(JSON.parse(localStorage.getItem("favorites")||"[]"));
-const savedCols = Number(localStorage.getItem("wallpaperColumns")); if(savedCols===2||savedCols===3) columns=savedCols;
+const DRIVE_ROOT_ID = "1kZdRpeqyLc-WBJzjsJbVvFN1dOQrqmLo";
 
-const el=id=>document.getElementById(id);
-function saveFav(){localStorage.setItem("favorites",JSON.stringify([...favorites]))}
-function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function setPage(p){page=p;document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("active",b.dataset.page===p));render()}
-function filtered(){
- let q=el("search").value.trim().toLowerCase();
- let arr=wallpapers.filter(x=>(x.name+" "+x.category).toLowerCase().includes(q));
- if(sort==="random") arr=[...arr].sort(()=>Math.random()-.5);
- return arr;
+let allWallpapers = [];
+let wallpapers = [];
+let categories = [];
+let videos = [];
+let page = "wallpaper";
+let sort = "recent";
+let columns = 3;
+let selectedCategory = null;
+
+const favorites = new Set(JSON.parse(localStorage.getItem("favorites") || "[]"));
+const savedCols = Number(localStorage.getItem("wallpaperColumns"));
+if (savedCols === 2 || savedCols === 3) columns = savedCols;
+
+const el = id => document.getElementById(id);
+
+function saveFav(){
+  localStorage.setItem("favorites", JSON.stringify([...favorites]));
 }
-function render(){
- const v=el("view"); v.innerHTML="";
- if(page==="category"){renderCategories(v);return}
- let arr=page==="favorite"?wallpapers.filter(x=>favorites.has(x.id)):filtered();
- if(page==="favorite" && !arr.length){v.innerHTML='<div class="empty">No favorite wallpapers yet â¤ï¸</div>';return}
- if(!arr.length){v.innerHTML='<div class="empty">No wallpapers found.</div>';return}
- const grid=document.createElement("div");grid.className="grid"+(columns===2?" two":"");
- arr.forEach(x=>{
-   const c=document.createElement("article");c.className="card";
-   c.innerHTML=`<img loading="lazy" src="${escapeHtml(x.url)}" alt="${escapeHtml(x.name)}"><div class="shade"></div><button class="fav" aria-label="Favorite">${favorites.has(x.id)?"â™¥":"â™¡"}</button><div class="meta"><div class="title">${escapeHtml(x.name)}</div><div class="sub">${escapeHtml(x.category)}</div></div>`;
-   c.querySelector(".fav").addEventListener("click",e=>{e.stopPropagation();favorites.has(x.id)?favorites.delete(x.id):favorites.add(x.id);saveFav();render()});
-   c.addEventListener("click",()=>openPreview(x));
-   grid.appendChild(c);
- });
- v.appendChild(grid);
+
+function escapeHtml(s){
+  return String(s || "").replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
 }
-function renderCategories(v){
- if(!categories.length){v.innerHTML='<div class="empty">No categories found.</div>';return}
- const g=document.createElement("div");g.className="cat-grid";
- categories.forEach(cat=>{const b=document.createElement("button");b.className="category";b.textContent=cat.name||cat;b.onclick=()=>{page="wallpaper";wallpapers=wallpapers.filter(x=>x.category===cat.name);render();};g.appendChild(b)});
- v.appendChild(g);
-}
-function openPreview(x){
- el("panel").innerHTML=`<div class="handle"></div><button class="close" id="close">âœ•</button><h2>${escapeHtml(x.name)}</h2><div class="preview"><img src="${escapeHtml(x.url)}" alt="${escapeHtml(x.name)}"></div><div class="actions"><a href="${escapeHtml(x.download||x.url)}" target="_blank" rel="noopener">â¬‡ Download</a><button id="fav2">${favorites.has(x.id)?"â™¥ Remove":"â™¡ Favorite"}</button></div>`;
- el("sheet").classList.add("show");el("close").onclick=()=>el("sheet").classList.remove("show");
- el("fav2").onclick=()=>{favorites.has(x.id)?favorites.delete(x.id):favorites.add(x.id);saveFav();el("sheet").classList.remove("show");render()};
-}
-function openSettings(){
- el("panel").innerHTML=`<div class="handle"></div><button class="close" id="close">âœ•</button><h2>Settings</h2><div class="settings-row"><div><b>Display Wallpaper</b><div style="color:#777;font-size:13px;margin-top:4px">Choose wallpaper grid columns</div></div><div class="choice"><button data-col="2">2</button><button data-col="3">3</button></div></div>`;
- document.querySelectorAll("[data-col]").forEach(b=>{b.classList.toggle("active",Number(b.dataset.col)===columns);b.onclick=()=>{columns=Number(b.dataset.col);localStorage.setItem("wallpaperColumns",columns);document.querySelectorAll("[data-col]").forEach(x=>x.classList.toggle("active",Number(x.dataset.col)===columns));render()}});
- el("sheet").classList.add("show");el("close").onclick=()=>el("sheet").classList.remove("show");
-}
-async function loadData(){
- if(!API_URL.startsWith("http")){wallpapers=demo;categories=[...new Set(demo.map(x=>x.category))].map(name=>({name}));render();return}
- try{
-  const r=await fetch(API_URL);const data=await r.json();
-  wallpapers=Array.isArray(data.wallpapers)?data.wallpapers:[];categories=Array.isArray(data.categories)?data.categories:[];
+
+function setPage(p){
+  page = p;
+  selectedCategory = null;
+  wallpapers = allWallpapers.slice();
+  document.querySelectorAll(".nav").forEach(b =>
+    b.classList.toggle("active", b.dataset.page === p)
+  );
   render();
- }catch(e){wallpapers=demo;categories=[...new Set(demo.map(x=>x.category))].map(name=>({name}));render()}
 }
-document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>setPage(b.dataset.page));
-document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{sort=b.dataset.sort;document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()});
-el("search").addEventListener("input",render);el("settingsBtn").onclick=openSettings;el("sheet").addEventListener("click",e=>{if(e.target===el("sheet"))el("sheet").classList.remove("show")});
+
+function filtered(){
+  const q = el("search").value.trim().toLowerCase();
+  let arr = wallpapers.filter(x =>
+    (x.name + " " + x.category).toLowerCase().includes(q)
+  );
+  if(sort === "random") arr = [...arr].sort(() => Math.random() - .5);
+  return arr;
+}
+
+function favoriteIcon(id){
+  return favorites.has(id) ? "â™¥" : "â™¡";
+}
+
+function render(){
+  const v = el("view");
+  v.innerHTML = "";
+
+  if(page === "category"){
+    renderCategories(v);
+    return;
+  }
+
+  if(selectedCategory){
+    renderCategoryWallpapers(v);
+    return;
+  }
+
+  let arr = page === "favorite"
+    ? allWallpapers.filter(x => favorites.has(x.id))
+    : filtered();
+
+  if(page === "favorite" && !arr.length){
+    v.innerHTML = '<div class="empty">No favorite wallpapers yet â¤ï¸</div>';
+    return;
+  }
+
+  if(!arr.length){
+    v.innerHTML = '<div class="empty">No wallpapers found.</div>';
+    return;
+  }
+
+  renderWallpaperGrid(v, arr);
+}
+
+function renderWallpaperGrid(v, arr){
+  const grid = document.createElement("div");
+  grid.className = "grid" + (columns === 2 ? " two" : "");
+
+  arr.forEach(x => {
+    const c = document.createElement("article");
+    c.className = "card";
+    c.innerHTML =
+      '<img loading="lazy" src="' + escapeHtml(x.url) + '" alt="' + escapeHtml(x.name) + '">' +
+      '<div class="shade"></div>' +
+      '<button class="fav" aria-label="Favorite">' + favoriteIcon(x.id) + '</button>' +
+      '<div class="meta"><div class="title">' + escapeHtml(x.name) +
+      '</div><div class="sub">' + escapeHtml(x.category) + '</div></div>';
+
+    c.querySelector(".fav").addEventListener("click", e => {
+      e.stopPropagation();
+      toggleFavorite(x.id);
+    });
+
+    c.addEventListener("click", () => openImagePreview(x));
+    grid.appendChild(c);
+  });
+
+  v.appendChild(grid);
+}
+
+function renderCategories(v){
+  if(!categories.length){
+    v.innerHTML = '<div class="empty">No categories found.</div>';
+    return;
+  }
+
+  const g = document.createElement("div");
+  g.className = "cat-grid";
+
+  categories.forEach(cat => {
+    const b = document.createElement("button");
+    b.className = "category";
+    if(cat.image) b.style.backgroundImage = 'url("' + cat.image + '")';
+
+    const count = Number(cat.count || 0);
+    b.innerHTML =
+      '<div class="category-content">' +
+      '<div class="category-name">' + escapeHtml(cat.name) + '</div>' +
+      '<div class="category-count">' + count + ' ' +
+      (cat.name === "Videos" ? "Videos" : "Wallpapers") +
+      '</div></div>';
+
+    b.onclick = () => openCategory(cat);
+    g.appendChild(b);
+  });
+
+  v.appendChild(g);
+}
+
+function openCategory(cat){
+  if(cat.id === "__videos__" || cat.type === "video"){
+    selectedCategory = {type:"video", name:"Videos"};
+  } else {
+    selectedCategory = {type:"wallpaper", name:cat.name};
+  }
+
+  page = "wallpaper";
+  document.querySelectorAll(".nav").forEach(b =>
+    b.classList.toggle("active", b.dataset.page === "wallpaper")
+  );
+
+  render();
+}
+
+function renderCategoryWallpapers(v){
+  const head = document.createElement("div");
+  head.className = "page-head";
+  head.innerHTML =
+    '<button class="back-btn" id="categoryBack">â€¹</button>' +
+    '<h2>' + escapeHtml(selectedCategory.name) + '</h2>';
+  v.appendChild(head);
+
+  el("categoryBack").onclick = () => {
+    selectedCategory = null;
+    wallpapers = allWallpapers.slice();
+    render();
+  };
+
+  if(selectedCategory.type === "video"){
+    if(!videos.length){
+      v.insertAdjacentHTML("beforeend", '<div class="empty">No videos found.</div>');
+      return;
+    }
+
+    const grid = document.createElement("div");
+    grid.className = "grid" + (columns === 2 ? " two" : "");
+
+    videos.forEach(video => {
+      const c = document.createElement("article");
+      c.className = "card video-card";
+      c.innerHTML =
+        '<img loading="lazy" src="' + escapeHtml(video.thumb || "") + '" alt="' + escapeHtml(video.name) + '">' +
+        '<div class="shade"></div><div class="video-badge">â–¶ VIDEO</div>' +
+        '<div class="meta"><div class="title">' + escapeHtml(video.name) +
+        '</div><div class="sub">Video</div></div>';
+      c.addEventListener("click", () => openVideoPreview(video));
+      grid.appendChild(c);
+    });
+
+    v.appendChild(grid);
+    return;
+  }
+
+  const arr = allWallpapers.filter(x => x.category === selectedCategory.name);
+  if(!arr.length){
+    v.insertAdjacentHTML("beforeend", '<div class="empty">No wallpapers found.</div>');
+    return;
+  }
+
+  const grid = document.createElement("div");
+  grid.className = "grid" + (columns === 2 ? " two" : "");
+
+  arr.forEach(x => {
+    const c = document.createElement("article");
+    c.className = "card";
+    c.innerHTML =
+      '<img loading="lazy" src="' + escapeHtml(x.url) + '" alt="' + escapeHtml(x.name) + '">' +
+      '<div class="shade"></div>' +
+      '<button class="fav">' + favoriteIcon(x.id) + '</button>' +
+      '<div class="meta"><div class="title">' + escapeHtml(x.name) +
+      '</div><div class="sub">' + escapeHtml(x.category) + '</div></div>';
+
+    c.querySelector(".fav").onclick = e => {
+      e.stopPropagation();
+      toggleFavorite(x.id);
+    };
+    c.onclick = () => openImagePreview(x);
+    grid.appendChild(c);
+  });
+
+  v.appendChild(grid);
+}
+
+function toggleFavorite(id){
+  if(favorites.has(id)) favorites.delete(id);
+  else favorites.add(id);
+  saveFav();
+  render();
+}
+
+function openImagePreview(x){
+  el("panel").innerHTML =
+    '<button class="close" id="close">âœ•</button>' +
+    '<h2>' + escapeHtml(x.name) + '</h2>' +
+    '<div class="preview"><img src="' + escapeHtml(x.url) + '" alt="' + escapeHtml(x.name) + '"></div>' +
+    '<div class="actions">' +
+    '<a href="' + escapeHtml(x.download || x.url) + '" target="_blank" rel="noopener">â†“ Download</a>' +
+    '<button id="fav2">' + (favorites.has(x.id) ? "â™¥ Favorite" : "â™¡ Favorite") + '</button>' +
+    '</div>';
+
+  showSheet();
+
+  el("close").onclick = closeSheet;
+  el("fav2").onclick = () => {
+    toggleFavorite(x.id);
+    el("fav2").textContent = favorites.has(x.id) ? "â™¥ Favorite" : "â™¡ Favorite";
+  };
+}
+
+function openVideoPreview(video){
+  const src = video.url || video.download || "";
+  const previewUrl = "https://drive.google.com/file/d/" +
+    encodeURIComponent(video.id) + "/preview";
+
+  el("panel").innerHTML =
+    '<button class="close" id="close">âœ•</button>' +
+    '<h2>' + escapeHtml(video.name) + '</h2>' +
+    '<div class="video-box">' +
+    '<video controls playsinline preload="metadata" poster="' + escapeHtml(video.thumb || "") + '">' +
+    '<source src="' + escapeHtml(src) + '" type="' + escapeHtml(video.mimeType || "video/mp4") + '">' +
+    '</video></div>' +
+    '<div class="actions">' +
+    '<a href="' + escapeHtml(src) + '" target="_blank" rel="noopener">â†“ Download</a>' +
+    '<a href="' + previewUrl + '" target="_blank" rel="noopener">â–¶ Open Video</a>' +
+    '</div>' +
+    '<div style="text-align:center;color:#777;font-size:13px;margin-top:9px">If Drive blocks direct playback, use Open Video.</div>';
+
+  showSheet();
+  el("close").onclick = closeSheet;
+}
+
+function showSheet(){
+  el("sheet").classList.add("show");
+}
+
+function closeSheet(){
+  const panel = el("panel");
+  const vid = panel.querySelector("video");
+  if(vid) vid.pause();
+  el("sheet").classList.remove("show");
+}
+
+function openSettings(){
+  el("panel").innerHTML =
+    '<button class="close" id="close">âœ•</button>' +
+    '<h2>Settings</h2>' +
+    '<div class="settings-row">' +
+    '<div><b>Display Wallpaper</b><div style="color:#777;font-size:13px;margin-top:4px">Choose wallpaper grid columns</div></div>' +
+    '<div class="choice"><button data-col="2">2</button><button data-col="3">3</button></div>' +
+    '</div>';
+
+  document.querySelectorAll("[data-col]").forEach(b => {
+    b.classList.toggle("active", Number(b.dataset.col) === columns);
+    b.onclick = () => {
+      columns = Number(b.dataset.col);
+      localStorage.setItem("wallpaperColumns", columns);
+      document.querySelectorAll("[data-col]").forEach(x =>
+        x.classList.toggle("active", Number(x.dataset.col) === columns)
+      );
+      render();
+    };
+  });
+
+  showSheet();
+  el("close").onclick = closeSheet;
+}
+
+async function loadData(){
+  try{
+    const r = await fetch(API_URL + "?action=all&t=" + Date.now(), {cache:"no-store"});
+    const data = await r.json();
+
+    if(!data.success) throw new Error(data.error || "API error");
+
+    allWallpapers = Array.isArray(data.wallpapers) ? data.wallpapers : [];
+    wallpapers = allWallpapers.slice();
+    categories = Array.isArray(data.categories) ? data.categories : [];
+    videos = Array.isArray(data.videos) ? data.videos : [];
+
+    render();
+  }catch(e){
+    console.error(e);
+    allWallpapers = [];
+    wallpapers = [];
+    categories = [];
+    videos = [];
+    el("view").innerHTML =
+      '<div class="empty">Unable to load wallpapers.<br><small>' +
+      escapeHtml(e.message || "API error") + '</small></div>';
+  }
+}
+
+document.querySelectorAll(".nav").forEach(b =>
+  b.onclick = () => setPage(b.dataset.page)
+);
+
+document.querySelectorAll(".tabs button").forEach(b =>
+  b.onclick = () => {
+    sort = b.dataset.sort;
+    document.querySelectorAll(".tabs button").forEach(x =>
+      x.classList.remove("active")
+    );
+    b.classList.add("active");
+    render();
+  }
+);
+
+el("search").addEventListener("input", render);
+el("settingsBtn").onclick = openSettings;
+el("sheet").addEventListener("click", e => {
+  if(e.target === el("sheet")) closeSheet();
+});
+
 loadData();
 </script>
 </body>
