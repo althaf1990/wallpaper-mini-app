@@ -164,31 +164,82 @@ body{padding-bottom:86px;transition:background .2s,color .2s}
   background:var(--green2);border-color:#9ad7a0;color:#277b2e
 }
 
-/* About dialog - modeled after the supplied reference */
+/* Compact About popup - Material Wallpaper style */
 .about-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.38);
+  position:fixed;inset:0;background:rgba(0,0,0,.42);
   display:none;align-items:center;justify-content:center;
-  z-index:80;padding:24px
+  z-index:200;padding:24px
 }
 .about-overlay.show{display:flex}
+
 .about-dialog{
-  width:min(660px,100%);background:#f9f5ff;
-  border-radius:30px;padding:38px 28px 28px;
-  text-align:center;box-shadow:0 16px 45px rgba(0,0,0,.25)
+  width:min(660px,calc(100% - 48px));
+  background:#f8f4ff;
+  border-radius:28px;
+  padding:28px 24px 18px;
+  text-align:center;
+  box-shadow:0 18px 48px rgba(0,0,0,.30);
+  transform:scale(.96);
+  animation:aboutPop .18s ease-out forwards
 }
+
+@keyframes aboutPop{
+  to{transform:scale(1)}
+}
+
 .about-logo{
-  width:118px;height:118px;border-radius:28px;
-  background:#4caf50;margin:0 auto 22px;
+  width:112px;height:112px;border-radius:27px;
+  background:#4caf50;margin:0 auto 20px;
   display:flex;align-items:center;justify-content:center
 }
-.about-logo svg{width:72px;height:72px}
-.about-name{font-size:31px;font-weight:700;margin-bottom:7px}
-.about-version{font-size:22px;color:#777;margin-bottom:32px}
-.about-copy{font-size:20px;line-height:1.55;color:#777}
+.about-logo svg{width:68px;height:68px}
+
+.about-name{
+  font-size:28px;
+  line-height:1.2;
+  font-weight:700;
+  margin-bottom:7px
+}
+
+.about-version{
+  font-size:18px;
+  line-height:1.3;
+  color:#777;
+  margin-bottom:28px
+}
+
+.about-copy{
+  font-size:17px;
+  line-height:1.55;
+  color:#777
+}
+
 .about-ok{
-  display:block;margin:30px 0 0 auto;border:0;background:none;
-  color:#4caf50;font-size:20px;font-weight:600;padding:8px 12px;
+  display:block;
+  margin:22px 0 0 auto;
+  border:0;
+  background:transparent;
+  color:#4caf50;
+  font-size:18px;
+  font-weight:600;
+  padding:8px 10px;
   cursor:pointer
+}
+
+@media(max-width:480px){
+  .about-dialog{
+    width:calc(100% - 36px);
+    border-radius:26px;
+    padding:25px 20px 16px
+  }
+  .about-logo{
+    width:100px;height:100px;border-radius:25px
+  }
+  .about-logo svg{width:61px;height:61px}
+  .about-name{font-size:25px}
+  .about-version{font-size:17px;margin-bottom:24px}
+  .about-copy{font-size:16px}
+  .about-ok{font-size:17px;margin-top:18px}
 }
 
 /* Full-screen viewer */
@@ -425,7 +476,7 @@ body.dark .about-version{color:#aaa}
     </div>
 
     <div class="about-name" id="aboutName">Wallpaper App Bot</div>
-    <div class="about-version">Version 1.0.0</div>
+    <div class="about-version">Version 1.0</div>
 
     <div class="about-copy">
       Copyright © 2026 Wallpaper App Bot<br>
@@ -759,32 +810,44 @@ function renderSettings(v){
     };
   });
 
-  el("aboutRow").onclick = openAbout;
-}
+  el("aboutRow").onclick = e => {
+  e.preventDefault();
+  e.stopPropagation();
+  openAbout();
+};
 
 /* =========================================================
    ABOUT POPUP
+   Opens only the small centered popup.
 ========================================================= */
 function openAbout(){
-  el("aboutOverlay").classList.add("show");
-  el("aboutOverlay").setAttribute("aria-hidden","false");
+  const overlay = el("aboutOverlay");
+  overlay.classList.add("show");
+  overlay.setAttribute("aria-hidden","false");
   document.body.style.overflow = "hidden";
 }
 
 function closeAbout(){
-  el("aboutOverlay").classList.remove("show");
-  el("aboutOverlay").setAttribute("aria-hidden","true");
+  const overlay = el("aboutOverlay");
+  overlay.classList.remove("show");
+  overlay.setAttribute("aria-hidden","true");
   document.body.style.overflow = "";
 }
 
-el("aboutOk").onclick = closeAbout;
+el("aboutOk").onclick = e => {
+  e.preventDefault();
+  closeAbout();
+};
 
-el("aboutOverlay").addEventListener("click",e=>{
-  if(e.target === el("aboutOverlay")) closeAbout();
+el("aboutOverlay").addEventListener("click", e => {
+  if(e.target === el("aboutOverlay")){
+    closeAbout();
+  }
 });
 
 /* =========================================================
    CATEGORIES
+
 ========================================================= */
 function renderCategories(v){
 
