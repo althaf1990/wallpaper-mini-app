@@ -25,8 +25,6 @@ html,body{
   font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
 }
 body{padding-bottom:86px;transition:background .2s,color .2s}
-body.settings-mode{padding-bottom:0}
-body.settings-mode .app{max-width:900px;min-height:100vh;padding-top:18px}
 .app{max-width:900px;margin:auto;padding:14px}
 .topline{display:flex;align-items:center}
 .search{
@@ -166,82 +164,31 @@ body.settings-mode .app{max-width:900px;min-height:100vh;padding-top:18px}
   background:var(--green2);border-color:#9ad7a0;color:#277b2e
 }
 
-/* Compact About popup - Material Wallpaper style */
+/* About dialog - modeled after the supplied reference */
 .about-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.42);
+  position:fixed;inset:0;background:rgba(0,0,0,.38);
   display:none;align-items:center;justify-content:center;
-  z-index:200;padding:24px
+  z-index:80;padding:24px
 }
 .about-overlay.show{display:flex}
-
 .about-dialog{
-  width:min(660px,calc(100% - 48px));
-  background:#f8f4ff;
-  border-radius:28px;
-  padding:28px 24px 18px;
-  text-align:center;
-  box-shadow:0 18px 48px rgba(0,0,0,.30);
-  transform:scale(.96);
-  animation:aboutPop .18s ease-out forwards
+  width:min(660px,100%);background:#f9f5ff;
+  border-radius:30px;padding:38px 28px 28px;
+  text-align:center;box-shadow:0 16px 45px rgba(0,0,0,.25)
 }
-
-@keyframes aboutPop{
-  to{transform:scale(1)}
-}
-
 .about-logo{
-  width:112px;height:112px;border-radius:27px;
-  background:#4caf50;margin:0 auto 20px;
+  width:118px;height:118px;border-radius:28px;
+  background:#4caf50;margin:0 auto 22px;
   display:flex;align-items:center;justify-content:center
 }
-.about-logo svg{width:68px;height:68px}
-
-.about-name{
-  font-size:28px;
-  line-height:1.2;
-  font-weight:700;
-  margin-bottom:7px
-}
-
-.about-version{
-  font-size:18px;
-  line-height:1.3;
-  color:#777;
-  margin-bottom:28px
-}
-
-.about-copy{
-  font-size:17px;
-  line-height:1.55;
-  color:#777
-}
-
+.about-logo svg{width:72px;height:72px}
+.about-name{font-size:31px;font-weight:700;margin-bottom:7px}
+.about-version{font-size:22px;color:#777;margin-bottom:32px}
+.about-copy{font-size:20px;line-height:1.55;color:#777}
 .about-ok{
-  display:block;
-  margin:22px 0 0 auto;
-  border:0;
-  background:transparent;
-  color:#4caf50;
-  font-size:18px;
-  font-weight:600;
-  padding:8px 10px;
+  display:block;margin:30px 0 0 auto;border:0;background:none;
+  color:#4caf50;font-size:20px;font-weight:600;padding:8px 12px;
   cursor:pointer
-}
-
-@media(max-width:480px){
-  .about-dialog{
-    width:calc(100% - 36px);
-    border-radius:26px;
-    padding:25px 20px 16px
-  }
-  .about-logo{
-    width:100px;height:100px;border-radius:25px
-  }
-  .about-logo svg{width:61px;height:61px}
-  .about-name{font-size:25px}
-  .about-version{font-size:17px;margin-bottom:24px}
-  .about-copy{font-size:16px}
-  .about-ok{font-size:17px;margin-top:18px}
 }
 
 /* Full-screen viewer */
@@ -398,7 +345,7 @@ body.dark .about-version{color:#aaa}
 <main class="app">
 
   <!-- Top search remains visible on every normal/settings page -->
-  <div class="topline" id="topline">
+  <div class="topline">
 
     <div class="search" style="flex:1;margin-right:10px">
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -429,7 +376,7 @@ body.dark .about-version{color:#aaa}
 
 </main>
 
-<nav class="bottom" id="bottomNav">
+<nav class="bottom">
   <div class="bottom-inner">
 
     <button class="nav active" data-page="wallpaper">
@@ -478,7 +425,7 @@ body.dark .about-version{color:#aaa}
     </div>
 
     <div class="about-name" id="aboutName">Wallpaper App Bot</div>
-    <div class="about-version">Version 1.0</div>
+    <div class="about-version">Version 1.0.0</div>
 
     <div class="about-copy">
       Copyright © 2026 Wallpaper App Bot<br>
@@ -601,13 +548,8 @@ function setPage(p){
   if(p !== "wallpaper") categoryFilter = null;
   if(p !== "categoryWallpapers") selectedCategory = null;
 
-  /* Settings is a completely separate page.
-     Hide the normal Home UI: search bar, settings button, tabs and bottom navigation. */
-  const isSettings = p === "settings";
-  el("topline").style.display = isSettings ? "none" : "";
-  el("tabs").style.display = isSettings ? "none" : "";
-  el("bottomNav").style.display = isSettings ? "none" : "";
-  document.body.classList.toggle("settings-mode", isSettings);
+  /* Settings is a real page, so tabs disappear completely. */
+  el("tabs").style.display = p === "settings" ? "none" : "";
 
   document.querySelectorAll(".nav").forEach(b=>{
     b.classList.toggle(
@@ -817,44 +759,32 @@ function renderSettings(v){
     };
   });
 
-  el("aboutRow").onclick = e => {
-  e.preventDefault();
-  e.stopPropagation();
-  openAbout();
-};
+  el("aboutRow").onclick = openAbout;
+}
 
 /* =========================================================
    ABOUT POPUP
-   Opens only the small centered popup.
 ========================================================= */
 function openAbout(){
-  const overlay = el("aboutOverlay");
-  overlay.classList.add("show");
-  overlay.setAttribute("aria-hidden","false");
+  el("aboutOverlay").classList.add("show");
+  el("aboutOverlay").setAttribute("aria-hidden","false");
   document.body.style.overflow = "hidden";
 }
 
 function closeAbout(){
-  const overlay = el("aboutOverlay");
-  overlay.classList.remove("show");
-  overlay.setAttribute("aria-hidden","true");
+  el("aboutOverlay").classList.remove("show");
+  el("aboutOverlay").setAttribute("aria-hidden","true");
   document.body.style.overflow = "";
 }
 
-el("aboutOk").onclick = e => {
-  e.preventDefault();
-  closeAbout();
-};
+el("aboutOk").onclick = closeAbout;
 
-el("aboutOverlay").addEventListener("click", e => {
-  if(e.target === el("aboutOverlay")){
-    closeAbout();
-  }
+el("aboutOverlay").addEventListener("click",e=>{
+  if(e.target === el("aboutOverlay")) closeAbout();
 });
 
 /* =========================================================
    CATEGORIES
-
 ========================================================= */
 function renderCategories(v){
 
