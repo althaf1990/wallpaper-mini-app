@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
-<title>Wallpaper Mini App</title>
+<title>Wallpaper App Bot</title>
 
 <style>
 :root{
@@ -36,6 +36,8 @@ body{
   margin:auto;
   padding:14px
 }
+
+/* SEARCH */
 
 .topline{
   display:flex;
@@ -87,45 +89,8 @@ body{
   height:23px
 }
 
-.tabs{
-  display:flex;
-  gap:26px;
-  overflow:auto;
-  white-space:nowrap;
-  padding:8px 4px 12px;
-  margin-bottom:8px;
-  scrollbar-width:none
-}
 
-.tabs::-webkit-scrollbar{
-  display:none
-}
-
-.tabs button{
-  border:0;
-  background:none;
-  font-size:17px;
-  color:#555;
-  padding:8px 0;
-  position:relative
-}
-
-.tabs button.active{
-  color:var(--green)
-}
-
-.tabs button.active:after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:-4px;
-  height:3px;
-  background:var(--green);
-  border-radius:3px
-}
-
-/* WALLPAPER GRID */
+/* GRID */
 
 .grid{
   display:grid;
@@ -136,8 +101,6 @@ body{
 .grid.two{
   grid-template-columns:repeat(2,minmax(0,1fr))
 }
-
-/* IMAGE ONLY CARD */
 
 .card{
   position:relative;
@@ -157,7 +120,35 @@ body{
   background:#eee
 }
 
-/* FAVORITE BUTTON */
+.shade{
+  position:absolute;
+  inset:45% 0 0;
+  background:linear-gradient(
+    transparent,
+    rgba(0,0,0,.7)
+  );
+  pointer-events:none
+}
+
+.meta{
+  position:absolute;
+  left:12px;
+  right:10px;
+  bottom:10px;
+  color:#fff;
+  pointer-events:none
+}
+
+.title{
+  font-size:17px;
+  font-weight:600
+}
+
+.sub{
+  font-size:13px;
+  opacity:.9;
+  margin-top:3px
+}
 
 .fav{
   position:absolute;
@@ -170,11 +161,11 @@ body{
   background:rgba(255,255,255,.88);
   font-size:21px;
   z-index:2;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center
+  cursor:pointer
 }
+
+
+/* EMPTY / LOADING */
 
 .empty{
   text-align:center;
@@ -187,6 +178,7 @@ body{
   color:var(--muted);
   padding:30px
 }
+
 
 /* BOTTOM NAV */
 
@@ -235,7 +227,29 @@ body{
   color:var(--green)
 }
 
+
 /* CATEGORY */
+
+.category-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:4px 0 14px
+}
+
+.category-header button{
+  border:0;
+  background:none;
+  font-size:30px;
+  line-height:1;
+  padding:0 6px;
+  color:#333
+}
+
+.category-title{
+  font-size:25px;
+  font-weight:600
+}
 
 .cat-grid{
   display:grid;
@@ -243,24 +257,33 @@ body{
   gap:12px
 }
 
-.cat-grid .category{
-  aspect-ratio:3.2
-}
+
+/*
+  CATEGORY IMAGE ONLY
+*/
 
 .category{
+  position:relative;
+  width:100%;
+  aspect-ratio:3.2;
   border:0;
-  background:#f5f7f7;
-  border-radius:18px;
-  padding:18px;
-  text-align:left;
-  font-size:17px
+  padding:0;
+  margin:0;
+  border-radius:20px;
+  overflow:hidden;
+  background:#eee;
+  cursor:pointer
 }
 
-.category small{
-  display:block;
-  color:#777;
-  margin-top:5px
+.category img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block
 }
+
 
 /* SETTINGS */
 
@@ -330,6 +353,7 @@ body{
   color:#277b2e
 }
 
+
 /* FULL SCREEN VIEWER */
 
 .viewer{
@@ -353,7 +377,6 @@ body{
   align-items:center;
   justify-content:space-between;
   padding:8px 12px;
-  flex:none;
   background:linear-gradient(
     rgba(0,0,0,.65),
     transparent
@@ -494,7 +517,8 @@ body{
   -webkit-user-select:none
 }
 
-/* PHONE */
+
+/* MOBILE */
 
 @media(max-width:480px){
 
@@ -510,12 +534,16 @@ body{
     border-radius:15px
   }
 
-  .tabs{
-    gap:22px
+  .title{
+    font-size:15px
   }
 
   .search input{
     font-size:18px
+  }
+
+  .category{
+    border-radius:18px
   }
 
   .viewer-arrow{
@@ -540,6 +568,7 @@ body{
 </style>
 </head>
 
+
 <body>
 
 <main class="app">
@@ -557,9 +586,7 @@ body{
         viewBox="0 0 24 24"
         aria-hidden="true"
       >
-
         <path d="M10.8 4a6.8 6.8 0 1 0 4.25 12.1l4.43 4.43 1.42-1.42-4.43-4.43A6.8 6.8 0 0 0 10.8 4Zm0 2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Z"/>
-
       </svg>
 
       <input
@@ -569,6 +596,7 @@ body{
       >
 
     </div>
+
 
     <button
       class="settings-btn"
@@ -580,37 +608,9 @@ body{
         viewBox="0 0 24 24"
         aria-hidden="true"
       >
-
-        <path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.03-1.58-1.92-3.32-2.39.96a7.7 7.7 0 0 0-1.69-.98L15.1 3.5h-3.84l-.36 2.6c-.61.25-1.18.58-1.69.98l-2.39-.96L4.9 9.44l2.03 1.58c-.04.32-.08.65-.08.98L4.9 14.56l1.92 3.32 2.39-.96c.51.4 1.08.73 1.69.98l.36 2.6h3.84l.36-2.6a7.7 7.7 0 0 0 1.69-.98l2.39.96 1.92-3.32-2.03-1.58ZM13.18 15.5A3.5 3.5 0 1 1 13.18 8a3.5 3.5 0 0 1 0 7.5Z"/>
-
+        <path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.03-1.58-1.92-3.32-2.39.96a7.7 7.7 0 0 0-1.69-.98L15.1 3.5h-3.84l-.36 2.6c-.61.25-1.18.58-1.69.98l-2.39-.96L4.9 9.44l2.03 1.58c-.04.32-.08.65-.08.98s.03.66.08.98L4.9 14.56l1.92 3.32 2.39-.96c.51.4 1.08.73 1.69.98l.36 2.6h3.84l.36-2.6a7.7 7.7 0 0 0 1.69-.98l2.39.96 1.92-3.32-2.03-1.58ZM13.18 15.5A3.5 3.5 0 1 1 13.18 8a3.5 3.5 0 0 1 0 7.5Z"/>
       </svg>
 
-    </button>
-
-  </div>
-
-
-  <!-- TABS -->
-
-  <div id="tabs" class="tabs">
-
-    <button
-      class="active"
-      data-sort="recent"
-    >
-      Recent
-    </button>
-
-    <button data-sort="featured">
-      Featured
-    </button>
-
-    <button data-sort="popular">
-      Popular
-    </button>
-
-    <button data-sort="random">
-      Random
     </button>
 
   </div>
@@ -634,8 +634,6 @@ body{
 <nav class="bottom">
 
   <div class="bottom-inner">
-
-    <!-- WALLPAPER -->
 
     <button
       class="nav active"
@@ -678,8 +676,6 @@ body{
     </button>
 
 
-    <!-- CATEGORY -->
-
     <button
       class="nav"
       data-page="category"
@@ -717,8 +713,6 @@ body{
     </button>
 
 
-    <!-- FAVORITE -->
-
     <button
       class="nav"
       data-page="favorite"
@@ -749,7 +743,7 @@ body{
 </nav>
 
 
-<!-- SETTINGS SHEET -->
+<!-- SETTINGS -->
 
 <div
   class="sheet"
@@ -867,16 +861,46 @@ const API_URL =
 
 
 /* =========================================================
-   VARIABLES
+   DEMO DATA
 ========================================================= */
 
-let wallpapers = [];
+const demo = [
 
+  {
+    id:"demo1",
+    name:"Nature",
+    category:"Nature",
+    url:"https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:"demo2",
+    name:"Mountain",
+    category:"Nature",
+    url:"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:"demo3",
+    name:"Car",
+    category:"Cars",
+    url:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:"demo4",
+    name:"Space",
+    category:"Space",
+    url:"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=900&q=85"
+  }
+
+];
+
+
+let wallpapers = [];
 let categories = [];
 
 let page = "wallpaper";
-
-let sort = "recent";
 
 let columns = 3;
 
@@ -897,14 +921,25 @@ new Set(
 );
 
 
+function saveFav(){
+
+  localStorage.setItem(
+    "favorites",
+    JSON.stringify([...favorites])
+  );
+
+}
+
+
 /* =========================================================
-   COLUMN SETTING
+   COLUMNS
 ========================================================= */
 
 const savedCols =
 Number(
   localStorage.getItem("wallpaperColumns")
 );
+
 
 if(
   savedCols === 2 ||
@@ -917,7 +952,7 @@ if(
 
 
 /* =========================================================
-   ELEMENT HELPER
+   ELEMENT
 ========================================================= */
 
 const el = id =>
@@ -925,21 +960,7 @@ document.getElementById(id);
 
 
 /* =========================================================
-   SAVE FAVORITES
-========================================================= */
-
-function saveFav(){
-
-  localStorage.setItem(
-    "favorites",
-    JSON.stringify([...favorites])
-  );
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
+   ESCAPE
 ========================================================= */
 
 function escapeHtml(s){
@@ -966,6 +987,7 @@ function setPage(p){
 
   page = p;
 
+
   if(
     p !== "wallpaper"
   ){
@@ -973,6 +995,7 @@ function setPage(p){
     categoryFilter = null;
 
   }
+
 
   if(
     p !== "categoryWallpapers"
@@ -987,8 +1010,7 @@ function setPage(p){
     .querySelectorAll(".nav")
     .forEach(b => {
 
-      b.classList.toggle(
-        "active",
+      const active =
 
         (
           b.dataset.page === "category" &&
@@ -1000,7 +1022,12 @@ function setPage(p){
 
         ||
 
-        b.dataset.page === p
+        b.dataset.page === p;
+
+
+      b.classList.toggle(
+        "active",
+        active
       );
 
     });
@@ -1017,63 +1044,50 @@ function setPage(p){
 
 function getDisplayArray(){
 
-  let q =
+  const q =
     el("search")
       .value
       .trim()
       .toLowerCase();
 
 
-  let arr =
-    wallpapers.filter(x => {
+  return wallpapers.filter(x => {
 
-      const text =
-        (
-          x.name +
-          " " +
-          x.category
-        ).toLowerCase();
-
-
-      return (
-        text.includes(q) &&
-
-        (
-          !categoryFilter ||
-          x.category === categoryFilter
-        )
-      );
-
-    });
+    const text =
+      (
+        x.name +
+        " " +
+        x.category
+      ).toLowerCase();
 
 
-  if(
-    sort === "random"
-  ){
+    return (
 
-    arr =
-      [...arr].sort(
-        () =>
-          Math.random() - .5
-      );
+      text.includes(q)
 
-  }
+      &&
 
+      (
+        !categoryFilter ||
+        x.category === categoryFilter
+      )
 
-  return arr;
+    );
+
+  });
 
 }
 
 
 /* =========================================================
    MAIN RENDER
-   IMAGE ONLY
 ========================================================= */
 
 function render(){
 
   const v =
     el("view");
+
 
   v.innerHTML = "";
 
@@ -1100,15 +1114,20 @@ function render(){
   }
 
 
-  let arr =
+  const arr =
+
     page === "favorite"
 
-      ? wallpapers.filter(
-          x =>
-            favorites.has(x.id)
-        )
+      ?
 
-      : getDisplayArray();
+      wallpapers.filter(
+        x =>
+          favorites.has(x.id)
+      )
+
+      :
+
+      getDisplayArray();
 
 
   if(
@@ -1117,9 +1136,7 @@ function render(){
   ){
 
     v.innerHTML =
-      '<div class="empty">' +
-      'No favorite wallpapers yet.' +
-      '</div>';
+      '<div class="empty">No favorite wallpapers yet.</div>';
 
     return;
 
@@ -1131,9 +1148,7 @@ function render(){
   ){
 
     v.innerHTML =
-      '<div class="empty">' +
-      'No wallpapers found.' +
-      '</div>';
+      '<div class="empty">No wallpapers found.</div>';
 
     return;
 
@@ -1142,6 +1157,7 @@ function render(){
 
   const grid =
     document.createElement("div");
+
 
   grid.className =
     "grid" +
@@ -1157,37 +1173,28 @@ function render(){
     const c =
       document.createElement("article");
 
+
     c.className =
       "card";
 
 
-    /*
-      IMAGE ONLY
-      No name
-      No folder
-      No category
-      No gradient
-    */
-
     c.innerHTML =
 
-      '<img ' +
+      '<img loading="lazy" decoding="async" src="' +
 
-      'loading="lazy" ' +
-
-      'decoding="async" ' +
-
-      'src="' +
       escapeHtml(x.url) +
-      '" ' +
 
-      'alt="Wallpaper">' +
+      '" alt="' +
 
-      '<button ' +
+      escapeHtml(x.name) +
 
-      'class="fav" ' +
+      '">' +
 
-      'aria-label="Favorite">' +
+
+      '<div class="shade"></div>' +
+
+
+      '<button class="fav" aria-label="Favorite">' +
 
       (
         favorites.has(x.id)
@@ -1195,10 +1202,26 @@ function render(){
           : "♡"
       ) +
 
-      '</button>';
+      '</button>' +
 
 
-    /* FAVORITE */
+      '<div class="meta">' +
+
+      '<div class="title">' +
+
+      escapeHtml(x.name) +
+
+      '</div>' +
+
+
+      '<div class="sub">' +
+
+      escapeHtml(x.category) +
+
+      '</div>' +
+
+      '</div>';
+
 
     c
       .querySelector(".fav")
@@ -1230,12 +1253,13 @@ function render(){
       );
 
 
-    /* OPEN VIEWER */
-
     c.addEventListener(
       "click",
       () =>
-        openViewer(x, arr)
+        openViewer(
+          x,
+          arr
+        )
     );
 
 
@@ -1251,6 +1275,7 @@ function render(){
 
 /* =========================================================
    CATEGORIES
+   IMAGE ONLY
 ========================================================= */
 
 function renderCategories(v){
@@ -1260,9 +1285,7 @@ function renderCategories(v){
   ){
 
     v.innerHTML =
-      '<div class="empty">' +
-      'No categories found.' +
-      '</div>';
+      '<div class="empty">No categories found.</div>';
 
     return;
 
@@ -1273,24 +1296,18 @@ function renderCategories(v){
     document.createElement("div");
 
 
-  header.style.cssText =
-    "display:flex;align-items:center;gap:10px;margin:4px 0 14px";
+  header.className =
+    "category-header";
 
 
   header.innerHTML =
 
-    '<button id="catBack" ' +
-
-    'style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:#333">' +
-
+    '<button id="catBack">' +
     '&#8249;' +
-
     '</button>' +
 
-    '<div style="font-size:25px;font-weight:600">' +
-
+    '<div class="category-title">' +
     'Category' +
-
     '</div>';
 
 
@@ -1309,6 +1326,7 @@ function renderCategories(v){
   const g =
     document.createElement("div");
 
+
   g.className =
     "cat-grid";
 
@@ -1316,6 +1334,7 @@ function renderCategories(v){
   categories.forEach(cat => {
 
     const name =
+
       typeof cat === "string"
 
         ? cat
@@ -1345,8 +1364,14 @@ function renderCategories(v){
 
 
     const cover =
-      items[0]?.url ||
-      "";
+      items[0]?.url || "";
+
+
+    if(!cover){
+
+      return;
+
+    }
 
 
     const b =
@@ -1357,53 +1382,31 @@ function renderCategories(v){
       "category";
 
 
-    b.style.cssText =
-      "position:relative;min-height:115px;overflow:hidden;color:#fff;padding:18px;border:0;background:#ddd;text-shadow:0 1px 4px rgba(0,0,0,.5)";
-
+    /*
+      ONLY IMAGE
+      No category name
+      No wallpaper count
+      No overlay text
+    */
 
     b.innerHTML =
 
-      (
+      '<img src="' +
 
-        cover
+      escapeHtml(cover) +
 
-        ?
-
-        '<img src="' +
-        escapeHtml(cover) +
-        '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0">'
-
-        :
-
-        ""
-
-      ) +
-
-      '<span style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.48),rgba(0,0,0,.08));z-index:1"></span>' +
-
-      '<span style="position:relative;z-index:2;display:block">' +
-
-      '<b>' +
+      '" alt="' +
 
       escapeHtml(name) +
 
-      '</b>' +
-
-      '<small style="color:#fff">' +
-
-      items.length +
-
-      ' Wallpapers' +
-
-      '</small>' +
-
-      '</span>';
+      '" loading="lazy">';
 
 
     b.onclick = () => {
 
       selectedCategory =
         name;
+
 
       page =
         "categoryWallpapers";
@@ -1444,7 +1447,6 @@ function renderCategories(v){
 
 /* =========================================================
    CATEGORY WALLPAPERS
-   IMAGE ONLY
 ========================================================= */
 
 function renderCategoryWallpapers(v){
@@ -1499,32 +1501,24 @@ function renderCategoryWallpapers(v){
     document.createElement("div");
 
 
-  header.style.cssText =
-    "display:flex;align-items:center;gap:10px;margin:2px 0 14px";
+  header.className =
+    "category-header";
 
 
   header.innerHTML =
 
-    '<button id="catWallBack" ' +
-
-    'style="border:0;background:none;font-size:30px;line-height:1;padding:0 6px;color:#333">' +
-
+    '<button id="catWallBack">' +
     '&#8249;' +
-
     '</button>' +
 
-    '<div style="font-size:23px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
+    '<div class="category-title" style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
 
     escapeHtml(name) +
 
     '</div>' +
 
-    '<button id="catWallSearch" ' +
-
-    'style="border:0;background:none;font-size:24px">' +
-
+    '<button id="catWallSearch" style="font-size:24px">' +
     '&#128269;' +
-
     '</button>';
 
 
@@ -1537,6 +1531,7 @@ function renderCategoryWallpapers(v){
 
       selectedCategory =
         null;
+
 
       page =
         "category";
@@ -1569,13 +1564,16 @@ function renderCategoryWallpapers(v){
     const e =
       document.createElement("div");
 
+
     e.className =
       "empty";
+
 
     e.textContent =
       "No wallpapers found in " +
       name +
       ".";
+
 
     v.appendChild(e);
 
@@ -1607,27 +1605,21 @@ function renderCategoryWallpapers(v){
       "card";
 
 
-    /* IMAGE ONLY */
-
     c.innerHTML =
 
-      '<img ' +
+      '<img loading="lazy" decoding="async" src="' +
 
-      'loading="lazy" ' +
-
-      'decoding="async" ' +
-
-      'src="' +
       escapeHtml(x.url) +
-      '" ' +
 
-      'alt="Wallpaper">' +
+      '" alt="' +
 
-      '<button ' +
+      escapeHtml(x.name) +
 
-      'class="fav" ' +
+      '">' +
 
-      'aria-label="Favorite">' +
+      '<div class="shade"></div>' +
+
+      '<button class="fav" aria-label="Favorite">' +
 
       (
         favorites.has(x.id)
@@ -1635,10 +1627,24 @@ function renderCategoryWallpapers(v){
           : "♡"
       ) +
 
-      '</button>';
+      '</button>' +
 
+      '<div class="meta">' +
 
-    /* FAVORITE */
+      '<div class="title">' +
+
+      escapeHtml(x.name) +
+
+      '</div>' +
+
+      '<div class="sub">' +
+
+      escapeHtml(x.category) +
+
+      '</div>' +
+
+      '</div>';
+
 
     c
       .querySelector(".fav")
@@ -1670,12 +1676,13 @@ function renderCategoryWallpapers(v){
       );
 
 
-    /* VIEWER */
-
     c.addEventListener(
       "click",
       () =>
-        openViewer(x, arr)
+        openViewer(
+          x,
+          arr
+        )
     );
 
 
@@ -1708,7 +1715,7 @@ let dragging = false;
 let dragX = 0;
 
 
-/* OPEN VIEWER */
+/* OPEN */
 
 function openViewer(item, arr){
 
@@ -1752,7 +1759,7 @@ function openViewer(item, arr){
 }
 
 
-/* BUILD SLIDES */
+/* BUILD */
 
 function buildSlides(){
 
@@ -1784,6 +1791,7 @@ function buildSlides(){
 
 
       img.alt =
+        x.name ||
         "Wallpaper";
 
 
@@ -1808,14 +1816,9 @@ function buildSlides(){
       }
 
 
-      slide.appendChild(
-        img
-      );
+      slide.appendChild(img);
 
-
-      s.appendChild(
-        slide
-      );
+      s.appendChild(slide);
 
     }
   );
@@ -1827,51 +1830,54 @@ function buildSlides(){
 
 function loadNearby(){
 
-  [-1,0,1].forEach(
-    offset => {
+  [-1,0,1]
+    .forEach(
+      offset => {
 
-      const i =
-        viewerIndex +
-        offset;
+        const i =
+          viewerIndex +
+          offset;
 
 
-      if(
-        i < 0 ||
-        i >= viewerItems.length
-      ){
+        if(
+          i < 0 ||
+          i >= viewerItems.length
+        ){
 
-        return;
+          return;
+
+        }
+
+
+        const img =
+          el("slides")
+            .children[i]
+            ?.querySelector(
+              "img"
+            );
+
+
+        if(
+          img &&
+          !img.src &&
+          img.dataset.src
+        ){
+
+          img.src =
+            img.dataset.src;
+
+
+          delete img.dataset.src;
+
+        }
 
       }
-
-
-      const img =
-        el("slides")
-          .children[i]
-          ?.querySelector("img");
-
-
-      if(
-        img &&
-        !img.src &&
-        img.dataset.src
-      ){
-
-        img.src =
-          img.dataset.src;
-
-
-        delete img.dataset.src;
-
-      }
-
-    }
-  );
+    );
 
 }
 
 
-/* UPDATE VIEWER */
+/* UPDATE */
 
 function updateViewer(
   animate = true
@@ -1890,6 +1896,7 @@ function updateViewer(
 
 
   s.style.transform =
+
     "translate3d(" +
 
     (
@@ -1922,14 +1929,13 @@ function updateViewer(
   el("viewerCounter")
     .textContent =
 
-      (
-        viewerIndex +
-        1
-      ) +
+    (
+      viewerIndex + 1
+    ) +
 
-      " / " +
+    " / " +
 
-      viewerItems.length;
+    viewerItems.length;
 
 
   el("viewerDownload")
@@ -1943,6 +1949,7 @@ function updateViewer(
 
 
   fav.innerHTML =
+
     favorites.has(x.id)
 
       ? "♥ Remove"
@@ -1955,11 +1962,9 @@ function updateViewer(
 }
 
 
-/* NEXT / PREVIOUS */
+/* NEXT PREVIOUS */
 
-function goViewer(
-  delta
-){
+function goViewer(delta){
 
   if(
     !viewerItems.length
@@ -1989,14 +1994,12 @@ function goViewer(
     next;
 
 
-  updateViewer(
-    true
-  );
+  updateViewer(true);
 
 }
 
 
-/* CLOSE VIEWER */
+/* CLOSE */
 
 function closeViewer(){
 
@@ -2020,32 +2023,31 @@ function closeViewer(){
     "";
 
 
-  viewerItems =
-    [];
+  viewerItems = [];
 
 }
 
 
-/* VIEWER BUTTONS */
+/* BUTTONS */
 
 el("viewerClose")
   .onclick =
-    closeViewer;
+  closeViewer;
 
 
 el("viewerPrev")
   .onclick =
-    () =>
-      goViewer(-1);
+  () =>
+    goViewer(-1);
 
 
 el("viewerNext")
   .onclick =
-    () =>
-      goViewer(1);
+  () =>
+    goViewer(1);
 
 
-/* FAVORITE BUTTON */
+/* FAVORITE */
 
 el("viewerFavorite")
   .onclick = () => {
@@ -2145,7 +2147,7 @@ stage.addEventListener(
 
     el("slides")
       .style.transition =
-        "none";
+      "none";
 
   },
   {
@@ -2210,7 +2212,9 @@ stage.addEventListener(
       .style.transform =
 
       "translate3d(" +
+
       base +
+
       "px,0,0)";
 
   },
@@ -2224,9 +2228,7 @@ stage.addEventListener(
   "touchend",
   () => {
 
-    if(
-      !dragging
-    ){
+    if(!dragging){
 
       return;
 
@@ -2260,7 +2262,7 @@ stage.addEventListener(
 
     if(
       Math.abs(dragX) >
-        threshold ||
+      threshold ||
       velocity > .45
     ){
 
@@ -2286,17 +2288,13 @@ stage.addEventListener(
     }
 
 
-    updateViewer(
-      true
-    );
+    updateViewer(true);
 
   }
 );
 
 
-/* =========================================================
-   KEYBOARD
-========================================================= */
+/* KEYBOARD */
 
 document.addEventListener(
   "keydown",
@@ -2377,17 +2375,9 @@ function openSettings(){
 
       '<div class="choice">' +
 
-        '<button data-col="2">' +
+        '<button data-col="2">2</button>' +
 
-        '2' +
-
-        '</button>' +
-
-        '<button data-col="3">' +
-
-        '3' +
-
-        '</button>' +
+        '<button data-col="3">3</button>' +
 
       '</div>' +
 
@@ -2450,9 +2440,8 @@ function openSettings(){
     .add("show");
 
 
-  el("close")
-    .onclick = () =>
-
+  el("close").onclick =
+    () =>
       el("sheet")
         .classList
         .remove("show");
@@ -2461,7 +2450,7 @@ function openSettings(){
 
 
 /* =========================================================
-   LOAD DATA
+   DATA
 ========================================================= */
 
 async function loadData(){
@@ -2477,9 +2466,7 @@ async function loadData(){
       );
 
 
-    if(
-      !r.ok
-    ){
+    if(!r.ok){
 
       throw new Error(
         "API HTTP " +
@@ -2511,9 +2498,9 @@ async function loadData(){
         data.wallpapers
       )
 
-      ? data.wallpapers
+        ? data.wallpapers
 
-      : [];
+        : [];
 
 
     categories =
@@ -2521,9 +2508,9 @@ async function loadData(){
         data.categories
       )
 
-      ? data.categories
+        ? data.categories
 
-      : [];
+        : [];
 
 
     render();
@@ -2538,11 +2525,9 @@ async function loadData(){
     );
 
 
-    wallpapers =
-      [];
+    wallpapers = [];
 
-    categories =
-      [];
+    categories = [];
 
 
     el("view").innerHTML =
@@ -2581,6 +2566,7 @@ document
         selectedCategory =
           null;
 
+
         setPage(
           "category"
         );
@@ -2590,45 +2576,6 @@ document
         setPage(p);
 
       }
-
-    };
-
-  });
-
-
-/* =========================================================
-   TABS
-========================================================= */
-
-document
-  .querySelectorAll(
-    ".tabs button"
-  )
-  .forEach(b => {
-
-    b.onclick = () => {
-
-      sort =
-        b.dataset.sort;
-
-
-      document
-        .querySelectorAll(
-          ".tabs button"
-        )
-        .forEach(x =>
-          x.classList.remove(
-            "active"
-          )
-        );
-
-
-      b.classList.add(
-        "active"
-      );
-
-
-      render();
 
     };
 
@@ -2652,7 +2599,7 @@ el("search")
 
 el("settingsBtn")
   .onclick =
-    openSettings;
+  openSettings;
 
 
 /* =========================================================
